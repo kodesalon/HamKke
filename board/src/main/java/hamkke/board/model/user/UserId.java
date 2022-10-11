@@ -7,8 +7,6 @@ public class UserId {
 
     public static final String USER_ID_PATTERN = "^[a-z][a-z0-9]{5,19}$";
 
-    public static final String BLANK = " ";
-
     private final String value;
 
     public UserId(final String inputUserId) {
