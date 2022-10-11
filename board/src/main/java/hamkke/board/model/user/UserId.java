@@ -18,7 +18,7 @@ public class UserId {
 
     private void validate(String inputUserId) {
         if (!Pattern.matches(USER_ID_PATTERN, inputUserId)) {
-            throw new IllegalArgumentException("유저의 아이디는 영문자(소문자)와 숫자의 조합으로 6자 이상 20자 이하여야합니다.");
+            throw new IllegalArgumentException("유저의 아이디는 공백을 제외하고, 영문자(소문자)로 시작한 영문자(소문자)와 숫자의 조합으로 6자 이상 20자 이하여야합니다.");
         }
     }
 
