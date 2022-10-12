@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class UserId {
 
-    public static final String USER_ID_PATTERN = "^([a-z][a-z0-9]){5,20}$";
+    public static final String USER_ID_PATTERN = "^[a-z]+[a-z 0-9]{5,19}$";
 
     private final String value;
 
