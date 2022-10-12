@@ -1,10 +1,11 @@
 package hamkke.board.model.bulletin;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class Content {
 
-    public static final int MAXIMUM_CONTENT_SIZE = 1000;
+    private static final int MAXIMUM_CONTENT_SIZE = 1000;
 
     private final String value;
 
@@ -21,18 +22,5 @@ public class Content {
 
     public String getValue() {
         return value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Content content = (Content) o;
-        return Objects.equals(value, content.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
     }
 }
