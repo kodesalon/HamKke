@@ -1,5 +1,7 @@
 package hamkke.board.model.bulletin;
 
+import java.util.Objects;
+
 public class Title {
 
     private static final int MAXIMUM_TITLE_SIZE = 25;
@@ -19,5 +21,18 @@ public class Title {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Title title = (Title) o;
+        return Objects.equals(value, title.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
