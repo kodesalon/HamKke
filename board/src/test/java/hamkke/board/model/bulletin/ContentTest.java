@@ -11,8 +11,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class ContentTest {
 
     @ParameterizedTest
+    @DisplayName("글 내용을 입력받아 객체를 생성한다.")
+    @ValueSource(strings = {"안녕하세요", "1111123", "hello~~~~~"})
+    void create(final String input) {
+        //when
+        Content content = new Content(input);
+
+        //then
+        assertThat(content).isEqualTo(new Content(input));
+    }
+
+    @ParameterizedTest
     @DisplayName("글 내용은 최대 1000 자여야한다.")
-    @ValueSource(ints = {0,1001})
+    @ValueSource(ints = {0, 1001})
     void validate(final int repeatCount) {
         //given
         String inputContent = "a".repeat(repeatCount);
