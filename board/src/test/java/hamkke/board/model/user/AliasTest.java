@@ -22,7 +22,7 @@ class AliasTest {
     }
 
     @ParameterizedTest
-    @DisplayName("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 합니다.")
+    @DisplayName("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 다.")
     @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자", " ", ""})
     void validateAlias(final String inputAlias) {
         //when, then
