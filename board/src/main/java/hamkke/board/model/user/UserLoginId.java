@@ -1,20 +1,27 @@
 package hamkke.board.model.user;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.regex.Pattern;
 
 @EqualsAndHashCode
-public class UserId {
+@Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class UserLoginId {
 
     private static final String USER_ID_REGEX = "^[a-z]+[a-z 0-9]{5,19}$";
     private static final Pattern USER_ID_PATTERN = Pattern.compile(USER_ID_REGEX);
 
-    private final String value;
+    @Column(name = "userLoginId")
+    private String value;
 
-    public UserId(final String userId) {
-        validateByUserIdPattern(userId);
-        value = userId;
+    public UserLoginId(final String value) {
+        validateByUserIdPattern(value);
+        this.value = value;
     }
 
     private void validateByUserIdPattern(final String userId) {
