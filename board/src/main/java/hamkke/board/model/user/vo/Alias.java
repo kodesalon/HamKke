@@ -26,7 +26,7 @@ public class Alias {
 
     private void validateByAliasPattern(final String alias) {
         if (!ALIAS_PATTERN.matcher(alias).matches()) {
-            throw new IllegalArgumentException("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 합니다.");
+            throw new IllegalArgumentException("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상, 8자 이하여야 합니다.");
         }
     }
 
