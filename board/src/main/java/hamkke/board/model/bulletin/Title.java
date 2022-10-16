@@ -1,17 +1,25 @@
 package hamkke.board.model.bulletin;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @EqualsAndHashCode
+@Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Title {
 
     private static final int MAXIMUM_TITLE_SIZE = 25;
 
-    private final String value;
+    @Column(name="title")
+    private String value;
 
-    public Title(final String title) {
-        validateSize(title);
-        value = title;
+    public Title(final String value) {
+        validateSize(value);
+        this.value = value;
     }
 
     private void validateSize(final String title) {

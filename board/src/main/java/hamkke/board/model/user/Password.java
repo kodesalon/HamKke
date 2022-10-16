@@ -1,20 +1,27 @@
 package hamkke.board.model.user;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.regex.Pattern;
 
 @EqualsAndHashCode
+@Embeddable
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Password {
 
     private static final String PASSWORD_REGEX = "^([a-z0-9!@#$%^&*_-]){8,18}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
-    private final String value;
+    @Column(name="password")
+    private String value;
 
-    public Password(final String password) {
-        validateByPasswordPattern(password);
-        value = password;
+    public Password(final String value) {
+        validateByPasswordPattern(value);
+        this.value = value;
     }
 
     private void validateByPasswordPattern(final String password) {

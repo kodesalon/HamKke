@@ -1,20 +1,27 @@
 package hamkke.board.model.user;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.regex.Pattern;
 
 @EqualsAndHashCode
+@Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Alias {
 
     private static final String ALIAS_REGEX = "^[a-z0-9가-힣]{1,8}$";
     private static final Pattern ALIAS_PATTERN = Pattern.compile(ALIAS_REGEX);
 
-    private final String value;
+    @Column(name="alias")
+    private String value;
 
-    public Alias(final String alias) {
-        validateByAliasPattern(alias);
-        value = alias;
+    public Alias(final String value) {
+        validateByAliasPattern(value);
+        this.value = value;
     }
 
     private void validateByAliasPattern(final String alias) {

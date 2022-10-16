@@ -1,17 +1,25 @@
 package hamkke.board.model.bulletin;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @EqualsAndHashCode
+@Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Content {
 
     private static final int MAXIMUM_CONTENT_SIZE = 1000;
 
-    private final String value;
+    @Column(name="content")
+    private String value;
 
-    public Content(final String content) {
-        validateSize(content);
-        value = content;
+    public Content(final String value) {
+        validateSize(value);
+        this.value = value;
     }
 
     private void validateSize(final String content) {
