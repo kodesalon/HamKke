@@ -1,5 +1,6 @@
-package hamkke.board.model.user;
+package hamkke.board.model.user.vo;
 
+import hamkke.board.model.user.vo.Alias;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

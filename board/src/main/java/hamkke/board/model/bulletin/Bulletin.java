@@ -1,5 +1,7 @@
 package hamkke.board.model.bulletin;
 
+import hamkke.board.model.bulletin.vo.Content;
+import hamkke.board.model.bulletin.vo.Title;
 import hamkke.board.model.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;

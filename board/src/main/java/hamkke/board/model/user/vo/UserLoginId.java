@@ -1,4 +1,4 @@
-package hamkke.board.model.user;
+package hamkke.board.model.user.vo;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;

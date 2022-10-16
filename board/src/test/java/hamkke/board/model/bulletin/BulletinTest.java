@@ -1,9 +1,11 @@
 package hamkke.board.model.bulletin;
 
-import hamkke.board.model.user.Alias;
-import hamkke.board.model.user.Password;
+import hamkke.board.model.bulletin.vo.Content;
+import hamkke.board.model.bulletin.vo.Title;
+import hamkke.board.model.user.vo.Alias;
+import hamkke.board.model.user.vo.Password;
 import hamkke.board.model.user.User;
-import hamkke.board.model.user.UserLoginId;
+import hamkke.board.model.user.vo.UserLoginId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,8 @@
 package hamkke.board.model.user;
 
+import hamkke.board.model.user.vo.Alias;
+import hamkke.board.model.user.vo.Password;
+import hamkke.board.model.user.vo.UserLoginId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
