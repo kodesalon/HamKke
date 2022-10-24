@@ -11,6 +11,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class AliasTest {
 
     @ParameterizedTest
+    @DisplayName("별칭을 입력받아 객체를 생성한다.")
+    @ValueSource(strings = {"apple12", "감자", "777", "감자3"})
+    void create(final String input) {
+        //when
+        Alias alias = new Alias(input);
+
+        //then
+        assertThat(alias).isEqualTo(new Alias(input));
+    }
+
+    @ParameterizedTest
     @DisplayName("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 합니다.")
     @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자", " ", ""})
     void validateAlias(final String inputAlias) {
