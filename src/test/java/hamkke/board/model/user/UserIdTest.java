@@ -23,7 +23,7 @@ class UserIdTest {
     }
 
     @ParameterizedTest
-    @DisplayName("유저의 아이디는 공백 제외 영문자(소문자)와 숫자의 조합으로 6자 이상 20자 이하여야합니다.")
+    @DisplayName("유저의 아이디는 공백 제외 영문자(소문자)와 숫자의 조합으로 6자 이상 20자 이하여야한다.")
     @ValueSource(strings = {"1apple", "_apple", " apple", "apple", "a12345678901234567890", "apple!", "@apple", "apple_hi", "", " "})
     void validateUserId(final String input) {
         //when, then

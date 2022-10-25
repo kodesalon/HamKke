@@ -22,7 +22,7 @@ class PasswordTest {
     }
 
     @ParameterizedTest
-    @DisplayName("비밀번호는 영문(대문자,소문자), 특수문자(!,@,#,$,%,^,&,*,_,-), 숫자를 최소 1개 이상 조합한 8자 이상 18자 이하여야합니다.")
+    @DisplayName("비밀번호는 영문(대문자,소문자), 특수문자(!,@,#,$,%,^,&,*,_,-), 숫자를 최소 1개 이상 조합한 8자 이상 18자 이하여야한다.")
     @ValueSource(strings = {"apple1!", "0123456789012345a1!", "appleBanana1", "appleBanana!", "apple012345?", "     apple"," ", ""})
     void validate(final String inputPassword) {
         //when, then
