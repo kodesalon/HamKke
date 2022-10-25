@@ -22,12 +22,12 @@ class AliasTest {
     }
 
     @ParameterizedTest
-    @DisplayName("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 한다.")
+    @DisplayName("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상 8자 이하여야 한다.")
     @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자", " ", ""})
-    void validateAlias(final String inputAlias) {
+    void validateAlias(final String input) {
         //when, then
-        assertThatThrownBy(() -> new Alias(inputAlias)).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 합니다.");
+        assertThatThrownBy(() -> new Alias(input)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상 8자 이하여야 합니다.");
     }
 
     @Test
