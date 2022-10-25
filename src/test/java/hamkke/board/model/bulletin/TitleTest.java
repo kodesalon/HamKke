@@ -12,7 +12,7 @@ class TitleTest {
 
     @ParameterizedTest
     @DisplayName("글 제목을 입력받아 객체를 생성한다.")
-    @ValueSource(strings = {"title","안녕하세요","함께 자라기 프로젝트 할 사람 구합니다."})
+    @ValueSource(strings = {"title", "안녕하세요", "함께 자라기 프로젝트 할 사람 구합니다."})
     void create(final String input) {
         //when
         Title title = new Title(input);
@@ -22,7 +22,7 @@ class TitleTest {
     }
 
     @ParameterizedTest
-    @DisplayName("글 제목은 1글자 이상 25자 이하여야합니다.")
+    @DisplayName("글 제목은 1글자 이상 25자 이하여야한다.")
     @ValueSource(strings = {"", "Hello!! q this is the sample"})
     void validateSize(final String input) {
         //when, then
