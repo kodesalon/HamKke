@@ -9,7 +9,30 @@ spring:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: common
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: qwerqwer
+
+  jpa:
+    show-sql: true
+    database: mysql
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+---
+
+spring:
+  profiles:
+    default: local
 
   jpa:
     hibernate:
@@ -25,26 +48,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-
----
-spring:
-  config:
-    activate:
-      on-profile: common
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: qwerqwer
-
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-      format_sql: true
-    database: mysql
-    open-in-view: false
-
-server:
-  port: 8080
