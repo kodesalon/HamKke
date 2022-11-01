@@ -1,13 +1,50 @@
 spring:
+  profiles:
+    group:
+      local: local,common
+      ci: ci,common
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: ci
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mydb
+    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: qwerqwer
 
   jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
-    hibernate:
-      ddl-auto: create
+    properties:
+      hibernate:
+      format_sql: true
+    database: mysql
+    open-in-view: false
+
+server:
+  port: 8080
