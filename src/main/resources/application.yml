@@ -1,13 +1,45 @@
+server:
+  port: 8080
+
+---
+
 spring:
+  profiles:
+    group: local
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mydb
+    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: qwerqwer
 
   jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+      format_sql: true
+    database: mysql
+    open-in-view: false
+
+---
+
+spring:
+  profiles:
+    group: ci
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: qwerqwer
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+      format_sql: true
+    database: mysql
+    open-in-view: false
