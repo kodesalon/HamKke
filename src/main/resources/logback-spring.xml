@@ -27,6 +27,7 @@
 
     <springProfile name="local">
         <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+            <queueSize>10000</queueSize>
             <maxFlushTime>0</maxFlushTime>
             <appender-ref ref="STDOUT"/>
         </appender>
