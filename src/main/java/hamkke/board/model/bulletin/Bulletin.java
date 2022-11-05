@@ -33,9 +33,9 @@ public class Bulletin {
     private LocalDateTime createdDateTime;
     private LocalDateTime lastModifiedDateTime;
 
-    public Bulletin(final Title title, final Content content, final User author, final LocalDateTime createdDateTime) {
-        this.title = title;
-        this.content = content;
+    public Bulletin(final String title, final String content, final User author, final LocalDateTime createdDateTime) {
+        this.title = new Title(title);
+        this.content = new Content(content);
         this.author = author;
         this.createdDateTime = createdDateTime;
         this.lastModifiedDateTime = createdDateTime;

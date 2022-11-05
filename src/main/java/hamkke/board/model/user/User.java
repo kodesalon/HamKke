@@ -37,10 +37,10 @@ public class User {
 
     private LocalDateTime createdDateTime;
 
-    public User(final LoginId loginId, final Password password, final Alias alias, final LocalDateTime createdDateTime) {
-        this.loginId = loginId;
-        this.password = password;
-        this.alias = alias;
+    public User(final String loginId, final String password, final String alias, final LocalDateTime createdDateTime) {
+        this.loginId = new LoginId(loginId);
+        this.password = new Password(password);
+        this.alias = new Alias(alias);
         this.createdDateTime = createdDateTime;
     }
 
