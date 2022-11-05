@@ -1,0 +1,48 @@
+spring:
+  profiles:
+    group:
+      local: local,common
+      ci: ci,common
+
+---
+
+spring:
+  profiles:
+    active: common
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+    username: root
+    password: qwerqwer
+
+  jpa:
+    show-sql: true
+    database: mysql
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+---
+
+spring:
+  profiles:
+    active: local
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+---
+
+spring:
+  profiles:
+    active: ci
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
