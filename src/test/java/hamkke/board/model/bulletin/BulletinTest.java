@@ -2,9 +2,9 @@ package hamkke.board.model.bulletin;
 
 import hamkke.board.model.bulletin.vo.Content;
 import hamkke.board.model.bulletin.vo.Title;
+import hamkke.board.model.user.User;
 import hamkke.board.model.user.vo.Alias;
 import hamkke.board.model.user.vo.Password;
-import hamkke.board.model.user.User;
 import hamkke.board.model.user.vo.UserLoginId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,5 +35,15 @@ class BulletinTest {
                 () -> assertThat(bulletin.getCreatedDateTime()).isEqualTo(createdDateTime),
                 () -> assertThat(bulletin.getLastModifiedDateTime()).isEqualTo(createdDateTime)
         );
+    }
+
+    @Test
+    @DisplayName("입력 받은 Author 의 게시물과 동일한지 비교한다. - 연관 관계 편의 메서드")
+    void changeAuthor() {
+        Bulletin bulletin = new Bulletin(title, content, author, createdDateTime);
+        boolean hasAuthor = bulletin.getAuthor()
+                .getBulletins()
+                .contains(bulletin);
+        assertThat(hasAuthor).isTrue();
     }
 }
