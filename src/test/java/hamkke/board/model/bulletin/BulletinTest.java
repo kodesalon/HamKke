@@ -5,7 +5,7 @@ import hamkke.board.model.bulletin.vo.Title;
 import hamkke.board.model.user.User;
 import hamkke.board.model.user.vo.Alias;
 import hamkke.board.model.user.vo.Password;
-import hamkke.board.model.user.vo.UserLoginId;
+import hamkke.board.model.user.vo.LoginId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class BulletinTest {
 
     private final Title title = new Title("sample title");
     private final Content content = new Content("sample content");
-    private final User author = new User(new UserLoginId("apple123"), new Password("apple12341"), new Alias("별명"), LocalDateTime.now());
+    private final User author = new User(new LoginId("apple123"), new Password("apple12341"), new Alias("별명"), LocalDateTime.now());
     private final LocalDateTime createdDateTime = LocalDateTime.now();
 
     @Test

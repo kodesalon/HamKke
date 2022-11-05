@@ -3,7 +3,7 @@ package hamkke.board.model.user;
 import hamkke.board.model.bulletin.Bulletin;
 import hamkke.board.model.user.vo.Alias;
 import hamkke.board.model.user.vo.Password;
-import hamkke.board.model.user.vo.UserLoginId;
+import hamkke.board.model.user.vo.LoginId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ public class User {
     private Long id;
 
     @Embedded
-    private UserLoginId userLoginId;
+    private LoginId loginId;
 
     @Embedded
     private Password password;
@@ -37,8 +37,8 @@ public class User {
 
     private LocalDateTime createdDateTime;
 
-    public User(final UserLoginId userLoginId, final Password password, final Alias alias, final LocalDateTime createdDateTime) {
-        this.userLoginId = userLoginId;
+    public User(final LoginId loginId, final Password password, final Alias alias, final LocalDateTime createdDateTime) {
+        this.loginId = loginId;
         this.password = password;
         this.alias = alias;
         this.createdDateTime = createdDateTime;

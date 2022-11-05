@@ -11,15 +11,15 @@ import java.util.regex.Pattern;
 @EqualsAndHashCode
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserLoginId {
+public class LoginId {
 
     private static final String USER_ID_REGEX = "^[a-z]+[a-z 0-9]{5,19}$";
     private static final Pattern USER_ID_PATTERN = Pattern.compile(USER_ID_REGEX);
 
-    @Column(name = "userLoginId")
+    @Column(name = "loginId")
     private String value;
 
-    public UserLoginId(final String value) {
+    public LoginId(final String value) {
         validateByUserIdPattern(value);
         this.value = value;
     }
