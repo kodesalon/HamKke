@@ -1,5 +1,8 @@
 package hamkke.board.model.user;
 
+import hamkke.board.model.bulletin.Bulletin;
+import hamkke.board.model.bulletin.vo.Content;
+import hamkke.board.model.bulletin.vo.Title;
 import hamkke.board.model.user.vo.Alias;
 import hamkke.board.model.user.vo.Password;
 import hamkke.board.model.user.vo.UserLoginId;
@@ -13,23 +16,49 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class UserTest {
 
-    UserLoginId userLoginId = new UserLoginId("apple123");
-    Password password = new Password("apple123!!");
-    Alias alias = new Alias("삼다수");
-    LocalDateTime createdDateTime = LocalDateTime.now();
-
     @Test
     @DisplayName("유저 아이디, 비밀번호, 별칭, 생성 일자를 반환한다.")
     void getValues() {
         //given
+        UserLoginId userLoginId = new UserLoginId("apple123");
+        Password password = new Password("apple123!!");
+        Alias alias = new Alias("삼다수");
+        LocalDateTime createdDateTime = LocalDateTime.now();
+
         User user = new User(userLoginId, password, alias, createdDateTime);
 
-        //when, then
+        //when
+        UserLoginId actualUserLoginId = user.getUserLoginId();
+        Password actualPassword = user.getPassword();
+        Alias actualAlias = user.getAlias();
+        LocalDateTime actualCreatedTime = user.getCreatedDateTime();
+        // then
         assertAll(
-                () -> assertThat(user.getUserLoginId()).isEqualTo(userLoginId),
-                () -> assertThat(user.getPassword()).isEqualTo(password),
-                () -> assertThat(user.getAlias()).isEqualTo(alias),
-                () -> assertThat(user.getCreatedDateTime()).isEqualTo(createdDateTime)
+                () -> assertThat(actualUserLoginId).isEqualTo(userLoginId),
+                () -> assertThat(actualPassword).isEqualTo(password),
+                () -> assertThat(actualAlias).isEqualTo(alias),
+                () -> assertThat(actualCreatedTime).isEqualTo(createdDateTime)
         );
+    }
+
+    @Test
+    @DisplayName("게시물을 입력 받아 추가한다.")
+    void addBulletin() {
+        //given
+        UserLoginId userLoginId = new UserLoginId("apple123");
+        Password password = new Password("apple123!!");
+        Alias alias = new Alias("삼다수");
+        LocalDateTime createdDateTime = LocalDateTime.now();
+
+        User user = new User(userLoginId, password, alias, createdDateTime);
+        Bulletin bulletin = new Bulletin(new Title("제목"), new Content("본문 내용"), user, LocalDateTime.now());
+
+        //when
+        user.addBulletin(bulletin);
+        boolean hasBulletin = user.getBulletins()
+                .contains(bulletin);
+
+        //then
+        assertThat(hasBulletin).isTrue();
     }
 }
