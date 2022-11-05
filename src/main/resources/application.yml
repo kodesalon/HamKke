@@ -7,8 +7,9 @@ spring:
 ---
 
 spring:
-  profiles:
-    active: common
+  config:
+    activate:
+      on-profile: common
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,8 +31,9 @@ server:
 ---
 
 spring:
-  profiles:
-    active: local
+  config:
+    activate:
+      on-profile: local
 
   jpa:
     hibernate:
@@ -40,8 +42,9 @@ spring:
 ---
 
 spring:
-  profiles:
-    active: ci
+  config:
+    activate:
+      on-profile: ci
 
   jpa:
     hibernate:
