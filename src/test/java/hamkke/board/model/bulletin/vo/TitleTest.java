@@ -1,6 +1,5 @@
 package hamkke.board.model.bulletin.vo;
 
-import hamkke.board.model.bulletin.vo.Title;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +12,7 @@ class TitleTest {
 
     @ParameterizedTest
     @DisplayName("글 제목을 입력받아 객체를 생성한다.")
-    @ValueSource(strings = {"title","안녕하세요","함께 자라기 프로젝트 할 사람 구합니다."})
+    @ValueSource(strings = {"title", "안녕하세요", "함께 자라기 프로젝트 할 사람 구합니다."})
     void create(final String input) {
         //when
         Title title = new Title(input);

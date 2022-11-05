@@ -1,6 +1,5 @@
 package hamkke.board.model.bulletin.vo;
 
-import hamkke.board.model.bulletin.vo.Content;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
