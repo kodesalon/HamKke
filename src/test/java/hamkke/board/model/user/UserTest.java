@@ -1,11 +1,10 @@
 package hamkke.board.model.user;
 
 import hamkke.board.model.bulletin.Bulletin;
-import hamkke.board.model.bulletin.vo.Content;
-import hamkke.board.model.bulletin.vo.Title;
 import hamkke.board.model.user.vo.Alias;
-import hamkke.board.model.user.vo.Password;
 import hamkke.board.model.user.vo.LoginId;
+import hamkke.board.model.user.vo.Password;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,16 +15,21 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class UserTest {
 
+    private User user;
+
+    @BeforeEach
+    void setUp() {
+        final String loginId = "apple123";
+        final String password = "apple123!!";
+        final String alias = "삼다수";
+        final LocalDateTime createdDateTime = LocalDateTime.of(2022, 11, 5, 20, 5, 11);
+
+        user = new User(loginId, password, alias, createdDateTime);
+    }
+
     @Test
     @DisplayName("유저 아이디, 비밀번호, 별칭, 생성 일자를 반환한다.")
     void getValues() {
-        //given
-        LoginId loginId = new LoginId("apple123");
-        Password password = new Password("apple123!!");
-        Alias alias = new Alias("삼다수");
-        LocalDateTime createdDateTime = LocalDateTime.now();
-
-        User user = new User(loginId, password, alias, createdDateTime);
 
         //when
         LoginId actualLoginId = user.getLoginId();
@@ -34,10 +38,10 @@ class UserTest {
         LocalDateTime actualCreatedTime = user.getCreatedDateTime();
         // then
         assertAll(
-                () -> assertThat(actualLoginId).isEqualTo(loginId),
-                () -> assertThat(actualPassword).isEqualTo(password),
-                () -> assertThat(actualAlias).isEqualTo(alias),
-                () -> assertThat(actualCreatedTime).isEqualTo(createdDateTime)
+                () -> assertThat(actualLoginId).isEqualTo(new LoginId("apple123")),
+                () -> assertThat(actualPassword).isEqualTo(new Password("apple123!!")),
+                () -> assertThat(actualAlias).isEqualTo(new Alias("삼다수")),
+                () -> assertThat(actualCreatedTime).isEqualTo(LocalDateTime.of(2022, 11, 5, 20, 5, 11))
         );
     }
 
@@ -45,13 +49,7 @@ class UserTest {
     @DisplayName("게시물을 입력 받아 추가한다.")
     void addBulletin() {
         //given
-        LoginId loginId = new LoginId("apple123");
-        Password password = new Password("apple123!!");
-        Alias alias = new Alias("삼다수");
-        LocalDateTime createdDateTime = LocalDateTime.now();
-
-        User user = new User(loginId, password, alias, createdDateTime);
-        Bulletin bulletin = new Bulletin(new Title("제목"), new Content("본문 내용"), user, LocalDateTime.now());
+        Bulletin bulletin = new Bulletin("제목", "본문 내용", user, LocalDateTime.now());
 
         //when
         user.addBulletin(bulletin);
