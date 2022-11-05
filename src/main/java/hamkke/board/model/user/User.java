@@ -43,4 +43,9 @@ public class User {
         this.alias = alias;
         this.createdDateTime = createdDateTime;
     }
+
+    public void addBulletin(final Bulletin bulletin) {
+        this.bulletins
+                .add(bulletin);
+    }
 }
