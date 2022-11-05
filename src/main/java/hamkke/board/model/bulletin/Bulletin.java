@@ -39,10 +39,6 @@ public class Bulletin {
         this.author = author;
         this.createdDateTime = createdDateTime;
         this.lastModifiedDateTime = createdDateTime;
-    }
-
-    public void changeUser(final User user) {
-        this.author = user;
-        user.getBulletins().add(this);
+        this.author.addBulletin(this);
     }
 }
