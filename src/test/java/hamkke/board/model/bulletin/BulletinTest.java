@@ -27,11 +27,9 @@ class BulletinTest {
         bulletin = new Bulletin(title, content, author, createdDateTime);
     }
 
-
     @Test
     @DisplayName("게시물 제목, 내용, 작성자, 작성 일시를 반환한다.")
     void getValues() {
-
         //then
         assertAll(
                 () -> assertThat(bulletin.getTitle()).isEqualTo(new Title("sample title")),

@@ -30,7 +30,6 @@ class UserTest {
     @Test
     @DisplayName("유저 아이디, 비밀번호, 별칭, 생성 일자를 반환한다.")
     void getValues() {
-
         //when
         LoginId actualLoginId = user.getLoginId();
         Password actualPassword = user.getPassword();
