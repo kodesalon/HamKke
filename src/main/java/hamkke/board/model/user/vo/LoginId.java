@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 @EqualsAndHashCode
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginId {
 
     private static final String USER_ID_REGEX = "^[a-z]+[a-z 0-9]{5,19}$";

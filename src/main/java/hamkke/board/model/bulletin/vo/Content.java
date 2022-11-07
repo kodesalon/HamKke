@@ -9,12 +9,12 @@ import javax.persistence.Embeddable;
 
 @EqualsAndHashCode
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Content {
 
     private static final int MAXIMUM_CONTENT_SIZE = 1000;
 
-    @Column(name="content")
+    @Column(name = "content")
     private String value;
 
     public Content(final String value) {

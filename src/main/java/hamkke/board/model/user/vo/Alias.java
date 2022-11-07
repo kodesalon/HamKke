@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 
 @EqualsAndHashCode
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Alias {
 
     private static final String ALIAS_REGEX = "^[a-z0-9가-힣]{1,8}$";
     private static final Pattern ALIAS_PATTERN = Pattern.compile(ALIAS_REGEX);
 
-    @Column(name="alias")
+    @Column(name = "alias")
     private String value;
 
     public Alias(final String value) {

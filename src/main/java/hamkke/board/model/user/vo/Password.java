@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 
 @EqualsAndHashCode
 @Embeddable
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Password {
 
     private static final String PASSWORD_REGEX = "^([a-z0-9!@#$%^&*_-]){8,18}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
-    @Column(name="password")
+    @Column(name = "password")
     private String value;
 
     public Password(final String value) {
