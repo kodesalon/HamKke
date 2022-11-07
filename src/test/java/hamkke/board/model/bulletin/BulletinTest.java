@@ -56,14 +56,11 @@ class BulletinTest {
     void changeAuthor() {
         //given
         User user = createUser();
-        Bulletin bulletin = createBulletin(user);
 
         //when
-        boolean doesAuthorHasBulletin = bulletin.getAuthor()
-                .getBulletins()
-                .contains(bulletin);
+        Bulletin bulletin = new Bulletin("sample title", "sample content", user, LocalDateTime.of(2022, 11, 7, 19, 11));
 
         //then
-        assertThat(doesAuthorHasBulletin).isTrue();
+        assertThat(bulletin.getAuthor().getBulletins()).contains(bulletin);
     }
 }
