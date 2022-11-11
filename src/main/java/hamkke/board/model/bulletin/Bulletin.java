@@ -1,5 +1,6 @@
 package hamkke.board.model.bulletin;
 
+import hamkke.board.model.base.BaseEntity;
 import hamkke.board.model.bulletin.vo.Content;
 import hamkke.board.model.bulletin.vo.Title;
 import hamkke.board.model.user.User;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Bulletin {
+public class Bulletin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +30,6 @@ public class Bulletin {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
     private User author;
-
-    private LocalDateTime createdDateTime;
-    private LocalDateTime lastModifiedDateTime;
 
     public Bulletin(final String title, final String content, final User author, final LocalDateTime createdDateTime) {
         this.title = new Title(title);

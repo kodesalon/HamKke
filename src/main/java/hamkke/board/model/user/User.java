@@ -1,9 +1,10 @@
 package hamkke.board.model.user;
 
+import hamkke.board.model.base.BaseEntity;
 import hamkke.board.model.bulletin.Bulletin;
 import hamkke.board.model.user.vo.Alias;
-import hamkke.board.model.user.vo.Password;
 import hamkke.board.model.user.vo.LoginId;
+import hamkke.board.model.user.vo.Password;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +35,6 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private final List<Bulletin> bulletins = new ArrayList<>();
-
-    private LocalDateTime createdDateTime;
 
     public User(final String loginId, final String password, final String alias, final LocalDateTime createdDateTime) {
         this.loginId = new LoginId(loginId);
