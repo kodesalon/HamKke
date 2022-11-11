@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 @EqualsAndHashCode
 public class Password {
 
-    private static final String PASSWORD_REGEX = "^([a-z0-9!@#$%^&*_-]){8,18}$";
+    private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*_-])[A-Za-z\\d!@#$%^&*_-]{8,18}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
     private final String value;
