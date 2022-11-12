@@ -26,7 +26,7 @@ public class Bulletin extends BaseEntity {
     @Embedded
     private Content content;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private User author;
 
