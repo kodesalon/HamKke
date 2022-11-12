@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -31,12 +30,10 @@ public class Bulletin extends BaseEntity {
     @JoinColumn(name = "author_id")
     private User author;
 
-    public Bulletin(final String title, final String content, final User author, final LocalDateTime createdDateTime) {
+    public Bulletin(final String title, final String content, final User author) {
         this.title = new Title(title);
         this.content = new Content(content);
         this.author = author;
-        this.createdDateTime = createdDateTime;
-        this.lastModifiedDateTime = createdDateTime;
         this.author.addBulletin(this);
     }
 }

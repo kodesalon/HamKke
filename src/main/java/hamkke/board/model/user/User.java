@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +35,10 @@ public class User extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private final List<Bulletin> bulletins = new ArrayList<>();
 
-    public User(final String loginId, final String password, final String alias, final LocalDateTime createdDateTime) {
+    public User(final String loginId, final String password, final String alias) {
         this.loginId = new LoginId(loginId);
         this.password = new Password(password);
         this.alias = new Alias(alias);
-        this.createdDateTime = createdDateTime;
     }
 
     public void addBulletin(final Bulletin bulletin) {
