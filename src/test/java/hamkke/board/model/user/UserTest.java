@@ -18,8 +18,7 @@ class UserTest {
         final String loginId = "apple123";
         final String password = "apple123!!";
         final String alias = "삼다수";
-        final LocalDateTime createdDateTime = LocalDateTime.of(2022, 11, 5, 20, 5, 11);
-        return new User(loginId, password, alias, createdDateTime);
+        return new User(loginId, password, alias);
     }
 
     @Test
@@ -30,13 +29,11 @@ class UserTest {
         LoginId actualLoginId = user.getLoginId();
         Password actualPassword = user.getPassword();
         Alias actualAlias = user.getAlias();
-        LocalDateTime actualCreatedTime = user.getCreatedDateTime();
         // then
         assertAll(
                 () -> assertThat(actualLoginId).isEqualTo(new LoginId("apple123")),
                 () -> assertThat(actualPassword).isEqualTo(new Password("apple123!!")),
-                () -> assertThat(actualAlias).isEqualTo(new Alias("삼다수")),
-                () -> assertThat(actualCreatedTime).isEqualTo(LocalDateTime.of(2022, 11, 5, 20, 5, 11))
+                () -> assertThat(actualAlias).isEqualTo(new Alias("삼다수"))
         );
     }
 
@@ -45,7 +42,7 @@ class UserTest {
     void addBulletin() {
         //given
         User user = createUser();
-        Bulletin bulletin = new Bulletin("제목", "본문 내용", user, LocalDateTime.now());
+        Bulletin bulletin = new Bulletin("제목", "본문 내용", user);
 
         //when
         user.addBulletin(bulletin);

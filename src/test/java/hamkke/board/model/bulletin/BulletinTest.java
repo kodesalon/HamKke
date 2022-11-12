@@ -17,15 +17,13 @@ class BulletinTest {
         final String loginId = "apple123";
         final String password = "apple123!!";
         final String alias = "삼다수";
-        final LocalDateTime createdDateTime = LocalDateTime.of(2022, 11, 5, 20, 5, 11);
-        return new User(loginId, password, alias, createdDateTime);
+        return new User(loginId, password, alias);
     }
 
     private Bulletin createBulletin(final User author) {
         final String title = "sample title";
         final String content = "sample content";
-        final LocalDateTime createdDateTime = LocalDateTime.of(2022, 11, 6, 12, 20);
-        return new Bulletin(title, content, author, createdDateTime);
+        return new Bulletin(title, content, author);
     }
 
     @Test
@@ -39,15 +37,12 @@ class BulletinTest {
         Title title = bulletin.getTitle();
         Content content = bulletin.getContent();
         User author = bulletin.getAuthor();
-        LocalDateTime createdDateTime = bulletin.getCreatedDateTime();
 
         //then
         assertAll(
                 () -> assertThat(title).isEqualTo(new Title("sample title")),
                 () -> assertThat(content).isEqualTo(new Content("sample content")),
-                () -> assertThat(author).isEqualTo(user),
-                () -> assertThat(createdDateTime).isEqualTo(LocalDateTime.of(2022, 11, 6, 12, 20)),
-                () -> assertThat(bulletin.getLastModifiedDateTime()).isEqualTo(LocalDateTime.of(2022, 11, 6, 12, 20))
+                () -> assertThat(author).isEqualTo(user)
         );
     }
 
@@ -58,7 +53,7 @@ class BulletinTest {
         User user = createUser();
 
         //when
-        Bulletin bulletin = new Bulletin("sample title", "sample content", user, LocalDateTime.of(2022, 11, 7, 19, 11));
+        Bulletin bulletin = new Bulletin("sample title", "sample content", user);
 
         //then
         assertThat(bulletin.getAuthor().getBulletins()).contains(bulletin);
