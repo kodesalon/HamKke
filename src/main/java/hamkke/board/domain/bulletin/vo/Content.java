@@ -1,4 +1,4 @@
-package hamkke.board.model.bulletin.vo;
+package hamkke.board.domain.bulletin.vo;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;

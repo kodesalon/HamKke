@@ -1,10 +1,10 @@
-package hamkke.board.model.user;
+package hamkke.board.domain.user;
 
-import hamkke.board.model.base.BaseEntity;
-import hamkke.board.model.bulletin.Bulletin;
-import hamkke.board.model.user.vo.Alias;
-import hamkke.board.model.user.vo.LoginId;
-import hamkke.board.model.user.vo.Password;
+import hamkke.board.domain.base.BaseEntity;
+import hamkke.board.domain.bulletin.Bulletin;
+import hamkke.board.domain.user.vo.Alias;
+import hamkke.board.domain.user.vo.LoginId;
+import hamkke.board.domain.user.vo.Password;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,10 @@
-package hamkke.board.model.bulletin;
+package hamkke.board.domain.bulletin;
 
-import hamkke.board.model.bulletin.vo.Content;
-import hamkke.board.model.bulletin.vo.Title;
-import hamkke.board.model.user.User;
+import hamkke.board.domain.bulletin.vo.Content;
+import hamkke.board.domain.bulletin.vo.Title;
+import hamkke.board.domain.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
