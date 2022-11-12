@@ -3,13 +3,11 @@ package hamkke.board.model.bulletin;
 import hamkke.board.model.bulletin.vo.Content;
 import hamkke.board.model.bulletin.vo.Title;
 import hamkke.board.model.user.User;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class BulletinTest {
 
@@ -30,6 +28,7 @@ class BulletinTest {
     @DisplayName("게시물 제목, 내용, 작성자, 작성 일시를 반환한다.")
     void getValues() {
         //given
+        SoftAssertions softly = new SoftAssertions();
         User user = createUser();
         Bulletin bulletin = createBulletin(user);
 
@@ -39,11 +38,10 @@ class BulletinTest {
         User author = bulletin.getAuthor();
 
         //then
-        assertAll(
-                () -> assertThat(title).isEqualTo(new Title("sample title")),
-                () -> assertThat(content).isEqualTo(new Content("sample content")),
-                () -> assertThat(author).isEqualTo(user)
-        );
+        softly.assertThat(title).isEqualTo(new Title("sample title"));
+        softly.assertThat(content).isEqualTo(new Content("sample content"));
+        softly.assertThat(author).isEqualTo(user);
+        softly.assertAll();
     }
 
     @Test
