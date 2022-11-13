@@ -28,7 +28,6 @@ public class UserService {
     }
     private void validateDuplication(final CreateUserRequest createUserRequest) {
         validateLoginIdDuplication(createUserRequest);
-
         validateAliasDuplication(createUserRequest);
     }
     private void validateLoginIdDuplication(final CreateUserRequest createUserRequest) {
