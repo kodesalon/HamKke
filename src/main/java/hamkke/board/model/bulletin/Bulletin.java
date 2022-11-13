@@ -36,4 +36,10 @@ public class Bulletin extends BaseEntity {
         this.author = author;
         this.author.addBulletin(this);
     }
+
+    public boolean isSameAuthor(final User author) {
+        return this.author
+                .getId()
+                .equals(author.getId());
+    }
 }
