@@ -23,7 +23,8 @@ public class UserController {
     public ResponseEntity<UserResponse> join(@RequestBody final CreateUserRequest createUserRequest) {
         log.info("join 요청 loginId = {}, password = {}, alias = {}", createUserRequest.getLoginId(), createUserRequest.getPassword(), createUserRequest.getAlias());
         Long joinedUserId = userService.join(createUserRequest);
-        return ResponseEntity.ok(new UserResponse(joinedUserId));
+        return ResponseEntity.status(201)
+                .body(new UserResponse(joinedUserId));
     }
 }
 
