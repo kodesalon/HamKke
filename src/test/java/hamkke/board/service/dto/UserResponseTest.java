@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserResponseTest {
 
     @Test
-    @DisplayName("user 의 id를 입력받는 DTO 를 생성한다.")
+    @DisplayName("user 의 id를 입력받는 DTO 인 UserResponse 를 생성한다.")
     void createUserResponse() {
         //given
         Long userId = 1L;
