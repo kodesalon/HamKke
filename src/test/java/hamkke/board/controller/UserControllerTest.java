@@ -2,6 +2,7 @@ package hamkke.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.UserService;
+import hamkke.board.service.dto.CreateUserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +34,12 @@ class UserControllerTest {
     @DisplayName("loginId, password, alias 를 json 으로 전달받아 회원 가입을 하고, 201 상태 코드를 반환한다.")
     void join() throws Exception {
         //given
-        Map<String, String> input = new HashMap<>();
-        input.put("loginId", "apple123");
-        input.put("password", "apple123!");
-        input.put("alias", "아이폰");
+        CreateUserRequest createUserRequest = new CreateUserRequest("apple123", "apple123!!", "아이폰");
 
         //when
         ResultActions actual = mockMvc.perform(
                 post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)));
+                        .content(objectMapper.writeValueAsString(createUserRequest)));
 
         //then
         actual.andExpect(status().isCreated());
