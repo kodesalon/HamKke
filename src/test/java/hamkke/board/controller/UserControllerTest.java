@@ -30,7 +30,7 @@ class UserControllerTest {
     private UserService userService;
 
     @Test
-    @DisplayName("회원 가입을 한다.")
+    @DisplayName("loginId, password, alias 를 json 으로 전달받아 회원 가입을 하고, 201 상태 코드를 반환한다.")
     void join() throws Exception {
         //given
         Map<String, String> input = new HashMap<>();
@@ -44,6 +44,6 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(input)));
 
         //then
-        actual.andExpect(status().isOk());
+        actual.andExpect(status().isCreated());
     }
 }
