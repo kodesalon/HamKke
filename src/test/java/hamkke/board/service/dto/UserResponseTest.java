@@ -8,19 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserResponseTest {
 
     @Test
-    @DisplayName("user 의 id를 입력받는 DTO 인 UserResponse 를 생성한다.")
-    void createUserResponse() {
-        //given
-        Long userId = 1L;
-
-        //when
-        UserResponse userResponse = new UserResponse(userId);
-
-        //then
-        assertThat(userResponse).isEqualTo(new UserResponse(1L));
-    }
-
-    @Test
     @DisplayName("user 의 id를 반환한다.")
     void getter() {
         //given
