@@ -1,10 +1,8 @@
 package hamkke.board.service.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class CreateUserRequest {
 
     private final String loginId;
