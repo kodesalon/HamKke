@@ -26,10 +26,12 @@ public class UserService {
         User savedMember = userRepository.save(user);
         return savedMember.getId();
     }
+
     private void validateDuplication(final CreateUserRequest createUserRequest) {
         validateLoginIdDuplication(createUserRequest);
         validateAliasDuplication(createUserRequest);
     }
+
     private void validateLoginIdDuplication(final CreateUserRequest createUserRequest) {
         String loginId = createUserRequest.getLoginId();
         userRepository.findUserByLoginId(new LoginId(loginId))
