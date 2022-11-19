@@ -27,6 +27,7 @@ class UserTest {
         LoginId actualLoginId = user.getLoginId();
         Password actualPassword = user.getPassword();
         Alias actualAlias = user.getAlias();
+
         // then
         assertAll(
                 () -> assertThat(actualLoginId).isEqualTo(new LoginId("apple123")),
