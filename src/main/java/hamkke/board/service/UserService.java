@@ -35,7 +35,7 @@ public class UserService {
         String loginId = createUserRequest.getLoginId();
         userRepository.findUserByLoginId(new LoginId(loginId))
                 .ifPresent(user -> {
-                    log.debug("중복된 아이디 생성 loginId = {}", createUserRequest.getLoginId());
+                    log.info("중복된 아이디 생성 loginId = {}", createUserRequest.getLoginId());
                     throw new IllegalStateException("해당 ID는 이미 사용중 입니다.");
                 });
     }
@@ -44,7 +44,7 @@ public class UserService {
         String alias = createUserRequest.getAlias();
         userRepository.findUserByAlias(new Alias(alias))
                 .ifPresent(user -> {
-                    log.debug("중복된 별명 생성 loginId = {}", createUserRequest.getLoginId());
+                    log.info("중복된 별명 생성 loginId = {}", createUserRequest.getLoginId());
                     throw new IllegalStateException("해당 별명은 이미 사용중 입니다.");
                 });
     }
