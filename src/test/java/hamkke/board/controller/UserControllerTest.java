@@ -55,13 +55,8 @@ class UserControllerTest {
     @DisplayName("회원가입 시 이미 존재하는 loginId 인 경우, 예외 코드를 담은 DTO 와 HTTP 400 상태코드를 반환한다.")
     void joinFailedByLoginIdDuplication() throws Exception {
         //given
-        given(userService.join(any())).willReturn(1L)
-                .willThrow(new IllegalStateException("해당 ID는 이미 사용중 입니다."));
-
-        CreateUserRequest existedUserRequest = generateUserRequest();
+        given(userService.join(any())).willThrow(new IllegalStateException("해당 ID는 이미 사용중 입니다."));
         CreateUserRequest duplicationUserRequest = new CreateUserRequest("apple123", "banana123!", "마우스");
-        mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(existedUserRequest)));
 
         //when
         ResultActions actual = mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
@@ -76,13 +71,8 @@ class UserControllerTest {
     @DisplayName("회원가입 시 이미 존재하는 alias 인 경우, 예외 코드를 담은 DTO 와 HTTP 400 상태코드를 반환한다.")
     void joinFailedByAliasDuplication() throws Exception {
         //given
-        given(userService.join(any())).willReturn(1L)
-                .willThrow(new IllegalStateException("해당 별명은 이미 사용중 입니다."));
-
-        CreateUserRequest existedUserRequest = generateUserRequest();
+        given(userService.join(any())).willThrow(new IllegalStateException("해당 별명은 이미 사용중 입니다."));
         CreateUserRequest duplicationUserRequest = new CreateUserRequest("apple123", "apple123!!", "마우스");
-        mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(existedUserRequest)));
 
         //when
         ResultActions actual = mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
