@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bulletin extends BaseEntity {
 
@@ -39,7 +39,6 @@ public class Bulletin extends BaseEntity {
 
     public boolean isSameAuthor(final User author) {
         return this.author
-                .getId()
-                .equals(author.getId());
+                .equals(author);
     }
 }
