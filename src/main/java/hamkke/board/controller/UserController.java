@@ -29,4 +29,3 @@ public class UserController {
                 .body(new UserResponse(joinedUserId));
     }
 }
-
