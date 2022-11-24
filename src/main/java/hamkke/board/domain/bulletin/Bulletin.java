@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bulletin extends BaseEntity {
 
@@ -26,7 +26,7 @@ public class Bulletin extends BaseEntity {
     @Embedded
     private Content content;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private User author;
 
@@ -35,5 +35,10 @@ public class Bulletin extends BaseEntity {
         this.content = new Content(content);
         this.author = author;
         this.author.addBulletin(this);
+    }
+
+    public boolean isSameAuthor(final User author) {
+        return this.author
+                .equals(author);
     }
 }

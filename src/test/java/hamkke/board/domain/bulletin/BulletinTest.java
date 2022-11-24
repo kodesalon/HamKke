@@ -3,13 +3,23 @@ package hamkke.board.domain.bulletin;
 import hamkke.board.domain.bulletin.vo.Content;
 import hamkke.board.domain.bulletin.vo.Title;
 import hamkke.board.domain.user.User;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DataJpaTest
 class BulletinTest {
+
+    @PersistenceContext
+    private EntityManager em;
 
     private User createUser() {
         final String loginId = "apple123";
@@ -28,6 +38,7 @@ class BulletinTest {
     @DisplayName("게시물 제목, 내용, 작성자, 작성 일시를 반환한다.")
     void getValues() {
         //given
+        SoftAssertions softly = new SoftAssertions();
         User user = createUser();
         Bulletin bulletin = createBulletin(user);
 
@@ -37,11 +48,10 @@ class BulletinTest {
         User author = bulletin.getAuthor();
 
         //then
-        assertAll(
-                () -> assertThat(title).isEqualTo(new Title("sample title")),
-                () -> assertThat(content).isEqualTo(new Content("sample content")),
-                () -> assertThat(author).isEqualTo(user)
-        );
+        softly.assertThat(title).isEqualTo(new Title("sample title"));
+        softly.assertThat(content).isEqualTo(new Content("sample content"));
+        softly.assertThat(author).isEqualTo(user);
+        softly.assertAll();
     }
 
     @Test
@@ -55,5 +65,23 @@ class BulletinTest {
 
         //then
         assertThat(bulletin.getAuthor().getBulletins()).contains(bulletin);
+    }
+
+    @Test
+    @DisplayName("해당 게시물이 입력받은 user 가 작성한 게시물인지 확인한다. ")
+    void isSameAuthor() {
+        //given
+        User user = createUser();
+        Bulletin bulletin = new Bulletin("sample title", "sample content", user);
+        em.persist(user);
+        em.persist(bulletin);
+        em.flush();
+        em.clear();
+
+        //when
+        boolean actual = bulletin.isSameAuthor(user);
+
+        //then
+        assertThat(actual).isTrue();
     }
 }

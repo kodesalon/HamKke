@@ -23,7 +23,8 @@ class LoginIdTest {
     }
 
     @ParameterizedTest
-    @DisplayName("유저의 아이디는 공백 제외 영문자(소문자)와 숫자의 조합으로 6자 이상 20자 이하여야 한다.")
+    @DisplayName("유저의 아이디는 공백 제외 영문자(소문자)와 숫자의 조합으로 6자 이상 20자 이하여야합니다." +
+            "그렇지 않은 경우 예외를 발생한다.")
     @ValueSource(strings = {"1apple", "_apple", " apple", "apple", "a12345678901234567890", "apple!", "@apple", "apple_hi", "", " "})
     void validateUserId(final String input) {
         //when, then
@@ -32,13 +33,13 @@ class LoginIdTest {
     }
 
     @Test
-    @DisplayName("유저 아이디를 반환한다.")
+    @DisplayName("유저 아이디를 반환하다.")
     void getValue() {
         //given
-        LoginId apple = new LoginId("banana12");
+        LoginId loginId = new LoginId("banana12");
 
         //when
-        String actual = apple.getValue();
+        String actual = loginId.getValue();
 
         //then
         assertThat(actual).isEqualTo("banana12");
