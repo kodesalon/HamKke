@@ -22,7 +22,7 @@ class ContentTest {
     }
 
     @ParameterizedTest
-    @DisplayName("글 내용은 최대 1000 자여야한다.")
+    @DisplayName("글 내용은 최대 1000 자여야한다. 그렇지 않은 경우 예외를 발생한다.")
     @ValueSource(ints = {0, 1001})
     void validate(final int repeatCount) {
         //given

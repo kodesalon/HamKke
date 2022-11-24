@@ -1,4 +1,4 @@
-package hamkke.board.model.bulletin.vo;
+package hamkke.board.model.bulletin;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class TitleTest {
     }
 
     @ParameterizedTest
-    @DisplayName("글 제목은 1글자 이상 25자 이하여야합니다.")
+    @DisplayName("글 제목은 1글자 이상 25자 이하여야한다. 그렇지 않은 경우 예외를 발생한다.")
     @ValueSource(strings = {"", "Hello!! q this is the sample"})
     void validateSize(final String input) {
         //when, then
