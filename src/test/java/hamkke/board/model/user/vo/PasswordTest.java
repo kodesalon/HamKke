@@ -1,4 +1,4 @@
-package hamkke.board.model.user;
+package hamkke.board.model.user.vo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
