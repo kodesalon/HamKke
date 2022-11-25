@@ -16,9 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -36,8 +34,8 @@ class UserServiceTest {
     @DisplayName("DTO 를 입력받아 회원가입을 한 후 userId를 반환한다.")
     void join() {
         //given
-        given(user.getId()).willReturn(1L);
-        given(userRepository.save(any(User.class))).willReturn(user);
+        when(user.getId()).thenReturn(1L);
+        when(userRepository.save(any(User.class))).thenReturn(user);
 
         //when
         userService.join(new CreateUserRequest("apple123", "apple123!!", "삼다수"));
@@ -53,7 +51,7 @@ class UserServiceTest {
     void validateLoginIdDuplication() {
         //given
         CreateUserRequest duplicatedCreateUserRequest = new CreateUserRequest("apple123", "apple123!!", "삼다수");
-        given(userRepository.findUserByLoginId(any(LoginId.class))).willReturn(Optional.of(user));
+        when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
 
         //when, then
         assertThatThrownBy(() -> userService.join(duplicatedCreateUserRequest)).isInstanceOf(IllegalStateException.class)
@@ -65,7 +63,7 @@ class UserServiceTest {
     void validateAliasDuplication() {
         //given
         CreateUserRequest duplicatedCreateUserRequest = new CreateUserRequest("apple123", "apple123!!", "삼다수");
-        given(userRepository.findUserByAlias(any(Alias.class))).willReturn(Optional.of(user));
+        when(userRepository.findUserByAlias(any(Alias.class))).thenReturn(Optional.of(user));
 
         //when, then
         assertThatThrownBy(() -> userService.join(duplicatedCreateUserRequest)).isInstanceOf(IllegalStateException.class)
