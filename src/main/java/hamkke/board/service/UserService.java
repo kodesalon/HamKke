@@ -1,12 +1,11 @@
 package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
-import hamkke.board.domain.user.vo.Alias;
-import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,32 +19,15 @@ public class UserService {
 
     @Transactional
     public Long join(final CreateUserRequest createUserRequest) {
-        validateDuplication(createUserRequest);
-        User user = new User(createUserRequest.getLoginId(), createUserRequest.getPassword(), createUserRequest.getAlias());
-        User savedMember = userRepository.save(user);
-        return savedMember.getId();
+        User savedUser = saveUser(createUserRequest);
+        return savedUser.getId();
     }
 
-    private void validateDuplication(final CreateUserRequest createUserRequest) {
-        validateLoginIdDuplication(createUserRequest);
-        validateAliasDuplication(createUserRequest);
-    }
-
-    private void validateLoginIdDuplication(final CreateUserRequest createUserRequest) {
-        String loginId = createUserRequest.getLoginId();
-        userRepository.findUserByLoginId(new LoginId(loginId))
-                .ifPresent(user -> {
-                    log.info("중복된 아이디 생성 loginId = {}", createUserRequest.getLoginId());
-                    throw new IllegalStateException("해당 ID는 이미 사용중 입니다.");
-                });
-    }
-
-    private void validateAliasDuplication(final CreateUserRequest createUserRequest) {
-        String alias = createUserRequest.getAlias();
-        userRepository.findUserByAlias(new Alias(alias))
-                .ifPresent(user -> {
-                    log.info("중복된 별명 생성 loginId = {}", createUserRequest.getLoginId());
-                    throw new IllegalStateException("해당 별명은 이미 사용중 입니다.");
-                });
+    private User saveUser(final CreateUserRequest createUserRequest) throws IllegalStateException {
+        try {
+            return userRepository.save(new User(createUserRequest.getLoginId(), createUserRequest.getPassword(), createUserRequest.getAlias()));
+        } catch (final DataIntegrityViolationException exception) {
+            throw new IllegalStateException("이미 사용중인 loginId 혹은 alias 입니다.");
+        }
     }
 }

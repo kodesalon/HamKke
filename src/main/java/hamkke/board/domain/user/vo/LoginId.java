@@ -16,7 +16,7 @@ public class LoginId {
     private static final String USER_ID_REGEX = "^[a-z]+[a-z 0-9]{5,19}$";
     private static final Pattern USER_ID_PATTERN = Pattern.compile(USER_ID_REGEX);
 
-    @Column(name = "loginId")
+    @Column(name = "loginId", unique = true)
     private String value;
 
     public LoginId(final String value) {
