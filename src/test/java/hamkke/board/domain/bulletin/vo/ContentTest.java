@@ -36,12 +36,13 @@ class ContentTest {
     @DisplayName("글 내용을 반환한다.")
     void getValue() {
         //given
-        Content content = new Content("테스트용 샘플 글 내용입니다.");
+        String testContent = "테스트용 샘플 글 내용입니다.";
+        Content content = new Content(testContent);
 
         //when
         String actual = content.getValue();
 
         //then
-        assertThat(actual).isEqualTo("테스트용 샘플 글 내용입니다.");
+        assertThat(actual).isEqualTo(testContent);
     }
 }
