@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 
@@ -15,11 +16,8 @@ class LoginIdTest {
     @DisplayName("유저 아이디를 입력받아 객체를 생성한다.")
     @ValueSource(strings = {"apple1", "a1234567890123456789", "a12345b23"})
     void create(final String input) {
-        //when
-        LoginId loginId = new LoginId(input);
-
-        //then
-        assertThat(loginId).isEqualTo(new LoginId(input));
+        //when, then
+       assertThatCode(() -> new LoginId(input)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest

@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class AliasTest {
 
@@ -14,11 +13,8 @@ class AliasTest {
     @DisplayName("별칭을 입력받아 객체를 생성한다.")
     @ValueSource(strings = {"apple12", "감자", "777", "감자3"})
     void create(final String input) {
-        //when
-        Alias alias = new Alias(input);
-
-        //then
-        assertThat(alias).isEqualTo(new Alias(input));
+        //when, then
+        assertThatCode(() -> new Alias(input)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest

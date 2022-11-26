@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class ContentTest {
 
@@ -14,11 +13,8 @@ class ContentTest {
     @DisplayName("글 내용을 입력받아 객체를 생성한다.")
     @ValueSource(strings = {"안녕하세요", "1111123", "hello~~~~~"})
     void create(final String input) {
-        //when
-        Content content = new Content(input);
-
-        //then
-        assertThat(content).isEqualTo(new Content(input));
+        //when, then
+        assertThatCode(() -> new Content(input)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
