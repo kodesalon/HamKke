@@ -55,13 +55,13 @@ class BulletinTest {
     }
 
     @Test
-    @DisplayName("입력 받은 Author 의 게시물과 동일한지 비교한다. - 연관 관계 편의 메서드")
+    @DisplayName("연관 관계 편의 메서드")
     void changeAuthor() {
         //given
         User user = createUser();
 
         //when
-        Bulletin bulletin = new Bulletin("sample title", "sample content", user);
+        Bulletin bulletin = createBulletin(user);
 
         //then
         assertThat(bulletin.getAuthor().getBulletins()).contains(bulletin);

@@ -37,7 +37,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("DTO 를 입력받아 회원가입을 한 후 userId를 반환한다.")
+    @DisplayName("DTO 를 입력받아 회원가입을 한다.")
     void join() {
         //given
         when(user.getId()).thenReturn(1L);
