@@ -6,17 +6,11 @@ import hamkke.board.service.dto.CreateUserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.params.provider.Arguments.of;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -50,27 +44,37 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(any(User.class));
     }
 
-    @ParameterizedTest
-    @MethodSource("createUserRequestParameterProvider")
-    @DisplayName("회원 가입 시, 중복된 loginId 나 alias 를 입력받은 경우 예외를 반환한다.")
-    void validateLoginIdDuplication(final CreateUserRequest duplicated) {
+    @Test
+    @DisplayName("회원 가입 시, 중복된 loginId 를 입력받은 경우 예외를 반환한다.")
+    void validateLoginIdDuplication() {
         //given
         when(user.getId()).thenReturn(1L);
         when(userRepository.save(any(User.class))).thenReturn(user)
-                .thenThrow(new IllegalStateException("이미 사용중인 loginId 혹은 alias 입니다."));
+                .thenThrow(new IllegalStateException("이미 존재하는 ID 입니다."));
 
         CreateUserRequest createUserRequest = generateCreateUserRequest();
+        CreateUserRequest duplicated = new CreateUserRequest("apple123", "apple123!!", "삼다수");
         userService.join(createUserRequest);
 
         //when, then
         assertThatThrownBy(() -> userService.join(duplicated)).isInstanceOf(IllegalStateException.class)
-                .hasMessage("이미 사용중인 loginId 혹은 alias 입니다.");
+                .hasMessage("이미 존재하는 ID 입니다.");
     }
 
-    static Stream<Arguments> createUserRequestParameterProvider() {
-        return Stream.of(
-                of(new CreateUserRequest("apple123", "apple123!!", "아이시스")),
-                of(new CreateUserRequest("banana123", "apple123!!", "삼다수"))
-        );
+    @Test
+    @DisplayName("회원 가입 시, 중복된 alias 를 입력받은 경우 예외를 반환한다.")
+    void validateAliasDuplication() {
+        //given
+        when(user.getId()).thenReturn(1L);
+        when(userRepository.save(any(User.class))).thenReturn(user)
+                .thenThrow(new IllegalStateException("이미 존재하는 별명 입니다."));
+
+        CreateUserRequest createUserRequest = generateCreateUserRequest();
+        CreateUserRequest duplicated = new CreateUserRequest("banana123", "apple123!!", "아이시스");
+        userService.join(createUserRequest);
+
+        //when, then
+        assertThatThrownBy(() -> userService.join(duplicated)).isInstanceOf(IllegalStateException.class)
+                .hasMessage("이미 존재하는 별명 입니다.");
     }
 }
