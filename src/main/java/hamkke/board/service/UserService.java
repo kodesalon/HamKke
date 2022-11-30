@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
+    private static final String ALIAS_UNIQUE_CONSTRAINT_CONDITION = "alias_unique";
+    private static final String LOGIN_ID_UNIQUE_CONSTRAINT_CONDITION = "login_id_unique";
+
     private final UserRepository userRepository;
 
     @Transactional
@@ -23,11 +26,22 @@ public class UserService {
         return savedUser.getId();
     }
 
-    private User saveUser(final CreateUserRequest createUserRequest) throws IllegalStateException {
+    private User saveUser(final CreateUserRequest createUserRequest) {
         try {
             return userRepository.save(new User(createUserRequest.getLoginId(), createUserRequest.getPassword(), createUserRequest.getAlias()));
         } catch (final DataIntegrityViolationException exception) {
-            throw new IllegalStateException("이미 사용중인 loginId 혹은 alias 입니다.");
+            String message = exception.getMessage();
+            if (hasUniqueConstraintCondition(message, LOGIN_ID_UNIQUE_CONSTRAINT_CONDITION)) {
+                throw new IllegalStateException("이미 존재하는 ID 입니다.");
+            }
+            if (hasUniqueConstraintCondition(message, ALIAS_UNIQUE_CONSTRAINT_CONDITION)) {
+                throw new IllegalStateException("이미 존재하는 별명 입니다.");
+            }
         }
+        throw new IllegalStateException("잘못된 접근입니다.");
+    }
+
+    private static boolean hasUniqueConstraintCondition(final String message, final String uniqueConstraintCondition) {
+        return message != null && message.contains(uniqueConstraintCondition);
     }
 }

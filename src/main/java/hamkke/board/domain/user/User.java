@@ -15,6 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "login_id_unique",
+                        columnNames = {"login_id"}
+                ),
+                @UniqueConstraint(
+                        name = "alias_unique",
+                        columnNames = {"alias"}
+                )
+        }
+)
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
