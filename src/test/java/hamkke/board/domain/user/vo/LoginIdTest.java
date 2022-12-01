@@ -17,7 +17,7 @@ class LoginIdTest {
     @ValueSource(strings = {"apple1", "a1234567890123456789", "a12345b23"})
     void create(final String input) {
         //when, then
-       assertThatCode(() -> new LoginId(input)).doesNotThrowAnyException();
+        assertThatCode(() -> new LoginId(input)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
