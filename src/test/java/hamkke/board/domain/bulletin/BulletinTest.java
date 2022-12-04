@@ -1,13 +1,16 @@
 package hamkke.board.domain.bulletin;
 
+import hamkke.board.config.JpaAuditingConfiguration;
 import hamkke.board.domain.bulletin.vo.Content;
 import hamkke.board.domain.bulletin.vo.Title;
 import hamkke.board.domain.user.User;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ImportAutoConfiguration(JpaAuditingConfiguration.class)
 @DataJpaTest
 class BulletinTest {
 
@@ -67,6 +71,7 @@ class BulletinTest {
         assertThat(bulletin.getAuthor().getBulletins()).contains(bulletin);
     }
 
+    @Transactional
     @Test
     @DisplayName("해당 게시물이 입력받은 user 가 작성한 게시물인지 확인한다. ")
     void isSameAuthor() {
