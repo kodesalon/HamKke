@@ -19,7 +19,7 @@ class AliasTest {
 
     @ParameterizedTest
     @DisplayName("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 합니다. 그렇지 않은 경우 예외를 발생한다.")
-    @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자", " ", ""})
+    @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자","a", " ", ""})
     void validateAlias(final String inputAlias) {
         //when, then
         assertThatThrownBy(() -> new Alias(inputAlias)).isInstanceOf(IllegalArgumentException.class)
