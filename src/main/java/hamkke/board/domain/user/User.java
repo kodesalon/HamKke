@@ -60,7 +60,7 @@ public class User extends BaseEntity {
     }
 
     public boolean isInCollectPassword(final Password otherPassword) {
-        return this.password.equals(otherPassword);
+        return !this.password.equals(otherPassword);
     }
 
     @Override

@@ -2,7 +2,6 @@ package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.LoginId;
-import hamkke.board.domain.user.vo.Password;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
@@ -89,7 +88,7 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 와 password 가 일치하면, 일치한 User 를 반환한다.")
     void login() {
         //given
-        when(user.getPassword()).thenReturn(new Password("apple123!!"));
+        when(user.isInCollectPassword(any())).thenReturn(false);
         when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
