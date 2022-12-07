@@ -40,7 +40,7 @@ public class UserService {
         User user = userRepository.findUserByLoginId(new LoginId(loginId))
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
 
-        if (!user.getPassword().equals(new Password(loginRequest.getPassword()))) {
+        if (user.isInCollectPassword(new Password(loginRequest.getPassword()))) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
 
