@@ -1,14 +1,19 @@
 package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
+import hamkke.board.domain.user.vo.LoginId;
+import hamkke.board.domain.user.vo.Password;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.service.dto.LoginRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -78,5 +83,21 @@ class UserServiceTest {
         //when, then
         assertThatThrownBy(() -> userService.join(duplicated)).isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 존재하는 별명 입니다.");
+    }
+
+    @Test
+    @DisplayName("로그인 시, loginId 와 password 가 일치하면, 일치한 User 를 반환한다.")
+    void login() {
+        //given
+        when(user.getPassword()).thenReturn(new Password("apple123!!"));
+        when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
+
+        LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
+
+        //when
+        User loginUser = userService.login(loginRequest);
+
+        //then
+        assertThat(loginUser).isEqualTo(user);
     }
 }
