@@ -67,7 +67,7 @@ class UserTest {
         User user = createUser();
 
         //when
-        boolean actual = user.isCollectPassword(password);
+        boolean actual = user.isInCollectPassword(password);
 
         //then
         assertThat(actual).isEqualTo(expect);
@@ -75,8 +75,8 @@ class UserTest {
 
     private static Stream<Arguments> passwordParameterProvider() {
         return Stream.of(
-                Arguments.of(new Password("apple123!!"), true),
-                Arguments.of(new Password("banana123!!"), false)
+                Arguments.of(new Password("apple123!!"), false),
+                Arguments.of(new Password("banana123!!"), true)
         );
     }
 }
