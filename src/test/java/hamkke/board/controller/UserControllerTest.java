@@ -3,6 +3,8 @@ package hamkke.board.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.service.dto.LoginRequest;
+import hamkke.board.service.dto.LoginResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +82,40 @@ class UserControllerTest {
         //then
         actual.andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("이미 존재하는 별명 입니다."));
+    }
+
+    @Test
+    @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하면 , loginResponse dto 와 HTTP 200 상태코드를 반환한다.")
+    void login() throws Exception {
+        //given
+        LoginResponse loginResponse = new LoginResponse(1L, "삼다수");
+        when(userService.login(any(LoginRequest.class))).thenReturn(loginResponse);
+        LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest)));
+
+        //then
+        perform.andExpect(status().isOk())
+                .andExpect(jsonPath("$.userId").value(1L))
+                .andExpect(jsonPath("$.alias").value("삼다수"));
+    }
+
+    @Test
+    @DisplayName("로그인 시, 존재하지 않는 loginId 아이디로 접근하는 경우, 예외 코드를 담은 DTO 와 HTTP 400 상태코드를 반환한다.")
+    void loginFiledByNotExistLoginId() throws Exception {
+        //given
+        when(userService.login(any())).thenThrow(new IllegalArgumentException("존재하지 않는 ID 입니다."));
+
+        LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
+
+        //when
+        ResultActions actual = mockMvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest)));
+
+        //then
+        actual.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("존재하지 않는 ID 입니다."));
     }
 }
