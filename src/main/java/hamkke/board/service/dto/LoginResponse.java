@@ -1,16 +1,15 @@
 package hamkke.board.service.dto;
 
-import hamkke.board.domain.user.vo.Alias;
 import lombok.Getter;
 
 @Getter
 public class LoginResponse {
 
-    private final Long id;
-    private final Alias alias;
+    private final Long userId;
+    private final String alias;
 
-    public LoginResponse(final Long id, final Alias alias) {
-        this.id = id;
+    public LoginResponse(final Long userId, final String alias) {
+        this.userId = userId;
         this.alias = alias;
     }
 }

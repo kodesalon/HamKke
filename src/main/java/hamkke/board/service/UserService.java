@@ -6,6 +6,7 @@ import hamkke.board.domain.user.vo.Password;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
+import hamkke.board.service.dto.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -35,15 +36,17 @@ public class UserService {
         }
     }
 
-    public User login(final LoginRequest loginRequest) {
+    public LoginResponse login(final LoginRequest loginRequest) {
         String loginId = loginRequest.getLoginId();
         User user = userRepository.findUserByLoginId(new LoginId(loginId))
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
+        matchPassword(loginRequest, user);
+        return new LoginResponse(user.getId(), user.getAlias().getValue());
+    }
 
+    private void matchPassword(final LoginRequest loginRequest, final User user) {
         if (user.isInCollectPassword(new Password(loginRequest.getPassword()))) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
-
-        return user;
     }
 }
