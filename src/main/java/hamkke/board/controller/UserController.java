@@ -2,6 +2,8 @@ package hamkke.board.controller;
 
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.service.dto.LoginRequest;
+import hamkke.board.service.dto.LoginResponse;
 import hamkke.board.service.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,5 +29,13 @@ public class UserController {
         Long joinedUserId = userService.join(createUserRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new UserResponse(joinedUserId));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Validated @RequestBody final LoginRequest loginRequest) {
+        log.info("login 요청 loginId = {}, password = {}", loginRequest.getLoginId(), loginRequest.getPassword());
+        LoginResponse login = userService.login(loginRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(login);
     }
 }
