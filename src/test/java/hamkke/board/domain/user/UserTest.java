@@ -7,6 +7,11 @@ import hamkke.board.domain.user.vo.Password;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -54,17 +59,24 @@ class UserTest {
         assertThat(hasBulletin).isTrue();
     }
 
-    @Test
-    @DisplayName("입력받은 비밀번호가 일치하면 true 를 반환한다.")
-    void matchPassword() {
+    @ParameterizedTest
+    @MethodSource("passwordParameterProvider")
+    @DisplayName("입력받은 비밀번호가 일치하지 않으면 true 를 반환하고, 그렇지 않으면 false 를 반환한다.")
+    void InCollectPassword(final String otherPassword, final boolean expect) {
         //given
         User user = createUser();
-        String otherPassword = "apple123!!";
 
         //when
-        boolean actual = user.matchPassword(otherPassword);
+        boolean actual = user.InCollectPassword(otherPassword);
 
         //then
-        assertThat(actual).isTrue();
+        assertThat(actual).isEqualTo(expect);
+    }
+
+    private static Stream<Arguments> passwordParameterProvider() {
+        return Stream.of(
+                Arguments.of("apple123!!", false),
+                Arguments.of("banana123!!", true)
+        );
     }
 }

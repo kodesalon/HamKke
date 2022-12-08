@@ -3,7 +3,11 @@ package hamkke.board.domain.user.vo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -40,29 +44,24 @@ class PasswordTest {
         assertThat(actual).isEqualTo("apple12345!@");
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("passwordParameterProvider")
     @DisplayName("비밀번호가 일치하면 true 를 반환한다.")
-    void isMatch() {
+    void isMatch(final String otherPassword, final boolean expect) {
         //given
-        String otherPassword = "apple123!!";
         Password password = new Password("apple123!!");
 
         //when
         boolean match = password.isMatch(otherPassword);
 
         //then
-        assertThat(match).isTrue();
+        assertThat(match).isEqualTo(expect);
     }
 
-    @Test
-    @DisplayName("비밀번호가 일치하지 않는 경우 예외를 반환한다.")
-    void matchFailed() {
-        //given
-        String otherPassword = "banana123!!";
-        Password password = new Password("apple123!!");
-
-        //when, then
-        assertThatThrownBy(() -> password.isMatch(otherPassword)).isInstanceOf(IllegalStateException.class)
-                .hasMessage("비밀번호가 일치하지 않습니다.");
+    private static Stream<Arguments> passwordParameterProvider() {
+        return Stream.of(
+                Arguments.of("apple123!!", true),
+                Arguments.of("banana123!!", false)
+        );
     }
 }

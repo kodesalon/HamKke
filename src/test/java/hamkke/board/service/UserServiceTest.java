@@ -92,7 +92,7 @@ class UserServiceTest {
     void login() {
         //given
         when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
-        when(user.matchPassword(any(String.class))).thenReturn(true);
+        when(user.InCollectPassword(any(String.class))).thenReturn(false);
         when(user.getId()).thenReturn(1L);
         when(user.getAlias()).thenReturn(new Alias("삼다수"));
 
@@ -113,7 +113,7 @@ class UserServiceTest {
     void loginFailed() {
         //given
         when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
-        when(user.matchPassword(any(String.class))).thenThrow(new IllegalStateException("비밀번호가 일치하지 않습니다."));
+        when(user.InCollectPassword(any(String.class))).thenReturn(true);
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 
