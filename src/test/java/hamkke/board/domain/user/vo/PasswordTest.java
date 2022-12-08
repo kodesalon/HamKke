@@ -39,4 +39,30 @@ class PasswordTest {
         //then
         assertThat(actual).isEqualTo("apple12345!@");
     }
+
+    @Test
+    @DisplayName("비밀번호가 일치하면 true 를 반환한다.")
+    void isMatch() {
+        //given
+        String otherPassword = "apple123!!";
+        Password password = new Password("apple123!!");
+
+        //when
+        boolean match = password.isMatch(otherPassword);
+
+        //then
+        assertThat(match).isTrue();
+    }
+
+    @Test
+    @DisplayName("비밀번호가 일치하지 않는 경우 예외를 반환한다.")
+    void matchFailed() {
+        //given
+        String otherPassword = "banana123!!";
+        Password password = new Password("apple123!!");
+
+        //when, then
+        assertThatThrownBy(() -> password.isMatch(otherPassword)).isInstanceOf(IllegalStateException.class)
+                .hasMessage("비밀번호가 일치하지 않습니다.");
+    }
 }
