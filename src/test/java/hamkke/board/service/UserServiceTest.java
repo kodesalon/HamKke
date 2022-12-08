@@ -3,7 +3,6 @@ package hamkke.board.service;
 import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.Alias;
 import hamkke.board.domain.user.vo.LoginId;
-import hamkke.board.domain.user.vo.Password;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
@@ -92,10 +91,10 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 와 password 가 일치하면, loginResponse dto 를 반환한다.")
     void login() {
         //given
+        when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
+        when(user.matchPassword(any(String.class))).thenReturn(true);
         when(user.getId()).thenReturn(1L);
         when(user.getAlias()).thenReturn(new Alias("삼다수"));
-        when(user.isInCollectPassword(any(Password.class))).thenReturn(false);
-        when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
         SoftAssertions softly = new SoftAssertions();
@@ -113,8 +112,8 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 와 password 가 일치하지 않으면, 예외를 반환한다.")
     void loginFailed() {
         //given
-        when(user.isInCollectPassword(any(Password.class))).thenReturn(true);
         when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
+        when(user.matchPassword(any(String.class))).thenThrow(new IllegalStateException("비밀번호가 일치하지 않습니다."));
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 
