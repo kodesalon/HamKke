@@ -34,14 +34,13 @@ class UserRepositoryTest {
 
     @Test
     @DisplayName("loginId 를 입력 받아, 해당하는 loginId를 가진 User 를 반환한다.")
-    void findUserByLoginId() {
+    void findByLoginId() {
         //given
         LoginId loginId = new LoginId("apple123");
         SoftAssertions softly = new SoftAssertions();
 
         //when
-        User findUser = userRepository.findUserByLoginId(loginId)
-                .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 ID 입니다."));
+        User findUser = userRepository.findByLoginId(loginId).get();
 
         //then
         softly.assertThat(findUser.getLoginId()).isEqualTo(new LoginId("apple123"));
@@ -56,7 +55,7 @@ class UserRepositoryTest {
         LoginId notExistingLoginId = new LoginId("banana123");
 
         //when
-        Optional<User> userByLoginId = userRepository.findUserByLoginId(notExistingLoginId);
+        Optional<User> userByLoginId = userRepository.findByLoginId(notExistingLoginId);
 
         //then
         assertThat(userByLoginId).isEmpty();

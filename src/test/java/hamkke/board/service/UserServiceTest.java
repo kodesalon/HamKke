@@ -91,7 +91,7 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 와 password 가 일치하면, loginResponse dto 를 반환한다.")
     void login() {
         //given
-        when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
+        when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
         when(user.InCollectPassword(any(String.class))).thenReturn(false);
         when(user.getId()).thenReturn(1L);
         when(user.getAlias()).thenReturn(new Alias("삼다수"));
@@ -112,7 +112,7 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 와 password 가 일치하지 않으면, 예외를 반환한다.")
     void loginFailed() {
         //given
-        when(userRepository.findUserByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
+        when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
         when(user.InCollectPassword(any(String.class))).thenReturn(true);
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
@@ -126,7 +126,7 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 가 DB에 존재하지 않은 경우 예외를 반환한다.")
     void loginFailedWhenNotExistLoginId() {
         //given
-        when(userRepository.findUserByLoginId(any(LoginId.class))).thenThrow(new IllegalArgumentException("존재하지 않는 ID 입니다."));
+        when(userRepository.findByLoginId(any(LoginId.class))).thenThrow(new IllegalArgumentException("존재하지 않는 ID 입니다."));
         LoginRequest loginRequest = new LoginRequest("banana123", "apple123!!");
 
         //when
