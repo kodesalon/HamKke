@@ -40,11 +40,12 @@ class UserRepositoryTest {
         SoftAssertions softly = new SoftAssertions();
 
         //when
-        User findUser = userRepository.findByLoginId(loginId).get();
+        Optional<User> findUser = userRepository.findByLoginId(loginId);
 
         //then
-        softly.assertThat(findUser.getLoginId()).isEqualTo(new LoginId("apple123"));
-        softly.assertThat(findUser.getAlias()).isEqualTo(new Alias("삼다수"));
+        softly.assertThat(findUser).isNotEmpty();
+        softly.assertThat(findUser.get().getLoginId()).isEqualTo(new LoginId("apple123"));
+        softly.assertThat(findUser.get().getAlias()).isEqualTo(new Alias("삼다수"));
         softly.assertAll();
     }
 
