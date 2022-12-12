@@ -30,8 +30,10 @@ public class Password {
         }
     }
 
-    public boolean isMatch(final String otherPassword) {
-        return value.equals(otherPassword);
+    public void checkPassword(final String otherPassword) {
+        if (!value.equals(otherPassword)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
     }
 
     public String getValue() {

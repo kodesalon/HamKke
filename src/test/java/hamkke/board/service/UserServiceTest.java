@@ -92,7 +92,6 @@ class UserServiceTest {
     void login() {
         //given
         when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
-        when(user.InCollectPassword(any(String.class))).thenReturn(false);
         when(user.getId()).thenReturn(1L);
         when(user.getAlias()).thenReturn(new Alias("삼다수"));
 
@@ -113,12 +112,13 @@ class UserServiceTest {
     void loginFailed() {
         //given
         when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
-        when(user.InCollectPassword(any(String.class))).thenReturn(true);
+        doThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다.")).when(user)
+                .checkPassword(anyString());
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 
         //when, then
-        assertThatThrownBy(() -> userService.login(loginRequest)).isInstanceOf(IllegalStateException.class)
+        assertThatThrownBy(() -> userService.login(loginRequest)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("비밀번호가 일치하지 않습니다.");
     }
 

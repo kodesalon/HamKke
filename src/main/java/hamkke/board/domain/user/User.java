@@ -59,8 +59,8 @@ public class User extends BaseEntity {
                 .add(bulletin);
     }
 
-    public boolean InCollectPassword(final String otherPassword) {
-        return !password.isMatch(otherPassword);
+    public void checkPassword(final String otherPassword) {
+        password.checkPassword(otherPassword);
     }
 
     @Override

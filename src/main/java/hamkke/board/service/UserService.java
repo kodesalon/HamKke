@@ -39,13 +39,7 @@ public class UserService {
         String loginId = loginRequest.getLoginId();
         User user = userRepository.findByLoginId(new LoginId(loginId))
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
-        matchPassword(loginRequest, user);
+        user.checkPassword(loginRequest.getPassword());
         return new LoginResponse(user.getId(), user.getAlias().getValue());
-    }
-
-    private static void matchPassword(final LoginRequest loginRequest, final User user) {
-        if (user.InCollectPassword(loginRequest.getPassword())) {
-            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
-        }
     }
 }
