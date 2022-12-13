@@ -122,7 +122,7 @@ class UserControllerTest {
     @DisplayName("로그인 시,loginId 와 password 가 일치하지 않는 경우, 예외 코드를 담은 DTO 와 HTTP 400 상태코드를 반환한다.")
     void loginFiledByNotMatchingPassword() throws Exception {
         //given
-        when(userService.login(any())).thenThrow(new IllegalStateException("비밀번호가 일치하지 않습니다."));
+        when(userService.login(any())).thenThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다."));
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 

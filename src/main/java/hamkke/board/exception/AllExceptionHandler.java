@@ -10,8 +10,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AllExceptionHandler {
 
-    @ExceptionHandler(IllegalStateException.class)
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(final RuntimeException e) {
+        return ResponseEntity.badRequest()
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleOverlapException(final IllegalStateException e) {
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(e.getMessage()));
     }
