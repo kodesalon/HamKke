@@ -17,13 +17,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 
-class JwtResolverTest {
+class TokenResolverTest {
 
-    private JwtResolver jwtResolver;
+    private TokenResolver tokenResolver;
+
+    private String createJwtToken() {
+        Long userId = 1L;
+        return tokenResolver.createToken(userId);
+    }
 
     @BeforeEach
     void setUp() {
-        jwtResolver = new JwtResolver();
+        tokenResolver = new TokenResolver();
     }
 
     @Test
@@ -33,33 +38,31 @@ class JwtResolverTest {
         Long userId = 1L;
 
         //when, then
-        assertThatCode(() -> jwtResolver.createToken(userId)).doesNotThrowAnyException();
+        assertThatCode(() -> tokenResolver.createToken(userId)).doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("토큰이 가지고 있는 userId를 반환한다.")
     void getUserId() {
         //given
-        Long userId = 1L;
-        String token = jwtResolver.createToken(userId);
-        Long expect = 1L;
+        String token = createJwtToken();
+        Long expectUserId = 1L;
 
         //when
-        Long actual = jwtResolver.getUserId(token);
+        Long actual = tokenResolver.getUserId(token);
 
         //then
-        assertThat(actual).isEqualTo(expect);
+        assertThat(actual).isEqualTo(expectUserId);
     }
 
     @Test
     @DisplayName("토큰의 서명이 유효한지 검사한다. 유효한 경우 true 를 반환한다.")
     void validateToken() {
         //given
-        Long userId = 1L;
-        String token = jwtResolver.createToken(userId);
+        String token = createJwtToken();
 
         //when
-        boolean actual = jwtResolver.validateToken(token);
+        boolean actual = tokenResolver.validateToken(token);
 
         //then
         assertThat(actual).isTrue();
@@ -80,7 +83,7 @@ class JwtResolverTest {
                 .compact();
 
         //when, then
-        assertThatThrownBy(() -> jwtResolver.validateToken(invalidToken)).isInstanceOf(JwtException.class)
+        assertThatThrownBy(() -> tokenResolver.validateToken(invalidToken)).isInstanceOf(JwtException.class)
                 .hasMessage("토큰이 유효하지 않습니다.");
     }
 
@@ -94,7 +97,7 @@ class JwtResolverTest {
                 .compact();
 
         //when, then
-        assertThatThrownBy(() -> jwtResolver.validateToken(token)).isInstanceOf(JwtException.class)
+        assertThatThrownBy(() -> tokenResolver.validateToken(token)).isInstanceOf(JwtException.class)
                 .hasMessage("토큰의 유효기간이 만료되었습니다.");
     }
 }
