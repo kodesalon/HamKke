@@ -1,9 +1,9 @@
 package hamkke.board.repository;
 
-import hamkke.board.config.JpaAuditingConfiguration;
 import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.Alias;
 import hamkke.board.domain.user.vo.LoginId;
+import hamkke.board.web.config.JpaAuditingConfiguration;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

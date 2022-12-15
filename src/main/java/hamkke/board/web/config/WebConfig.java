@@ -1,4 +1,4 @@
-package hamkke.board.config;
+package hamkke.board.web.config;
 
 import hamkke.board.web.argumentresolver.LoginUserArgumentResolver;
 import org.springframework.context.annotation.Configuration;
