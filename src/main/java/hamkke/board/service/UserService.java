@@ -5,7 +5,7 @@ import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginResponse;
+import hamkke.board.service.dto.LoginServiceResponseDto;
 import hamkke.board.web.jwt.TokenResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +37,12 @@ public class UserService {
         }
     }
 
-    public LoginResponse login(final LoginRequest loginRequest) {
+    public LoginServiceResponseDto login(final LoginRequest loginRequest) {
         String loginId = loginRequest.getLoginId();
         User user = userRepository.findByLoginId(new LoginId(loginId))
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
         user.checkPassword(loginRequest.getPassword());
         String token = tokenResolver.createToken(user.getId());
-        return new LoginResponse(token, user.getAlias().getValue());
+        return new LoginServiceResponseDto(token, user.getId(), user.getAlias().getValue());
     }
 }

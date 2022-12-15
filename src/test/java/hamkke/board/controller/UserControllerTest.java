@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginResponse;
+import hamkke.board.service.dto.LoginServiceResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
+
+    private static final String AUTHORIZATION_HTTP_HEADER = "authorization";
 
     @Autowired
     private MockMvc mockMvc;
@@ -89,8 +90,8 @@ class UserControllerTest {
     void login() throws Exception {
         //given
         String token = "testToken";
-        LoginResponse loginResponse = new LoginResponse(token, "삼다수");
-        when(userService.login(any(LoginRequest.class))).thenReturn(loginResponse);
+        LoginServiceResponseDto loginServiceResponseDto = new LoginServiceResponseDto(token,1L,"삼다수");
+        when(userService.login(any(LoginRequest.class))).thenReturn(loginServiceResponseDto);
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 
@@ -100,7 +101,8 @@ class UserControllerTest {
 
         //then
         perform.andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").value(token))
+                .andExpect(header().string(AUTHORIZATION_HTTP_HEADER, "testToken"))
+                .andExpect(jsonPath("$.userId").value(1L))
                 .andExpect(jsonPath("$.alias").value("삼다수"));
     }
 
