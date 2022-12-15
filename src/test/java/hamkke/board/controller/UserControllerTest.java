@@ -88,8 +88,10 @@ class UserControllerTest {
     @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하면 , loginResponse dto 와 HTTP 200 상태코드를 반환한다.")
     void login() throws Exception {
         //given
-        LoginResponse loginResponse = new LoginResponse(1L, "삼다수");
+        String token = "testToken";
+        LoginResponse loginResponse = new LoginResponse(token, "삼다수");
         when(userService.login(any(LoginRequest.class))).thenReturn(loginResponse);
+
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 
         //when
@@ -98,7 +100,7 @@ class UserControllerTest {
 
         //then
         perform.andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value(1L))
+                .andExpect(jsonPath("$.token").value(token))
                 .andExpect(jsonPath("$.alias").value("삼다수"));
     }
 
@@ -118,6 +120,7 @@ class UserControllerTest {
         actual.andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("존재하지 않는 ID 입니다."));
     }
+
     @Test
     @DisplayName("로그인 시,loginId 와 password 가 일치하지 않는 경우, 예외 코드를 담은 DTO 와 HTTP 400 상태코드를 반환한다.")
     void loginFiledByNotMatchingPassword() throws Exception {

@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public class LoginResponse {
 
-    private final Long userId;
+    private final String token;
     private final String alias;
 
-    public LoginResponse(final Long userId, final String alias) {
-        this.userId = userId;
+    public LoginResponse(final String token, final String alias) {
+        this.token = token;
         this.alias = alias;
     }
 }

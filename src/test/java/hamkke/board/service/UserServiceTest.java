@@ -7,6 +7,7 @@ import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
 import hamkke.board.service.dto.LoginResponse;
+import hamkke.board.web.jwt.TokenResolver;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,9 @@ class UserServiceTest {
 
     @Mock
     private User user;
+
+    @Mock
+    private TokenResolver tokenResolver;
 
     @InjectMocks
     private UserService userService;
@@ -94,6 +98,7 @@ class UserServiceTest {
         when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
         when(user.getId()).thenReturn(1L);
         when(user.getAlias()).thenReturn(new Alias("삼다수"));
+        when(tokenResolver.createToken(anyLong())).thenReturn("testToken");
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
         SoftAssertions softly = new SoftAssertions();
@@ -102,7 +107,7 @@ class UserServiceTest {
         LoginResponse loginResponse = userService.login(loginRequest);
 
         //then
-        softly.assertThat(loginResponse.getUserId()).isEqualTo(1L);
+        softly.assertThat(loginResponse.getToken()).isEqualTo("testToken");
         softly.assertThat(loginResponse.getAlias()).isEqualTo("삼다수");
         softly.assertAll();
     }
@@ -114,7 +119,6 @@ class UserServiceTest {
         when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
         doThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다.")).when(user)
                 .checkPassword(anyString());
-
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 
         //when, then
