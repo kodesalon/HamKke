@@ -1,14 +1,12 @@
 package hamkke.board.web.jwt;
 
 import io.jsonwebtoken.*;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Date;
 
 @Component
-@NoArgsConstructor
 public class TokenResolver {
 
     private static final String ISSUER = "hamkke";

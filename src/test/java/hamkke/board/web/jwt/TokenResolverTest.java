@@ -3,7 +3,6 @@ package hamkke.board.web.jwt;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,17 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 class TokenResolverTest {
 
-    private TokenResolver tokenResolver;
-
-    private String createJwtToken() {
-        Long userId = 1L;
-        return tokenResolver.createToken(userId);
-    }
-
-    @BeforeEach
-    void setUp() {
-        tokenResolver = new TokenResolver();
-    }
+    private final TokenResolver tokenResolver = new TokenResolver();
 
     @Test
     @DisplayName("userId 를 입력받아 토큰을 생성한다.")
@@ -45,7 +34,7 @@ class TokenResolverTest {
     @DisplayName("토큰이 가지고 있는 userId를 반환한다.")
     void getUserId() {
         //given
-        String token = createJwtToken();
+        String token = tokenResolver.createToken(1L);
         Long expectUserId = 1L;
 
         //when
@@ -59,7 +48,7 @@ class TokenResolverTest {
     @DisplayName("토큰의 서명이 유효한지 검사한다. 유효한 경우 true 를 반환한다.")
     void validateToken() {
         //given
-        String token = createJwtToken();
+        String token = tokenResolver.createToken(1L);
 
         //when
         boolean actual = tokenResolver.validateToken(token);
