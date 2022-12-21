@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
-    private static final String AUTHORIZATION_HTTP_HEADER = "authorization";
+    private static final String AUTHORIZATION_HTTP_HEADER = "Authorization";
 
     @Autowired
     private MockMvc mockMvc;
