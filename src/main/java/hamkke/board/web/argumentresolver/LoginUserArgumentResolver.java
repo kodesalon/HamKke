@@ -1,6 +1,7 @@
 package hamkke.board.web.argumentresolver;
 
 import hamkke.board.web.jwt.TokenResolver;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -9,13 +10,10 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
+@RequiredArgsConstructor
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final TokenResolver tokenResolver;
-
-    public LoginUserArgumentResolver(final TokenResolver tokenResolver) {
-        this.tokenResolver = tokenResolver;
-    }
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {

@@ -1,6 +1,7 @@
 package hamkke.board.web.interceptor;
 
 import hamkke.board.web.jwt.TokenResolver;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -8,15 +9,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Slf4j
 @Component
+@Slf4j
+@RequiredArgsConstructor
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
     private final TokenResolver tokenResolver;
-
-    public LoginCheckInterceptor(final TokenResolver tokenResolver) {
-        this.tokenResolver = tokenResolver;
-    }
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
