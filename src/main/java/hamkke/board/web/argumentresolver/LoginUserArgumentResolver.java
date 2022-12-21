@@ -26,7 +26,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     @Override
     public Object resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer, final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         String authorizationHeader = webRequest.getHeader("Authorization");
-        tokenResolver.validateToken(authorizationHeader);
         return tokenResolver.getUserId(authorizationHeader);
     }
 }
