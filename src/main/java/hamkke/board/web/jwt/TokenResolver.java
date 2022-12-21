@@ -3,6 +3,9 @@ package hamkke.board.web.jwt;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+import java.security.Key;
 import java.time.Duration;
 import java.util.Date;
 
@@ -10,9 +13,10 @@ import java.util.Date;
 public class TokenResolver {
 
     private static final String ISSUER = "hamkke";
-    private static final int TOKEN_EXPIRED_TIME = 30;
-
     private static final String SECRET_KEY = "password1234";
+    private static final int TOKEN_EXPIRED_TIME = 30;
+    private static final byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+    private static final Key signatureKey= new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS256.getJcaName());
 
     public String createToken(final Long userId) {
         Date now = new Date();
@@ -23,7 +27,7 @@ public class TokenResolver {
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + Duration.ofMinutes(TOKEN_EXPIRED_TIME).toMillis()))
                 .claim("userId", userId)
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, signatureKey)
                 .compact();
     }
 
