@@ -1,10 +1,9 @@
 package hamkke.board.controller;
 
-import hamkke.board.controller.dto.LoginResponse;
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginServiceResponseDto;
+import hamkke.board.service.dto.LoginResponse;
 import hamkke.board.service.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +34,9 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Validated @RequestBody final LoginRequest loginRequest) {
-        LoginServiceResponseDto loginServiceResponseDto = userService.login(loginRequest);
+        LoginResponse loginResponse = userService.login(loginRequest);
         return ResponseEntity.status(HttpStatus.OK)
-                .header(HttpHeaders.AUTHORIZATION, loginServiceResponseDto.getToken())
-                .body(new LoginResponse(loginServiceResponseDto.getUserId(), loginServiceResponseDto.getAlias()));
+                .header(HttpHeaders.AUTHORIZATION, loginResponse.getToken())
+                .body(loginResponse);
     }
 }

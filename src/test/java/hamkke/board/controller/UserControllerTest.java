@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginServiceResponseDto;
+import hamkke.board.service.dto.LoginResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,8 +90,8 @@ class UserControllerTest {
     void login() throws Exception {
         //given
         String token = "testToken";
-        LoginServiceResponseDto loginServiceResponseDto = new LoginServiceResponseDto(token,1L,"삼다수");
-        when(userService.login(any(LoginRequest.class))).thenReturn(loginServiceResponseDto);
+        LoginResponse loginResponse = new LoginResponse(token,1L,"삼다수");
+        when(userService.login(any(LoginRequest.class))).thenReturn(loginResponse);
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 

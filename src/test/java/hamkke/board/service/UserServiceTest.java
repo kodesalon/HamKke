@@ -6,7 +6,7 @@ import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginServiceResponseDto;
+import hamkke.board.service.dto.LoginResponse;
 import hamkke.board.web.jwt.TokenResolver;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -104,7 +104,7 @@ class UserServiceTest {
         SoftAssertions softly = new SoftAssertions();
 
         //when
-        LoginServiceResponseDto actual = userService.login(loginRequest);
+        LoginResponse actual = userService.login(loginRequest);
 
         //then
         softly.assertThat(actual.getToken()).isEqualTo("testToken");
