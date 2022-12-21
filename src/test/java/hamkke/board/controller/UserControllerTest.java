@@ -5,6 +5,7 @@ import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
 import hamkke.board.service.dto.LoginResponse;
+import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private TokenResolver tokenResolver;
 
     @MockBean
     private UserService userService;
@@ -86,11 +90,11 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하면 , loginResponse dto 와 HTTP 200 상태코드를 반환한다.")
+    @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하면 , 토큰값을 담은 Authorization 헤더와 loginResponse dto 와 HTTP 200 상태코드를 반환한다.")
     void login() throws Exception {
         //given
-        String token = "testToken";
-        LoginResponse loginResponse = new LoginResponse(token,1L,"삼다수");
+        when(tokenResolver.createToken(1L)).thenReturn("testToken");
+        LoginResponse loginResponse = new LoginResponse("testToken", 1L, "삼다수");
         when(userService.login(any(LoginRequest.class))).thenReturn(loginResponse);
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
