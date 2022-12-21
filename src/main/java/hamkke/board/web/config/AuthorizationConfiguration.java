@@ -27,6 +27,6 @@ public class AuthorizationConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(loginCheckInterceptor)
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/user/join", "/api/user/login", "/api/user/login12");
+                .excludePathPatterns("/api/user/join", "/api/user/login");
     }
 }

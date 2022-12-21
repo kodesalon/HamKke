@@ -6,7 +6,6 @@ import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
 import hamkke.board.service.dto.LoginServiceResponseDto;
 import hamkke.board.service.dto.UserResponse;
-import hamkke.board.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -40,16 +39,5 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.AUTHORIZATION, loginServiceResponseDto.getToken())
                 .body(new LoginResponse(loginServiceResponseDto.getUserId(), loginServiceResponseDto.getAlias()));
-    }
-
-    @PostMapping("/login12")
-    public ResponseEntity<LoginResponse> login1(@Login final Long userId) {
-        log.info("{}", userId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/login14")
-    public ResponseEntity<LoginResponse> login14() {
-        return ResponseEntity.ok().build();
     }
 }
