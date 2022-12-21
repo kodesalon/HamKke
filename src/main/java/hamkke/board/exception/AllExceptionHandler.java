@@ -27,11 +27,4 @@ public class AllExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(e.getMessage()));
     }
-
-    @ExceptionHandler(IllegalAccessException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalAccessException(final RuntimeException e) {
-        System.out.println(123);
-        return ResponseEntity.badRequest()
-                .body(new ErrorResponse(e.getMessage()));
-    }
 }
