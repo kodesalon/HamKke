@@ -25,8 +25,11 @@ class TokenResolverTest {
         //given
         Long userId = 1L;
 
-        //when, then
-        assertThatCode(() -> tokenResolver.createToken(userId)).doesNotThrowAnyException();
+        //when
+        String token = tokenResolver.createToken(userId);
+
+        //then
+        assertThat(token).isNotBlank();
     }
 
     @Test
