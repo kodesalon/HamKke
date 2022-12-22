@@ -2,7 +2,6 @@ package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.Alias;
-import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
@@ -91,7 +90,7 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 와 password 가 일치하면, loginResponse dto 를 반환한다.")
     void login() {
         //given
-        when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
+        when(userRepository.findByLoginId_Value(anyString())).thenReturn(Optional.of(user));
         when(user.getId()).thenReturn(1L);
         when(user.getAlias()).thenReturn(new Alias("삼다수"));
 
@@ -111,7 +110,7 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 와 password 가 일치하지 않으면, 예외를 반환한다.")
     void loginFailed() {
         //given
-        when(userRepository.findByLoginId(any(LoginId.class))).thenReturn(Optional.of(user));
+        when(userRepository.findByLoginId_Value(anyString())).thenReturn(Optional.of(user));
         doThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다.")).when(user)
                 .checkPassword(anyString());
 
@@ -126,7 +125,7 @@ class UserServiceTest {
     @DisplayName("로그인 시, loginId 가 DB에 존재하지 않은 경우 예외를 반환한다.")
     void loginFailedWhenNotExistLoginId() {
         //given
-        when(userRepository.findByLoginId(any(LoginId.class))).thenThrow(new IllegalArgumentException("존재하지 않는 ID 입니다."));
+        when(userRepository.findByLoginId_Value(anyString())).thenThrow(new IllegalArgumentException("존재하지 않는 ID 입니다."));
         LoginRequest loginRequest = new LoginRequest("banana123", "apple123!!");
 
         //when

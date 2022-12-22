@@ -12,7 +12,7 @@ public class AllExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(final RuntimeException e) {
-        return ResponseEntity.badRequest()
+        return ResponseEntity.internalServerError()
                 .body(new ErrorResponse(e.getMessage()));
     }
 
