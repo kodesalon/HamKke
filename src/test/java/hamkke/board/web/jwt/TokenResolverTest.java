@@ -97,4 +97,39 @@ class TokenResolverTest {
         assertThatThrownBy(() -> tokenResolver.validateToken(token)).isInstanceOf(JwtException.class)
                 .hasMessage("토큰의 유효기간이 만료되었습니다.");
     }
+
+    @Test
+    @DisplayName("토큰의 구조가 잘못된 경우 예외를 반환한다.")
+    void validateTokenWhenMalformed() {
+        //given
+        String token = "MalformedToken";
+
+        //when, then
+        assertThatThrownBy(() -> tokenResolver.validateToken(token)).isInstanceOf(JwtException.class)
+                .hasMessage("토큰이 유효하지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("토큰의 서명이 없는 토큰의 경우 예외를 발생한다.")
+    void validateTokenWhenUnsupported() {
+        //given
+        String unSupportedJwtToken = Jwts.builder()
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_IN_SECONDS))
+                .compact();
+
+        //when, then
+        assertThatThrownBy(() -> tokenResolver.validateToken(unSupportedJwtToken)).isInstanceOf(JwtException.class)
+                .hasMessage("지원하지 않는 토큰입니다.");
+    }
+
+    @Test
+    @DisplayName("토큰의 입력이 잘못된 경우 예외를 반환한다.")
+    void validateTokenWhenIllegalArgument() {
+        //given
+        String illegalArgument = "";
+
+        //when, then
+        assertThatThrownBy(() -> tokenResolver.validateToken(illegalArgument)).isInstanceOf(JwtException.class)
+                .hasMessage("JWT 토큰이 잘못되었습니다.");
+    }
 }
