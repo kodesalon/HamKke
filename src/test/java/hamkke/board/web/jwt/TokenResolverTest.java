@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -122,11 +124,11 @@ class TokenResolverTest {
                 .hasMessage("지원하지 않는 토큰입니다.");
     }
 
-    @Test
+    @ParameterizedTest
+    @NullAndEmptySource
     @DisplayName("토큰의 입력이 잘못된 경우 예외를 반환한다.")
-    void validateTokenWhenIllegalArgument() {
+    void validateTokenWhenIllegalArgument(final String illegalArgument) {
         //given
-        String illegalArgument = "";
 
         //when, then
         assertThatThrownBy(() -> tokenResolver.validateToken(illegalArgument)).isInstanceOf(JwtException.class)
