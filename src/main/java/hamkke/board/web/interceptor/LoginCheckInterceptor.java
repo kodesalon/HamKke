@@ -23,7 +23,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             tokenResolver.validateToken(authorizationHeader);
         } catch (final RuntimeException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.sendRedirect("localhost:8080/signin");
+            response.sendRedirect("/signin");
         }
         return true;
     }
