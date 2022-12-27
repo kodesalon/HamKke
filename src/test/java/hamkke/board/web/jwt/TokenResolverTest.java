@@ -126,10 +126,8 @@ class TokenResolverTest {
 
     @ParameterizedTest
     @NullAndEmptySource
-    @DisplayName("토큰의 입력이 잘못된 경우 예외를 반환한다.")
+    @DisplayName("토큰의 입력이 잘못된 경우(토큰이 null 이거나 공백이 들어온 경우) 예외를 반환한다.")
     void validateTokenWhenIllegalArgument(final String illegalArgument) {
-        //given
-
         //when, then
         assertThatThrownBy(() -> tokenResolver.validateToken(illegalArgument)).isInstanceOf(JwtException.class)
                 .hasMessage("JWT 토큰이 잘못되었습니다.");
