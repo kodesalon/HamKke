@@ -35,11 +35,11 @@ class UserRepositoryTest {
     @DisplayName("loginId 를 입력 받아, 해당하는 loginId를 가진 User 를 반환한다.")
     void findByLoginId() {
         //given
-        LoginId loginId = new LoginId("apple123");
+        String loginId = "apple123";
         SoftAssertions softly = new SoftAssertions();
 
         //when
-        Optional<User> findUser = userRepository.findByLoginId(loginId);
+        Optional<User> findUser = userRepository.findByLoginIdValue(loginId);
 
         //then
         softly.assertThat(findUser).isNotEmpty();
@@ -52,10 +52,10 @@ class UserRepositoryTest {
     @DisplayName("loginId 를 입력 받아, 해당하는 loginId가 DB에 없으면 Optional.empty 를 반환한다.")
     void findUserByLoginIdWhenEmpty() {
         //given
-        LoginId notExistingLoginId = new LoginId("banana123");
+        String notExistingLoginId = "banana123";
 
         //when
-        Optional<User> userByLoginId = userRepository.findByLoginId(notExistingLoginId);
+        Optional<User> userByLoginId = userRepository.findByLoginIdValue(notExistingLoginId);
 
         //then
         assertThat(userByLoginId).isEmpty();

@@ -1,7 +1,6 @@
 package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
-import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.LoginRequest;
@@ -39,7 +38,7 @@ public class UserService {
 
     public LoginResponse login(final LoginRequest loginRequest) {
         String loginId = loginRequest.getLoginId();
-        User user = userRepository.findByLoginId(new LoginId(loginId))
+        User user = userRepository.findByLoginIdValue(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
         user.checkPassword(loginRequest.getPassword());
         String token = tokenResolver.createToken(user.getId());
