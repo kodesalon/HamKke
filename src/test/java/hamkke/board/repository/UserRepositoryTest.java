@@ -39,7 +39,7 @@ class UserRepositoryTest {
         SoftAssertions softly = new SoftAssertions();
 
         //when
-        Optional<User> findUser = userRepository.findByLoginId_Value(loginId);
+        Optional<User> findUser = userRepository.findByLoginIdValue(loginId);
 
         //then
         softly.assertThat(findUser).isNotEmpty();
@@ -55,7 +55,7 @@ class UserRepositoryTest {
         String notExistingLoginId = "banana123";
 
         //when
-        Optional<User> userByLoginId = userRepository.findByLoginId_Value(notExistingLoginId);
+        Optional<User> userByLoginId = userRepository.findByLoginIdValue(notExistingLoginId);
 
         //then
         assertThat(userByLoginId).isEmpty();

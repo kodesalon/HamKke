@@ -36,7 +36,7 @@ public class UserService {
 
     public LoginResponse login(final LoginRequest loginRequest) {
         String loginId = loginRequest.getLoginId();
-        User user = userRepository.findByLoginId_Value(loginId)
+        User user = userRepository.findByLoginIdValue(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
         user.checkPassword(loginRequest.getPassword());
         return new LoginResponse(user.getId(), user.getAlias().getValue());
