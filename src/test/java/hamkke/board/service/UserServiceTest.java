@@ -1,13 +1,8 @@
 package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
-import hamkke.board.domain.user.vo.Alias;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginResponse;
-import hamkke.board.web.jwt.TokenResolver;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,9 +25,6 @@ class UserServiceTest {
 
     @Mock
     private User user;
-
-    @Mock
-    private TokenResolver tokenResolver;
 
     @InjectMocks
     private UserService userService;
@@ -91,50 +83,31 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("로그인 시, loginId 와 password 가 일치하면, loginResponse dto 를 반환한다.")
-    void login() {
+    @DisplayName("입력 받은 loginId에 해당하는 User 를 찾아 반환한다.")
+    void findByLoginId() {
         //given
-        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
         when(user.getId()).thenReturn(1L);
-        when(user.getAlias()).thenReturn(new Alias("삼다수"));
-        when(tokenResolver.createToken(anyLong())).thenReturn("testToken");
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
 
-        LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
-        SoftAssertions softly = new SoftAssertions();
+        String loginId = "apple123";
 
         //when
-        LoginResponse actual = userService.login(loginRequest);
+        User actual = userService.findByLoginId(loginId);
 
         //then
-        softly.assertThat(actual.getToken()).isEqualTo("testToken");
-        softly.assertThat(actual.getUserId()).isEqualTo(1L);
-        softly.assertThat(actual.getAlias()).isEqualTo("삼다수");
-        softly.assertAll();
+        assertThat(actual.getId()).isEqualTo(1L);
     }
 
     @Test
-    @DisplayName("로그인 시, loginId 와 password 가 일치하지 않으면, 예외를 반환한다.")
-    void loginFailed() {
+    @DisplayName("입력 받은 loginId 에 해당하는 User 가 없으면 예외를 반환한다.")
+    void failedFindByLoginId() {
         //given
-        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
-        doThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다.")).when(user)
-                .checkPassword(anyString());
-        LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.empty());
+
+        String loginId = "apple123";
 
         //when, then
-        assertThatThrownBy(() -> userService.login(loginRequest)).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("비밀번호가 일치하지 않습니다.");
-    }
-
-    @Test
-    @DisplayName("로그인 시, loginId 가 DB에 존재하지 않은 경우 예외를 반환한다.")
-    void loginFailedWhenNotExistLoginId() {
-        //given
-        when(userRepository.findByLoginIdValue(anyString())).thenThrow(new IllegalArgumentException("존재하지 않는 ID 입니다."));
-        LoginRequest loginRequest = new LoginRequest("banana123", "apple123!!");
-
-        //when
-        assertThatThrownBy(() -> userService.login(loginRequest)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> userService.findByLoginId(loginId)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("존재하지 않는 ID 입니다.");
     }
 }
