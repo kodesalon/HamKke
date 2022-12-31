@@ -2,12 +2,9 @@ package hamkke.board.controller;
 
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginResponse;
 import hamkke.board.service.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,13 +27,5 @@ public class UserController {
         Long joinedUserId = userService.join(createUserRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new UserResponse(joinedUserId));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Validated @RequestBody final LoginRequest loginRequest) {
-        LoginResponse loginResponse = userService.login(loginRequest);
-        return ResponseEntity.status(HttpStatus.OK)
-                .header(HttpHeaders.AUTHORIZATION, loginResponse.getToken())
-                .body(loginResponse);
     }
 }

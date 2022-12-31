@@ -3,9 +3,6 @@ package hamkke.board.service;
 import hamkke.board.domain.user.User;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginResponse;
-import hamkke.board.web.jwt.TokenResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final TokenResolver tokenResolver;
 
     @Transactional
     public Long join(final CreateUserRequest createUserRequest) {
@@ -36,12 +32,8 @@ public class UserService {
         }
     }
 
-    public LoginResponse login(final LoginRequest loginRequest) {
-        String loginId = loginRequest.getLoginId();
-        User user = userRepository.findByLoginIdValue(loginId)
+    public User findByLoginId(final String loginId) {
+        return userRepository.findByLoginIdValue(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
-        user.checkPassword(loginRequest.getPassword());
-        String token = tokenResolver.createToken(user.getId());
-        return new LoginResponse(token, user.getId(), user.getAlias().getValue());
     }
 }

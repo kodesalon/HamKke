@@ -7,12 +7,17 @@ import lombok.Getter;
 public class LoginResponse {
 
     @JsonIgnore
-    private final String token;
+    private final String accessToken;
+
+    @JsonIgnore
+    private final String refreshToken;
+
     private final Long userId;
     private final String alias;
 
-    public LoginResponse(final String token, final Long userId, final String alias) {
-        this.token = token;
+    public LoginResponse(final String accessToken, final String refreshToken, final Long userId, final String alias) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
         this.userId = userId;
         this.alias = alias;
     }
