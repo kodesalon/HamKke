@@ -1,8 +1,10 @@
 package hamkke.board.controller;
 
 import hamkke.board.service.AuthenticationService;
+import hamkke.board.service.dto.JwtTokenResponse;
 import hamkke.board.service.dto.LoginRequest;
 import hamkke.board.service.dto.LoginResponse;
+import hamkke.board.service.dto.RefreshTokenRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +28,13 @@ public class AuthenticationController {
         return ResponseEntity.ok()
                 .header("Authorization", loginResponse.getAccessToken(), loginResponse.getRefreshToken())
                 .body(loginResponse);
+    }
+
+    @PostMapping("/reissueToken")
+    public ResponseEntity<JwtTokenResponse> reissueJwtToken(@Validated @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        JwtTokenResponse jwtTokenResponse = authenticationService.reissue(refreshTokenRequest);
+        return ResponseEntity.ok()
+                .header("Authorization", jwtTokenResponse.getAccessToken(), jwtTokenResponse.getRefreshToken())
+                .build();
     }
 }
