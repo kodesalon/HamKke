@@ -7,6 +7,7 @@ import hamkke.board.service.dto.LoginRequest;
 import hamkke.board.service.dto.LoginResponse;
 import hamkke.board.service.dto.RefreshTokenRequest;
 import hamkke.board.web.jwt.TokenResolver;
+import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ class AuthenticationControllerTest {
 
     @Test
     @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하지 않으면 예외를 DTO 에 담아 반환하고 , HTTP 400 상태코드를 반환한다.")
-    void failedLogin() throws Exception {
+    void failLogin() throws Exception {
         //given
         when(authenticationService.login(any(LoginRequest.class))).thenThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다."));
 
@@ -92,5 +93,22 @@ class AuthenticationControllerTest {
         //then
         actual.andExpect(status().isOk())
                 .andExpect(header().exists("Authorization"));
+    }
+
+    @Test
+    @DisplayName("토큰 재발행 시, 입력 받은 RefreshToken 존재하지 않는 경우 예외를 생성하고, HTTP 400 상태코드를 반환한다.")
+    void failReissueToken() throws Exception {
+        //given
+        when(authenticationService.reissue(any(RefreshTokenRequest.class))).thenThrow(new JwtException("Refresh Token 이 존재하지 않습니다."));
+
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("Refresh Token");
+
+        //when
+        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(refreshTokenRequest)));
+
+        //then
+        actual.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Refresh Token 이 존재하지 않습니다."));
     }
 }
