@@ -2,8 +2,10 @@ package hamkke.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.AuthenticationService;
+import hamkke.board.service.dto.JwtTokenResponse;
 import hamkke.board.service.dto.LoginRequest;
 import hamkke.board.service.dto.LoginResponse;
+import hamkke.board.service.dto.RefreshTokenRequest;
 import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,9 @@ class AuthenticationControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private JwtTokenResponse jwtTokenResponse;
 
     @MockBean
     private TokenResolver tokenResolver;
@@ -55,8 +60,8 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하지 않으면 예외를 DTO 에 담아 반환하고 , HTTP 400 상태코드를 반환한다..")
-    void failedLogin () throws Exception {
+    @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하지 않으면 예외를 DTO 에 담아 반환하고 , HTTP 400 상태코드를 반환한다.")
+    void failedLogin() throws Exception {
         //given
         when(authenticationService.login(any(LoginRequest.class))).thenThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다."));
 
@@ -67,5 +72,25 @@ class AuthenticationControllerTest {
         //then
         actual.andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("비밀번호가 일치하지 않습니다."));
+    }
+
+    @Test
+    @DisplayName("토큰 재발행 시, 입력 받은 RefreshToken 이 유효한지 검사 한 후, 유효한 경우 생성한 AccessToken 과 RefreshToken 을 담은 DTO 를 반환한다. " +
+            "HTTP 200 상태코드를 반환한다.")
+    void reissueToken() throws Exception {
+        //given
+        when(authenticationService.reissue(any(RefreshTokenRequest.class))).thenReturn(jwtTokenResponse);
+        when(jwtTokenResponse.getAccessToken()).thenReturn("new Access Token");
+        when(jwtTokenResponse.getRefreshToken()).thenReturn("new Refresh Token");
+
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("Refresh Token");
+
+        //when
+        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(refreshTokenRequest)));
+
+        //then
+        actual.andExpect(status().isOk())
+                .andExpect(header().exists("Authorization"));
     }
 }
