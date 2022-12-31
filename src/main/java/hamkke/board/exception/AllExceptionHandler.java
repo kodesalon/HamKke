@@ -1,5 +1,6 @@
 package hamkke.board.exception;
 
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,7 +23,7 @@ public class AllExceptionHandler {
                 .body(new ErrorResponse(e.getMessage()));
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({IllegalArgumentException.class, MethodArgumentNotValidException.class, JwtException.class})
     public ResponseEntity<ErrorResponse> handleValidationException(final RuntimeException e) {
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(e.getMessage()));
