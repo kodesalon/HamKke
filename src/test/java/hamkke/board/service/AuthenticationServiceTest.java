@@ -8,6 +8,7 @@ import hamkke.board.service.dto.LoginResponse;
 import hamkke.board.service.dto.RefreshTokenRequest;
 import hamkke.board.web.jwt.RefreshToken;
 import hamkke.board.web.jwt.TokenResolver;
+import io.jsonwebtoken.JwtException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -117,7 +118,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    @DisplayName("RefreshToken 을 입력 받아 유효한지 확인 하고, AccessToken 과 RefreshToken 을 재발급 하여 DTO 에 담아 반환한다.")
+    @DisplayName("RefreshToken 을 입력 받아 유효한지 확인 하고, 유효한 경우 AccessToken 과 RefreshToken 을 재발급 하여 DTO 에 담아 반환한다.")
     void reissueAccessTokenAndRefreshToken() {
         //given
         when(refreshTokenRepository.findByToken(anyString())).thenReturn(Optional.of(refreshToken));
@@ -136,5 +137,17 @@ class AuthenticationServiceTest {
         verify(refreshToken, times(1)).switchToken(anyString());
         softly.assertAll();
     }
-}
 
+    @Test
+    @DisplayName("RefreshToken 을 입력 받아 유효한지 확인 하고, 유효하지 않은 경우 예외를 반환한다.")
+    void  failedReissueAccessTokenAndRefreshToken() {
+        //given
+        when(refreshTokenRepository.findByToken(anyString())).thenThrow(new JwtException("Refresh Token 이 존재하지 않습니다."));
+
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("refresh Token");
+
+        //when, then
+        assertThatThrownBy(() -> authenticationService.reissue(refreshTokenRequest)).isInstanceOf(JwtException.class)
+                .hasMessage("Refresh Token 이 존재하지 않습니다.");
+    }
+}
