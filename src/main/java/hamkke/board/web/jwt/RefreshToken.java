@@ -1,5 +1,6 @@
 package hamkke.board.web.jwt;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hamkke.board.domain.user.User;
 import io.jsonwebtoken.JwtException;
 import lombok.AccessLevel;
@@ -16,10 +17,11 @@ public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "refresh_token_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "refreshToken")
+    @JsonIgnore
     private User user;
 
     @Column(nullable = false, unique = true)
