@@ -29,7 +29,7 @@ public class AuthenticationService {
 
     private final TokenResolver tokenResolver;
 
-
+    @Transactional
     public LoginResponse login(final LoginRequest loginRequest) {
         String loginId = loginRequest.getLoginId();
         User user = userService.findByLoginId(loginId);
@@ -41,6 +41,11 @@ public class AuthenticationService {
     private JwtTokenResponse issueJwtToken(final User user) {
         String newRefreshToken = UUID.randomUUID().toString();
         String newAccessToken = tokenResolver.createToken(user.getId());
+        issue(user, newRefreshToken, newAccessToken);
+        return new JwtTokenResponse(newAccessToken, newRefreshToken);
+    }
+
+    private void issue(final User user, final String newRefreshToken, final String newAccessToken) {
         refreshTokenRepository.findByUserLoginIdValue(user.getLoginId().getValue())
                 .ifPresentOrElse(
                         existRefreshToken -> {
@@ -53,18 +58,23 @@ public class AuthenticationService {
                             log.info("JWT 토큰 발행 - loginId : {}, Alias : {}, Access Token : {}, RefreshToken : {}", user.getLoginId(), user.getAlias(), newAccessToken, newRefreshToken);
                         }
                 );
-        return new JwtTokenResponse(newAccessToken, newRefreshToken);
     }
 
+    @Transactional
     public JwtTokenResponse reissue(final RefreshTokenRequest request) {
         String requestRefreshToken = request.getRefreshToken();
+        RefreshToken refreshToken = checkRefreshToken(requestRefreshToken);
+        String newRefreshToken = UUID.randomUUID().toString();
+        refreshToken.switchToken(newRefreshToken);
+        return new JwtTokenResponse(tokenResolver.createToken(refreshToken.getUser().getId()), newRefreshToken);
+    }
+
+    private RefreshToken checkRefreshToken(final String requestRefreshToken) {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(requestRefreshToken)
                 .orElseThrow(
                         () -> new JwtException("Refresh Token 이 존재하지 않습니다.")
                 );
         refreshToken.checkExpirationTime(LocalDateTime.now());
-        String newRefreshToken = UUID.randomUUID().toString();
-        refreshToken.switchToken(newRefreshToken);
-        return new JwtTokenResponse(tokenResolver.createToken(refreshToken.getUser().getId()), newRefreshToken);
+        return refreshToken;
     }
 }
