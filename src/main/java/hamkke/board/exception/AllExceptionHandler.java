@@ -1,13 +1,11 @@
 package hamkke.board.exception;
 
 import io.jsonwebtoken.JwtException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@Slf4j
 @RestControllerAdvice
 public class AllExceptionHandler {
 
@@ -25,6 +23,12 @@ public class AllExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class, MethodArgumentNotValidException.class, JwtException.class})
     public ResponseEntity<ErrorResponse> handleValidationException(final RuntimeException e) {
+        return ResponseEntity.badRequest()
+                .body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(IllegalAccessException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalAccessException(final RuntimeException e) {
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(e.getMessage()));
     }
