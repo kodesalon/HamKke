@@ -1,10 +1,12 @@
 package hamkke.board.web.jwt;
 
-import hamkke.board.domain.user.User;
+import hamkke.board.domain.user.vo.LoginId;
 import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
 
 import java.time.LocalDateTime;
 
@@ -18,9 +20,9 @@ class RefreshTokenTest {
 
     @BeforeEach
     void setUp() {
-        User testUser = new User("apple123", "apple123!!", "삼다수");
+        LoginId loginId = new LoginId("apple123");
         expirationTime = LocalDateTime.now();
-        refreshToken = new RefreshToken(testUser, "token", expirationTime);
+        refreshToken = new RefreshToken(loginId, "token", expirationTime);
     }
 
     @Test
@@ -34,6 +36,15 @@ class RefreshTokenTest {
 
         //then
         assertThat(actual).isEqualTo(expect);
+    }
+
+    @ParameterizedTest
+    @EmptySource
+    @DisplayName("RefreshToken 값을 새로운 값으로 변경한다.")
+    void filedSwitchTokenWithEmpty(final String newRefreshToken) {
+        //when, then
+        assertThatThrownBy(() -> refreshToken.switchToken(newRefreshToken)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("refresh token 이 유효하지 않습니다.");
     }
 
     @Test

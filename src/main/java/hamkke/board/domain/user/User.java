@@ -5,7 +5,6 @@ import hamkke.board.domain.bulletin.Bulletin;
 import hamkke.board.domain.user.vo.Alias;
 import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.domain.user.vo.Password;
-import hamkke.board.web.jwt.RefreshToken;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,10 +47,6 @@ public class User extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private final List<Bulletin> bulletins = new ArrayList<>();
-
-    @OneToOne
-    @JoinColumn(name = "refresh_token_id")
-    private RefreshToken refreshToken;
 
     public User(final String loginId, final String password, final String alias) {
         this.loginId = new LoginId(loginId);

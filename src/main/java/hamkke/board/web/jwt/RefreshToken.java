@@ -1,7 +1,6 @@
 package hamkke.board.web.jwt;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import hamkke.board.domain.user.User;
+import hamkke.board.domain.user.vo.LoginId;
 import io.jsonwebtoken.JwtException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,9 +19,8 @@ public class RefreshToken {
     @Column(name = "refresh_token_id")
     private Long id;
 
-    @OneToOne(mappedBy = "refreshToken")
-    @JsonIgnore
-    private User user;
+    @Embedded
+    private LoginId loginId;
 
     @Column(nullable = false, unique = true)
     private String token;
@@ -30,13 +28,16 @@ public class RefreshToken {
     @Column(nullable = false)
     private LocalDateTime expirationTime;
 
-    public RefreshToken(final User user, final String token, final LocalDateTime expirationTime) {
-        this.user = user;
+    public RefreshToken(final LoginId loginId, final String token, final LocalDateTime expirationTime) {
+        this.loginId = loginId;
         this.token = token;
         this.expirationTime = expirationTime;
     }
 
     public void switchToken(final String newToken) {
+        if (newToken.isEmpty()) {
+            throw new IllegalArgumentException("refresh token 이 유효하지 않습니다.");
+        }
         token = newToken;
     }
 

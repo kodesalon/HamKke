@@ -46,14 +46,14 @@ public class AuthenticationService {
     }
 
     private void issue(final User user, final String newRefreshToken, final String newAccessToken) {
-        refreshTokenRepository.findByUserLoginIdValue(user.getLoginId().getValue())
+        refreshTokenRepository.findByLoginIdValue(user.getLoginId().getValue())
                 .ifPresentOrElse(
                         existRefreshToken -> {
                             existRefreshToken.switchToken(newRefreshToken);
                             log.info("JWT 토큰 재발행 - loginId : {}, Alias : {}, Access Token : {}, RefreshToken : {} ", user.getLoginId(), user.getAlias(), newAccessToken, newRefreshToken);
                         },
                         () -> {
-                            RefreshToken refreshToken = new RefreshToken(user, newRefreshToken, LocalDateTime.now());
+                            RefreshToken refreshToken = new RefreshToken(user.getLoginId(), newRefreshToken, LocalDateTime.now());
                             refreshTokenRepository.save(refreshToken);
                             log.info("JWT 토큰 발행 - loginId : {}, Alias : {}, Access Token : {}, RefreshToken : {}", user.getLoginId(), user.getAlias(), newAccessToken, newRefreshToken);
                         }
@@ -62,11 +62,11 @@ public class AuthenticationService {
 
     @Transactional
     public JwtTokenResponse reissue(final RefreshTokenRequest request) {
-        String requestRefreshToken = request.getRefreshToken();
-        RefreshToken refreshToken = checkRefreshToken(requestRefreshToken);
+        RefreshToken refreshToken = checkRefreshToken(request.getRefreshToken());
         String newRefreshToken = UUID.randomUUID().toString();
         refreshToken.switchToken(newRefreshToken);
-        return new JwtTokenResponse(tokenResolver.createToken(refreshToken.getUser().getId()), newRefreshToken);
+        User user = userService.findByLoginId(refreshToken.getLoginId().getValue());
+        return new JwtTokenResponse(tokenResolver.createToken(user.getId()), newRefreshToken);
     }
 
     private RefreshToken checkRefreshToken(final String requestRefreshToken) {

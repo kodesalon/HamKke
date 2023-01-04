@@ -1,6 +1,7 @@
 package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
+import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.RefreshTokenRepository;
 import hamkke.board.service.dto.JwtTokenResponse;
 import hamkke.board.service.dto.LoginRequest;
@@ -74,7 +75,7 @@ class AuthenticationServiceTest {
         user = new User("apple123", "apple123!!", "삼다수");
         when(userService.findByLoginId(anyString())).thenReturn(user);
         when(tokenResolver.createToken(any())).thenReturn("test Access Token");
-        when(refreshTokenRepository.findByUserLoginIdValue(anyString())).thenReturn(Optional.of(refreshToken));
+        when(refreshTokenRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(refreshToken));
 
         LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
 
@@ -122,7 +123,8 @@ class AuthenticationServiceTest {
     void reissueAccessTokenAndRefreshToken() {
         //given
         when(refreshTokenRepository.findByToken(anyString())).thenReturn(Optional.of(refreshToken));
-        when(refreshToken.getUser()).thenReturn(user);
+        when(refreshToken.getLoginId()).thenReturn(new LoginId("apple123"));
+        when(userService.findByLoginId(anyString())).thenReturn(user);
         when(tokenResolver.createToken(anyLong())).thenReturn("test access Token");
 
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("refresh Token");
