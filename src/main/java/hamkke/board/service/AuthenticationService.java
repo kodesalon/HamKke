@@ -49,7 +49,7 @@ public class AuthenticationService {
         refreshTokenRepository.findByLoginIdValue(user.getLoginId().getValue())
                 .ifPresentOrElse(
                         existRefreshToken -> {
-                            existRefreshToken.switchToken(newRefreshToken,LocalDateTime.now());
+                            existRefreshToken.switchToken(newRefreshToken, LocalDateTime.now());
                             log.info("JWT 토큰 재발행 - loginId : {}, Alias : {}, Access Token : {}, RefreshToken : {} ", user.getLoginId(), user.getAlias(), newAccessToken, newRefreshToken);
                         },
                         () -> {
@@ -63,17 +63,15 @@ public class AuthenticationService {
     @Transactional
     public JwtTokenResponse reissue(final RefreshTokenRequest request) {
         RefreshToken existRefreshToken = refreshTokenRepository.findByToken(request.getRefreshToken())
-                .orElseThrow(
-                        () -> new JwtException("Refresh Token 이 존재하지 않습니다.")
-                );
-        String newRefreshToken = switchNewRefreshToken(existRefreshToken);
+                .orElseThrow(() -> new JwtException("Refresh Token 이 존재하지 않습니다."));
+        String newRefreshToken = switchRefreshToken(existRefreshToken);
         User user = userService.findByLoginId(existRefreshToken.getLoginId().getValue());
         return new JwtTokenResponse(tokenResolver.createToken(user.getId()), newRefreshToken);
     }
 
-    private static String switchNewRefreshToken(final RefreshToken refreshToken) {
+    private static String switchRefreshToken(final RefreshToken refreshToken) {
         String newRefreshToken = UUID.randomUUID().toString();
-        refreshToken.switchToken(newRefreshToken,LocalDateTime.now());
+        refreshToken.switchToken(newRefreshToken, LocalDateTime.now());
         return newRefreshToken;
     }
 }
