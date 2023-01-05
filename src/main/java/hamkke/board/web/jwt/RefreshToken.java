@@ -34,14 +34,12 @@ public class RefreshToken {
         this.expirationTime = expirationTime;
     }
 
-    public void switchToken(final String newToken) {
-        if (newToken.isEmpty()) {
-            throw new IllegalArgumentException("refresh token 이 유효하지 않습니다.");
-        }
+    public void switchToken(final String newToken, final LocalDateTime time) {
+        checkExpirationTime(time);
         token = newToken;
     }
 
-    public void checkExpirationTime(final LocalDateTime time) {
+    private void checkExpirationTime(final LocalDateTime time) {
         if (time.isAfter(expirationTime)) {
             throw new JwtException("Refresh 토큰이 만료되었습니다.");
         }

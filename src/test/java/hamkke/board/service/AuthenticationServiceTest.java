@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -86,7 +87,7 @@ class AuthenticationServiceTest {
         softly.assertThat(loginResponse.getAccessToken()).isNotEmpty();
         softly.assertThat(loginResponse.getRefreshToken()).isNotEmpty();
         verify(userService, times(1)).findByLoginId(anyString());
-        verify(refreshToken, times(1)).switchToken(anyString());
+        verify(refreshToken, times(1)).switchToken(anyString(),any(LocalDateTime.class));
         softly.assertAll();
     }
 
@@ -136,7 +137,7 @@ class AuthenticationServiceTest {
         softly.assertThat(actual.getAccessToken()).isNotEmpty();
         softly.assertThat(actual.getRefreshToken()).isNotEmpty();
         verify(tokenResolver, times(1)).createToken(any());
-        verify(refreshToken, times(1)).switchToken(anyString());
+        verify(refreshToken, times(1)).switchToken(anyString(),any(LocalDateTime.class));
         softly.assertAll();
     }
 
