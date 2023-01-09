@@ -64,14 +64,9 @@ public class AuthenticationService {
     public JwtTokenResponse reissue(final RefreshTokenRequest request) {
         RefreshToken existRefreshToken = refreshTokenRepository.findByToken(request.getRefreshToken())
                 .orElseThrow(() -> new JwtException("Refresh Token 이 존재하지 않습니다."));
-        String newRefreshToken = switchRefreshToken(existRefreshToken);
+        String newRefreshToken = UUID.randomUUID().toString();
+        existRefreshToken.switchToken(newRefreshToken, LocalDateTime.now());
         User user = userService.findByLoginId(existRefreshToken.getLoginId().getValue());
         return new JwtTokenResponse(tokenResolver.createToken(user.getId()), newRefreshToken);
-    }
-
-    private static String switchRefreshToken(final RefreshToken refreshToken) {
-        String newRefreshToken = UUID.randomUUID().toString();
-        refreshToken.switchToken(newRefreshToken, LocalDateTime.now());
-        return newRefreshToken;
     }
 }
