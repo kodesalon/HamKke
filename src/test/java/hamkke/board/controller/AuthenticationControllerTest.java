@@ -41,7 +41,7 @@ class AuthenticationControllerTest {
     private AuthenticationService authenticationService;
 
     private final LoginRequest loginRequest = new LoginRequest("apple123", "apple123!!");
-    private final LoginResponse loginResponse = new LoginResponse("test Access Token", "test Refresh Token", 1L, "삼다수");
+    private final LoginResponse loginResponse = new LoginResponse("test Access Token", "test Refresh Token", "apple123", "삼다수");
 
     @Test
     @DisplayName("로그인 시, 입력받은 loginId 와 password 가 일치하면 , accessToken, refreshToken 토큰값을 각각 Authorization 헤더에 담고 loginResponse dto 와 HTTP 200 상태코드를 반환한다.")
@@ -55,7 +55,7 @@ class AuthenticationControllerTest {
 
         //then
         actual.andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value(1L))
+                .andExpect(jsonPath("$.loginId").value("apple123"))
                 .andExpect(jsonPath("$.alias").value("삼다수"))
                 .andExpect(header().exists("Authorization"));
     }

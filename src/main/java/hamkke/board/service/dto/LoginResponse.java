@@ -12,13 +12,13 @@ public class LoginResponse {
     @JsonIgnore
     private final String refreshToken;
 
-    private final Long userId;
+    private final String loginId;
     private final String alias;
 
-    public LoginResponse(final String accessToken, final String refreshToken, final Long userId, final String alias) {
+    public LoginResponse(final String accessToken, final String refreshToken, final String loginId, final String alias) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.userId = userId;
+        this.loginId = loginId;
         this.alias = alias;
     }
 }

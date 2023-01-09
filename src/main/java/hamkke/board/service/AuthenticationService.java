@@ -35,7 +35,7 @@ public class AuthenticationService {
         User user = userService.findByLoginId(loginId);
         user.checkPassword(loginRequest.getPassword());
         JwtTokenResponse jwtTokenResponse = issueJwtToken(user);
-        return new LoginResponse(jwtTokenResponse.getAccessToken(), jwtTokenResponse.getRefreshToken(), user.getId(), user.getAlias().getValue());
+        return new LoginResponse(jwtTokenResponse.getAccessToken(), jwtTokenResponse.getRefreshToken(), user.getLoginId().getValue(), user.getAlias().getValue());
     }
 
     private JwtTokenResponse issueJwtToken(final User user) {
