@@ -21,7 +21,7 @@ class RefreshTokenTest {
     @BeforeEach
     void setUp() {
         LoginId loginId = new LoginId("apple123");
-        expirationTime = LocalDateTime.now();
+        expirationTime = LocalDateTime.of(2023, 1, 9, 15, 13);
         refreshToken = new RefreshToken(loginId, "token", expirationTime);
     }
 
