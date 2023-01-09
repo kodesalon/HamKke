@@ -5,6 +5,8 @@ import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.time.LocalDateTime;
 
@@ -43,7 +45,7 @@ class RefreshTokenTest {
         String newToken = "newToken";
 
         //when
-        refreshToken.switchToken(newToken, LocalDateTime.now().minusSeconds(1));
+        refreshToken.switchToken(newToken, expirationTime.minusSeconds(1));
 
         //then
         assertThat(refreshToken.getToken()).isEqualTo(newToken);
@@ -51,13 +53,35 @@ class RefreshTokenTest {
 
     @Test
     @DisplayName("입력받은 시간과 토큰의 만료 시간을 비교하여, 토큰이 만료된 경우 예외를 반환한다.")
-    void failedSwitchTokenWithExpiredTimeOver() {
+    void validateExpiredTimeOver() {
         //given
         LocalDateTime tokenRequestTime = expirationTime.plusSeconds(1);
         String newToken = "newToken";
 
         //when, then
-        assertThatThrownBy(() -> refreshToken.switchToken(newToken ,tokenRequestTime)).isInstanceOf(JwtException.class)
+        assertThatThrownBy(() -> refreshToken.switchToken(newToken, tokenRequestTime)).isInstanceOf(JwtException.class)
                 .hasMessage("Refresh 토큰이 만료되었습니다.");
+    }
+
+    @ParameterizedTest
+    @DisplayName("입력받은 토큰이 null 이거나 공백일 경우 예외를 반환한다.")
+    @NullAndEmptySource
+    void validateTokenWhenInputNullAndEmptySource(final String input) {
+        //when, then
+        assertThatThrownBy(() -> refreshToken.switchToken(input, expirationTime.minusSeconds(1)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("refresh token 이 유효하지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("새롭게 생성된 토큰이 기존의 토큰 값과 같다면 예외를 반환한다.")
+    void validateTokenWhenIdenticalWithExistingToken() {
+        //given
+        String newToken = "token";
+
+        //when, then
+        assertThatThrownBy(() -> refreshToken.switchToken(newToken, expirationTime.minusSeconds(1)))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("생성된 토큰이 기존 토큰과 같습니다.");
     }
 }
