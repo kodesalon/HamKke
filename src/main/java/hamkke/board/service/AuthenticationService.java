@@ -40,7 +40,7 @@ public class AuthenticationService {
 
     private JwtTokenResponse issueJwtToken(final User user) {
         String newRefreshToken = UUID.randomUUID().toString();
-        String newAccessToken = tokenResolver.createToken(user.getId());
+        String newAccessToken = tokenResolver.createToken(user.getLoginId().getValue());
         issue(user, newRefreshToken, newAccessToken);
         return new JwtTokenResponse(newAccessToken, newRefreshToken);
     }
@@ -67,6 +67,6 @@ public class AuthenticationService {
         String newRefreshToken = UUID.randomUUID().toString();
         existRefreshToken.switchToken(newRefreshToken, LocalDateTime.now());
         User user = userService.findByLoginId(existRefreshToken.getLoginId().getValue());
-        return new JwtTokenResponse(tokenResolver.createToken(user.getId()), newRefreshToken);
+        return new JwtTokenResponse(tokenResolver.createToken(user.getLoginId().getValue()), newRefreshToken);
     }
 }

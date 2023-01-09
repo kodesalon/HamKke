@@ -21,39 +21,37 @@ class TokenResolverTest {
     private static final long TOKEN_VALIDITY_IN_SECONDS = 1800L;
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
     private final TokenResolver tokenResolver = new TokenResolver(SECRET_KEY, TOKEN_VALIDITY_IN_SECONDS);
+    private String loginId = "apple123";
 
     @Test
-    @DisplayName("userId 를 입력받아 토큰을 생성한다.")
+    @DisplayName("LoginId 를 입력받아 토큰을 생성한다.")
     void createToken() {
-        //given
-        Long userId = 1L;
-
         //when
-        String token = tokenResolver.createToken(userId);
+        String token = tokenResolver.createToken(loginId);
 
         //then
         assertThat(token).isNotBlank();
     }
 
     @Test
-    @DisplayName("토큰이 가지고 있는 userId를 반환한다.")
+    @DisplayName("토큰이 가지고 있는 LoginId를 반환한다.")
     void getUserId() {
         //given
-        String token = tokenResolver.createToken(1L);
-        Long expectUserId = 1L;
+        String token = tokenResolver.createToken(loginId);
+        String expectLoginId = "apple123";
 
         //when
-        Long actual = tokenResolver.getUserId(token);
+        String actual = tokenResolver.getUserId(token);
 
         //then
-        assertThat(actual).isEqualTo(expectUserId);
+        assertThat(actual).isEqualTo(expectLoginId);
     }
 
     @Test
     @DisplayName("토큰의 서명이 유효한지 검사한다. 유효한 경우 true 를 반환한다.")
     void validateToken() {
         //given
-        String token = tokenResolver.createToken(1L);
+        String token = tokenResolver.createToken(loginId);
 
         //when
         boolean actual = tokenResolver.validateToken(token);

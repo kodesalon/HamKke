@@ -125,8 +125,9 @@ class AuthenticationServiceTest {
         //given
         when(refreshTokenRepository.findByToken(anyString())).thenReturn(Optional.of(refreshToken));
         when(refreshToken.getLoginId()).thenReturn(new LoginId("apple123"));
+        user = new User("apple123", "apple123!!", "삼다수");
         when(userService.findByLoginId(anyString())).thenReturn(user);
-        when(tokenResolver.createToken(anyLong())).thenReturn("test access Token");
+        when(tokenResolver.createToken(anyString())).thenReturn("test access Token");
 
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("refresh Token");
 

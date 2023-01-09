@@ -23,12 +23,12 @@ public class TokenResolver {
     }
 
 
-    public String createToken(final Long userId) {
+    public String createToken(final String loginId) {
         Date now = new Date();
         generateKey();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .claim("userId", userId)
+                .claim("loginId", loginId)
                 .setIssuer(ISSUER)
                 .setIssuedAt(now)
                 .signWith(generateKey(), SignatureAlgorithm.HS256)
@@ -36,13 +36,13 @@ public class TokenResolver {
                 .compact();
     }
 
-    public Long getUserId(final String token) {
+    public String getUserId(final String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(generateKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .get("userId", Long.class);
+                .get("loginId", String.class);
     }
 
     public boolean validateToken(final String token) {
