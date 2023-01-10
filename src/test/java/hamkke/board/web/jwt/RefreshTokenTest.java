@@ -70,7 +70,7 @@ class RefreshTokenTest {
         //when, then
         assertThatThrownBy(() -> refreshToken.switchToken(input, expirationTime.minusSeconds(1)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("refresh token 이 유효하지 않습니다.");
+                .hasMessage("refresh token 이 null 이나 공백으로 입력되었습니다.");
     }
 
     @Test
@@ -81,7 +81,7 @@ class RefreshTokenTest {
 
         //when, then
         assertThatThrownBy(() -> refreshToken.switchToken(newToken, expirationTime.minusSeconds(1)))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("생성된 토큰이 기존 토큰과 같습니다.");
     }
 }

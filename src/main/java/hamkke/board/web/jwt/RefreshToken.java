@@ -45,7 +45,7 @@ public class RefreshToken {
         }
 
         if (newToken.equals(token)) {
-            throw new IllegalStateException("생성된 토큰이 기존 토큰과 같습니다.");
+            throw new IllegalArgumentException("refresh token 이 null 이나 공백으로 입력되었습니다.");
         }
 
         if (time.isAfter(expirationTime)) {
