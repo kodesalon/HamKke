@@ -1,4 +1,4 @@
-package hamkke.board.model.user;
+package hamkke.board.model.user.vo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class AliasTest {
     void validateAlias(final String inputAlias) {
         //when, then
         assertThatThrownBy(() -> new Alias(inputAlias)).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 합니다.");
+                .hasMessage("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상, 8자 이하여야 합니다.");
     }
 
     @Test
