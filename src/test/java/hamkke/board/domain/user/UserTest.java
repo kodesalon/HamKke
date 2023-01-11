@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class UserTest {
 
@@ -53,5 +53,17 @@ class UserTest {
 
         //then
         assertThat(hasBulletin).isTrue();
+    }
+
+    @Test
+    @DisplayName("입력받은 비밀번호가 일치하지 않으면 예외를 반환한다.")
+    void checkPassword() {
+        //given
+        User user = createUser();
+        String otherPassword = "banana123";
+
+        //when, then
+        assertThatThrownBy(() -> user.checkPassword(otherPassword)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("비밀번호가 일치하지 않습니다.");
     }
 }

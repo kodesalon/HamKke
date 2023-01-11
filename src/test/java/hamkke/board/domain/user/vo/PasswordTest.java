@@ -39,4 +39,16 @@ class PasswordTest {
         //then
         assertThat(actual).isEqualTo("apple12345!@");
     }
+
+    @Test
+    @DisplayName("비밀번호가 일치하지 않으면 예외를 반환한다.")
+    void checkPassword() {
+        //given
+        Password password = new Password("apple123!!");
+        String otherPassword = "banana123!!";
+
+        //when, then
+        assertThatThrownBy(() -> password.checkPassword(otherPassword)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("비밀번호가 일치하지 않습니다.");
+    }
 }

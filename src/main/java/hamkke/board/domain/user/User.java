@@ -59,6 +59,10 @@ public class User extends BaseEntity {
                 .add(bulletin);
     }
 
+    public void checkPassword(final String otherPassword) {
+        password.checkPassword(otherPassword);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
