@@ -41,7 +41,7 @@ class BoardIntegratedTest {
 
         //then
         actual.andExpect(status().isCreated());
-        actual.andExpect(jsonPath("$.userId").value(1L));
+        actual.andExpect(jsonPath("$.loginId").value("apple123"));
     }
 
     @Test

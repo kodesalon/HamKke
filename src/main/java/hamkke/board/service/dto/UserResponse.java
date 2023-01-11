@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class UserResponse {
 
-    private final Long userId;
+    private final String loginId;
 
     @JsonCreator
-    public UserResponse(final Long userId) {
-        this.userId = userId;
+    public UserResponse(final String loginId) {
+        this.loginId = loginId;
     }
 }

@@ -38,7 +38,7 @@ class UserControllerTest {
     @DisplayName("loginId, password, alias 를 json 으로 전달받아 회원 가입을 하고, HTTP 201 상태 코드를 반환한다.")
     void join() throws Exception {
         //given
-        when(userService.join(any(CreateUserRequest.class))).thenReturn(1L);
+        when(userService.join(any(CreateUserRequest.class))).thenReturn("apple123");
 
         CreateUserRequest createUserRequest = new CreateUserRequest("apple123", "apple123!!", "아이폰");
 
@@ -49,7 +49,7 @@ class UserControllerTest {
 
         //then
         actual.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.userId").value("1"));
+                .andExpect(jsonPath("$.loginId").value("apple123"));
     }
 
     @Test
