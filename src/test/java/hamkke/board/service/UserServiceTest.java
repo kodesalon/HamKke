@@ -1,6 +1,7 @@
 package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
+import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -32,14 +33,14 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("DTO 를 입력받아 회원가입을 한후, id 값을 반화한다.")
+    @DisplayName("DTO 를 입력받아 회원가입을 한후, LoginId 값을 반화한다.")
     void join() {
         //given
-        when(user.getId()).thenReturn(1L);
+        when(user.getLoginId()).thenReturn(new LoginId("apple123"));
         when(userRepository.save(any(User.class))).thenReturn(user);
 
         //when
-        Long actual = userService.join(generateCreateUserRequest());
+        String actual = userService.join(generateCreateUserRequest());
 
         //then
         assertThat(actual).isNotNull();
@@ -50,7 +51,7 @@ class UserServiceTest {
     @DisplayName("회원 가입 시, 중복된 loginId 를 입력받은 경우 예외를 반환한다.")
     void validateLoginIdDuplication() {
         //given
-        when(user.getId()).thenReturn(1L);
+        when(user.getLoginId()).thenReturn(new LoginId("apple123"));
         when(userRepository.save(any(User.class))).thenReturn(user)
                 .thenThrow(new IllegalStateException("이미 존재하는 ID 입니다."));
 
@@ -67,7 +68,7 @@ class UserServiceTest {
     @DisplayName("회원 가입 시, 중복된 alias 를 입력받은 경우 예외를 반환한다.")
     void validateAliasDuplication() {
         //given
-        when(user.getId()).thenReturn(1L);
+        when(user.getLoginId()).thenReturn(new LoginId("apple123"));
         when(userRepository.save(any(User.class))).thenReturn(user)
                 .thenThrow(new IllegalStateException("이미 존재하는 별명 입니다."));
 

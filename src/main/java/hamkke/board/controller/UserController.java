@@ -24,8 +24,8 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<UserResponse> join(@Validated @RequestBody final CreateUserRequest createUserRequest) {
         log.info("join 요청 loginId = {}, password = {}, alias = {}", createUserRequest.getLoginId(), createUserRequest.getPassword(), createUserRequest.getAlias());
-        Long joinedUserId = userService.join(createUserRequest);
+        String joinedUserLoginId = userService.join(createUserRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new UserResponse(joinedUserId));
+                .body(new UserResponse(joinedUserLoginId));
     }
 }
