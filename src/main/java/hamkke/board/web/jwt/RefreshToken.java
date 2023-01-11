@@ -41,11 +41,12 @@ public class RefreshToken {
 
     private void validateNewToken(final String newToken, final LocalDateTime time) {
         if (newToken == null || newToken.isBlank()) {
-            throw new IllegalArgumentException("refresh token 이 유효하지 않습니다.");
+            throw new IllegalArgumentException("refresh token 이 null 이나 공백으로 입력되었습니다.");
+
         }
 
         if (newToken.equals(token)) {
-            throw new IllegalArgumentException("refresh token 이 null 이나 공백으로 입력되었습니다.");
+            throw new IllegalArgumentException("생성된 토큰이 기존 토큰과 같습니다.");
         }
 
         if (time.isAfter(expirationTime)) {
