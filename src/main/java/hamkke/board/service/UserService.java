@@ -20,9 +20,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long join(final CreateUserRequest createUserRequest) {
+    public String join(final CreateUserRequest createUserRequest) {
         User savedUser = saveUser(createUserRequest);
-        return savedUser.getId();
+        return savedUser.getLoginId()
+                .getValue();
     }
 
     private User saveUser(final CreateUserRequest createUserRequest) {
