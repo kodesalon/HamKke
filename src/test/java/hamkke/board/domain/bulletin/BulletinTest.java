@@ -1,9 +1,9 @@
 package hamkke.board.domain.bulletin;
 
-import hamkke.board.config.JpaAuditingConfiguration;
 import hamkke.board.domain.bulletin.vo.Content;
 import hamkke.board.domain.bulletin.vo.Title;
 import hamkke.board.domain.user.User;
+import hamkke.board.web.config.JpaAuditingConfiguration;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -71,7 +71,6 @@ class BoardIntegratedTest {
         mvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createUserRequest)));
 
-
         //when
         ResultActions actual = mvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(duplicated)));
