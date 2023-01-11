@@ -1,8 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.4'
-    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
-    id 'java'
-    id "org.sonarqube" version "3.4.0.2513"
+	id 'org.springframework.boot' version '2.7.4'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'java'
+	id "org.sonarqube" version "3.5.0.2730"
 }
 
 group = 'hamkke'
