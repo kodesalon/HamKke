@@ -42,7 +42,6 @@ public class RefreshToken {
     private void validateNewToken(final String newToken, final LocalDateTime time) {
         if (newToken == null || newToken.isBlank()) {
             throw new IllegalArgumentException("refresh token 이 null 이나 공백으로 입력되었습니다.");
-
         }
 
         if (newToken.equals(token)) {
