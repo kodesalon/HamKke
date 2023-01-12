@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AllExceptionHandler {
 
-    private static final int INDEX_OF_ERROR = 0;
+    private static final int INDEX_OF_BASIC_ERROR = 0;
 
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<ErrorResponse> handleBusinessException(final RuntimeException e) {
@@ -38,7 +38,7 @@ public class AllExceptionHandler {
     private static String getDefaultMessage(final MethodArgumentNotValidException e) {
         return e.getBindingResult()
                 .getAllErrors()
-                .get(INDEX_OF_ERROR)
+                .get(INDEX_OF_BASIC_ERROR)
                 .getDefaultMessage();
     }
 }
