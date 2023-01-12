@@ -35,7 +35,7 @@ public class AllExceptionHandler {
                 .body(new ErrorResponse(getDefaultMessage(e)));
     }
 
-    private static String getDefaultMessage(final MethodArgumentNotValidException e) {
+    private String getDefaultMessage(final MethodArgumentNotValidException e) {
         return e.getBindingResult()
                 .getAllErrors()
                 .get(INDEX_OF_BASIC_ERROR)
