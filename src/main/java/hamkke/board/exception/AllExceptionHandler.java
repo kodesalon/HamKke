@@ -32,10 +32,10 @@ public class AllExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentValidation(final MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest()
-                .body(new ErrorResponse(getDefaultMessage(e)));
+                .body(new ErrorResponse(getDefaultErrorMessage(e)));
     }
 
-    private String getDefaultMessage(final MethodArgumentNotValidException e) {
+    private String getDefaultErrorMessage(final MethodArgumentNotValidException e) {
         return e.getBindingResult()
                 .getAllErrors()
                 .get(INDEX_OF_BASIC_ERROR)
