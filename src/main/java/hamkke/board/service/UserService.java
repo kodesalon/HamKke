@@ -32,4 +32,9 @@ public class UserService {
             throw uniqueConstraintCondition.generateException();
         }
     }
+
+    public User findByLoginId(final String loginId) {
+        return userRepository.findByLoginIdValue(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID 입니다."));
+    }
 }

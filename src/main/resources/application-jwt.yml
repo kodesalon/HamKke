@@ -1,0 +1,3 @@
+jwt:
+  secret: e7a7229f9409489ee7b67a45fbafaf3420c8dd3da053f458d474be652d2cc4e83cc98261aa8471947600a337a464231f19c55f22de7c091fb8371a6e21dbaca3
+  token-validity-in-seconds: 1800

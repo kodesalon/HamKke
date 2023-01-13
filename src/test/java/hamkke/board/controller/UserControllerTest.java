@@ -3,6 +3,7 @@ package hamkke.board.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private TokenResolver tokenResolver;
 
     @MockBean
     private UserService userService;
