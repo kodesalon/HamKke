@@ -47,4 +47,15 @@
             <appender-ref ref="ASYNC_INFO_LOG_FILE"/>
         </root>
     </springProfile>
+
+    <springProfile name ="deploy">
+        <appender name="ASYNC_INFO_LOG_FILE" class="ch.qos.logback.classic.AsyncAppender">
+            <maxFlushTime>0</maxFlushTime>
+            <appender-ref ref="INFO_LOG_FILE"/>
+        </appender>
+        <root level="WARN">
+            <appender-ref ref="ASYNC_INFO_LOG_FILE"/>
+        </root>
+    </springProfile>
+
 </configuration>
