@@ -32,7 +32,7 @@ public class AllExceptionHandler {
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorResponse> handleBindingException(final BindException e) {
-        return ResponseEntity.internalServerError()
+        return ResponseEntity.badRequest()
                 .build();
     }
 
