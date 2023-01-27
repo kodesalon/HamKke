@@ -3,6 +3,7 @@ package hamkke.board.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.service.dto.UserChangeAliasRequest;
 import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,5 +85,35 @@ class UserControllerTest {
         //then
         actual.andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("이미 존재하는 별명 입니다."));
+    }
+
+    @Test
+    @DisplayName("별명 변경 시, 새로운 별명을 입력받으면 HTTP 200 상태코드를 반환한다.")
+    void changeAlias() throws Exception {
+        //given
+        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
+
+        //when
+        ResultActions actual = mockMvc.perform(post("/api/user/change-alias").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+
+        //then
+        actual.andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("별명 변경 시, 이미 사용중인 별명이라면 HTTP 400 상태코드를 반환한다.")
+    void changeAliasFailedByDuplication() throws Exception {
+        //given
+        when(userService.changeAlias(any(UserChangeAliasRequest.class))).thenThrow(new IllegalArgumentException("이미 사용중인 별명입니다."));
+
+        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("존재하는별명");
+
+        //when
+        ResultActions actual = mockMvc.perform(post("/api/user/change-alias").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+
+        //then
+        actual.andExpect(status().isOk());
     }
 }
