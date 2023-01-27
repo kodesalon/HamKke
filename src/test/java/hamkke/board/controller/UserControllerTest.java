@@ -105,7 +105,7 @@ class UserControllerTest {
     @DisplayName("별명 변경 시, 이미 사용중인 별명이라면 HTTP 400 상태코드를 반환한다.")
     void changeAliasFailedByDuplication() throws Exception {
         //given
-        when(userService.changeAlias(any(UserChangeAliasRequest.class))).thenThrow(new IllegalArgumentException("이미 사용중인 별명입니다."));
+        when(userService.changeAlias(any(UserChangeAliasRequest.class))).thenThrow(new IllegalArgumentException("이미 존재하는 별명입니다."));
 
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("존재하는별명");
 
