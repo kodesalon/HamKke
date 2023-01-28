@@ -39,4 +39,18 @@ class AliasTest {
         //then
         assertThat(actual).isEqualTo("사과왕77");
     }
+
+    @Test
+    @DisplayName("별칭을 변경한다.")
+    void changeValue() {
+        //given
+        Alias alias = new Alias("삼다수");
+        String input = "백산수";
+
+        //when
+        alias.changeValue(input);
+
+        //then
+        assertThat(alias.getValue()).isEqualTo("백산수");
+    }
 }
