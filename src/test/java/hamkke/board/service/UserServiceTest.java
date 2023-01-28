@@ -4,12 +4,15 @@ import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.service.dto.UserChangeAliasRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -79,5 +82,21 @@ class UserServiceTest {
         //when, then
         assertThatThrownBy(() -> userService.join(duplicated)).isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 존재하는 별명 입니다.");
+    }
+
+    @Test
+    @DisplayName("User 의 Alias 를 변경한다.")
+    void changeAlias() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
+        String loginId = "apple123";
+        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("백산수");
+
+        //when
+        userService.changeAlias(loginId, userChangeAliasRequest);
+
+        //then
+        verify(userRepository, times(1)).findByLoginIdValue(anyString());
+        verify(user,times(1)).changeAlias(anyString());
     }
 }
