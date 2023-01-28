@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -94,7 +95,7 @@ class UserControllerTest {
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/user/change-alias").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/change-alias").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
 
         //then
