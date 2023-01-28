@@ -33,4 +33,9 @@ public class Alias {
     public String getValue() {
         return value;
     }
+
+    public void changeValue(final String newAlias) {
+        validateByAliasPattern(newAlias);
+        this.value = newAlias;
+    }
 }
