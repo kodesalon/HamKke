@@ -1,0 +1,55 @@
+spring:
+  profiles:
+    active: local
+    include: jwt
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&character_set_server=utf8mb4&allowPublicKeyRetrieval=true
+    password: qwerqwer
+
+  jpa:
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: deploy
+
+  datasource:
+    url: jdbc:mysql://hamkke-rds.cfcikcywym6w.ap-northeast-2.rds.amazonaws.com:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&character_set_server=utf8mb4&allowPublicKeyRetrieval=true
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: ci
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
