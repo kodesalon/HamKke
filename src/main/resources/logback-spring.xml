@@ -43,7 +43,7 @@
             <maxFlushTime>0</maxFlushTime>
             <appender-ref ref="INFO_LOG_FILE"/>
         </appender>
-        <root level="WARN">
+        <root level="INFO">
             <appender-ref ref="ASYNC_INFO_LOG_FILE"/>
         </root>
     </springProfile>
@@ -53,9 +53,8 @@
             <maxFlushTime>0</maxFlushTime>
             <appender-ref ref="INFO_LOG_FILE"/>
         </appender>
-        <root level="WARN">
+        <root level="INFO">
             <appender-ref ref="ASYNC_INFO_LOG_FILE"/>
         </root>
     </springProfile>
-
 </configuration>
