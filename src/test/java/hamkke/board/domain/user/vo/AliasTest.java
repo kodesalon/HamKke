@@ -19,7 +19,7 @@ class AliasTest {
 
     @ParameterizedTest
     @DisplayName("별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 합니다. 그렇지 않은 경우 예외를 발생한다.")
-    @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자","a", " ", ""})
+    @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자", "a", " ", ""})
     void validateAlias(final String inputAlias) {
         //when, then
         assertThatThrownBy(() -> new Alias(inputAlias)).isInstanceOf(IllegalArgumentException.class)
@@ -52,5 +52,17 @@ class AliasTest {
 
         //then
         assertThat(alias.getValue()).isEqualTo("백산수");
+    }
+
+    @ParameterizedTest
+    @DisplayName("별칭 변경 시, 지정된 제약조건(별칭은 특수문자와 영어(대문자)를 제외하여 8자 이하여야 한다.)에 위배되면 예외를 발생한다.")
+    @ValueSource(strings = {"!apple", "APPLE", "가나다라마바사아자", "a", " ", ""})
+    void validateWhenChangeAlias(final String newAlias) {
+        //given
+        Alias alias = new Alias("삼다수");
+
+        //when, then
+        assertThatThrownBy(() -> alias.changeValue(newAlias))
+                .hasMessage("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상, 8자 이하여야 합니다.");
     }
 }
