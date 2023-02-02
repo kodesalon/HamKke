@@ -53,7 +53,6 @@ class UserTest {
         assertThat(user.getBulletins()).contains(bulletin);
     }
 
-
     @Test
     @DisplayName("Alias 를 변경한다.")
     void changeAlias() {
