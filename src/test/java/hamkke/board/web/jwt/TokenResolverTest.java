@@ -41,7 +41,7 @@ class TokenResolverTest {
         String expectLoginId = "apple123";
 
         //when
-        String actual = tokenResolver.getUserId(token);
+        String actual = tokenResolver.getLoginId(token);
 
         //then
         assertThat(actual).isEqualTo(expectLoginId);

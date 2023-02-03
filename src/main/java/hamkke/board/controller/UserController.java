@@ -28,10 +28,11 @@ public class UserController {
                 .body(new UserResponse(joinedUserLoginId));
     }
 
-    @PutMapping("/change-alias")
+    @PutMapping("/alias")
     public ResponseEntity<Void> changeAlias(@Login final String loginId, @Validated @RequestBody final UserChangeAliasRequest userChangeAliasRequest) {
         log.info("alias 변경 요청 newAlias = {}", userChangeAliasRequest.getNewAlias());
         userService.changeAlias(loginId, userChangeAliasRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+                .build();
     }
 }
