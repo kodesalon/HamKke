@@ -97,7 +97,7 @@ class UserControllerTest {
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/change-alias").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
 
         //then
