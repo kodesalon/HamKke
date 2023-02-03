@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -89,7 +91,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("별명 변경 시, 새로운 별명을 입력받으면 HTTP 200 상태코드를 반환한다.")
+    @DisplayName("별명 변경 시, 새로운 별명을 입력받고 변경 후, HTTP 200 상태코드를 반환한다.")
     void changeAlias() throws Exception {
         //given
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
@@ -100,5 +102,47 @@ class UserControllerTest {
 
         //then
         actual.andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("별명 변경 시, 새로운 별명을 입력받고 변경 중 별명의 제약조건이 일치하지 않는다면, HTTP 400 상태코드를 반환한다.")
+    void changeAliasFailed() throws Exception {
+        //given
+        when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
+        doThrow(new IllegalArgumentException("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상, 8자 이하여야 합니다.")).when(userService)
+                .changeAlias(anyString(), any(UserChangeAliasRequest.class));
+
+        String inputLoginId = "apple123";
+        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("사용못하는별명");
+
+        //when
+        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", inputLoginId)
+                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+
+        //then
+        actual.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상, 8자 이하여야 합니다."));
+    }
+
+    @Test
+    @DisplayName("별명 변경 시, 새로운 별명을 입력받고 변경 중 로그인 아이디가 존재하지 않는다면, HTTP 400 상태코드를 반환한다.")
+    void changeAliasFailedByIncorrectLoginId() throws Exception {
+        //given
+        when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
+        doThrow(new IllegalArgumentException("존재하지 않는 유저입니다.")).when(userService)
+                .changeAlias(anyString(), any(UserChangeAliasRequest.class));
+
+        String inputLoginId = "apple123";
+        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("사용못하는별명");
+
+        //when
+        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", inputLoginId)
+                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+
+        //then
+        actual.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("존재하지 않는 유저입니다."));
     }
 }
