@@ -17,15 +17,12 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
-        boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
-        boolean hasUserIdType = Long.class
-                .isAssignableFrom(parameter.getParameterType());
-        return hasLoginAnnotation && hasUserIdType;
+        return parameter.hasParameterAnnotation(Login.class);
     }
 
     @Override
     public Object resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer, final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         String authorizationHeader = webRequest.getHeader("Authorization");
-        return tokenResolver.getUserId(authorizationHeader);
+        return tokenResolver.getLoginId(authorizationHeader);
     }
 }
