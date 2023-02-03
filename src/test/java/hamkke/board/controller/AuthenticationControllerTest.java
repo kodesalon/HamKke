@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -30,9 +31,6 @@ class AuthenticationControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private JwtTokenResponse jwtTokenResponse;
 
     @MockBean
     private TokenResolver tokenResolver;
@@ -80,9 +78,10 @@ class AuthenticationControllerTest {
             "HTTP 200 상태코드를 반환한다.")
     void reissueToken() throws Exception {
         //given
-        when(authenticationService.reissue(any(RefreshTokenRequest.class))).thenReturn(jwtTokenResponse);
+        JwtTokenResponse jwtTokenResponse = mock(JwtTokenResponse.class);
         when(jwtTokenResponse.getAccessToken()).thenReturn("new Access Token");
         when(jwtTokenResponse.getRefreshToken()).thenReturn("new Refresh Token");
+        when(authenticationService.reissue(any(RefreshTokenRequest.class))).thenReturn(jwtTokenResponse);
 
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("Refresh Token");
 
