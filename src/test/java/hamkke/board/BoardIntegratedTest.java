@@ -1,7 +1,7 @@
 package hamkke.board;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.service.dto.user.request.CreateUserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package hamkke.board.service;
 
+import hamkke.board.service.dto.user.UniqueConstraintCondition;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

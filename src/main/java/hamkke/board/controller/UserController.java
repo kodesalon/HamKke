@@ -1,10 +1,10 @@
 package hamkke.board.controller;
 
-import hamkke.board.service.UserService;
-import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.UserChangeAliasRequest;
-import hamkke.board.service.dto.UserChangePasswordRequest;
-import hamkke.board.service.dto.UserResponse;
+import hamkke.board.service.dto.user.UserService;
+import hamkke.board.service.dto.user.request.CreateUserRequest;
+import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.request.UserChangePasswordRequest;
+import hamkke.board.service.dto.user.response.UserResponse;
 import hamkke.board.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

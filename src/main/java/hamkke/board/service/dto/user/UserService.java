@@ -1,9 +1,9 @@
-package hamkke.board.service;
+package hamkke.board.service.dto.user;
 
 import hamkke.board.domain.user.User;
 import hamkke.board.repository.UserRepository;
-import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.request.CreateUserRequest;
+import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;

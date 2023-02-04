@@ -1,9 +1,9 @@
 package hamkke.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hamkke.board.service.UserService;
-import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.UserService;
+import hamkke.board.service.dto.user.request.CreateUserRequest;
+import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
 import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

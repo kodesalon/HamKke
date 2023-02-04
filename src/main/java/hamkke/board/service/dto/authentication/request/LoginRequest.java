@@ -1,4 +1,4 @@
-package hamkke.board.service.dto;
+package hamkke.board.service.dto.authentication.request;
 
 import lombok.Getter;
 

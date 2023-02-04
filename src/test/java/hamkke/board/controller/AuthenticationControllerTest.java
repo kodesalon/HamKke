@@ -1,11 +1,11 @@
 package hamkke.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hamkke.board.service.AuthenticationService;
-import hamkke.board.service.dto.JwtTokenResponse;
-import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginResponse;
-import hamkke.board.service.dto.RefreshTokenRequest;
+import hamkke.board.service.dto.authentication.AuthenticationService;
+import hamkke.board.service.dto.authentication.request.LoginRequest;
+import hamkke.board.service.dto.authentication.request.RefreshTokenRequest;
+import hamkke.board.service.dto.authentication.response.JwtTokenResponse;
+import hamkke.board.service.dto.authentication.response.LoginResponse;
 import hamkke.board.web.jwt.TokenResolver;
 import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.DisplayName;

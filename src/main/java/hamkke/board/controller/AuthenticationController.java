@@ -1,10 +1,10 @@
 package hamkke.board.controller;
 
-import hamkke.board.service.AuthenticationService;
-import hamkke.board.service.dto.JwtTokenResponse;
-import hamkke.board.service.dto.LoginRequest;
-import hamkke.board.service.dto.LoginResponse;
-import hamkke.board.service.dto.RefreshTokenRequest;
+import hamkke.board.service.dto.authentication.AuthenticationService;
+import hamkke.board.service.dto.authentication.request.LoginRequest;
+import hamkke.board.service.dto.authentication.request.RefreshTokenRequest;
+import hamkke.board.service.dto.authentication.response.JwtTokenResponse;
+import hamkke.board.service.dto.authentication.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
