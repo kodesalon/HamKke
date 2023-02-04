@@ -41,11 +41,13 @@ public class UserService {
 
     @Transactional
     public void changeAlias(final String loginId, final UserChangeAliasRequest userChangeAliasRequest) {
-        User user = userRepository.findByLoginIdValue(loginId)
-                .orElseThrow(() -> {
-                    log.info("존재하지 않는 loginId의 접근 : {}", loginId);
-                    throw new IllegalArgumentException("존재하지 않는 유저입니다.");
-                });
-        user.changeAlias(userChangeAliasRequest.getNewAlias());
+        User user = findByLoginId(loginId);
+
+        try {
+            user.changeAlias(userChangeAliasRequest.getNewAlias());
+        } catch (final DataIntegrityViolationException exception){
+            UniqueConstraintCondition uniqueConstraintCondition = UniqueConstraintCondition.matchCondition(exception);
+            throw uniqueConstraintCondition.generateException();
+        }
     }
 }
