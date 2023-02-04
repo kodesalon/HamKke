@@ -36,6 +36,11 @@ public class Password {
         }
     }
 
+    public void changePassword(final String newPassword) {
+        validateByPasswordPattern(newPassword);
+        this.value = newPassword;
+    }
+
     public String getValue() {
         return value;
     }
