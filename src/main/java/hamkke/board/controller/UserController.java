@@ -3,6 +3,7 @@ package hamkke.board.controller;
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
 import hamkke.board.service.dto.UserChangeAliasRequest;
+import hamkke.board.service.dto.UserChangePasswordRequest;
 import hamkke.board.service.dto.UserResponse;
 import hamkke.board.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,11 @@ public class UserController {
         userService.changeAlias(loginId, userChangeAliasRequest);
         return ResponseEntity.ok()
                 .build();
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Void> changePassword(@Login final String loginId, @Validated @RequestBody final UserChangePasswordRequest userChangePasswordRequest) {
+        log.info("password 변경 요청 newPassword = {}", userChangePasswordRequest.getNewPassword());
+        return null;
     }
 }
