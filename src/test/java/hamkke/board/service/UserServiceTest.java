@@ -6,6 +6,7 @@ import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.user.UserService;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
 import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.request.UserChangePasswordRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -130,5 +131,36 @@ class UserServiceTest {
         //when, then
         assertThatThrownBy(() -> userService.changeAlias(loginId, userChangeAliasRequest)).isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 존재하는 별명 입니다.");
+    }
+
+    @Test
+    @DisplayName("User 의 Password 를 변경한다.")
+    void changePassword() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
+
+        String loginId = "apple123";
+        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("banana123");
+
+        //when
+        userService.changePassword(loginId, userChangePasswordRequest);
+
+        //then
+        verify(userRepository,times(1)).findByLoginIdValue(anyString());
+        verify(user, times(1)).changePassword(anyString());
+    }
+
+    @Test
+    @DisplayName("User 의 Password 변경 시, 요청한 유저가 존재하지 않는다면 예외를 반환한다.")
+    void changePasswordFailedByNonexistentUser() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.empty());
+
+        String loginId = "apple123";
+        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("banana123");
+
+        //when, then
+        assertThatThrownBy(() -> userService.changePassword(loginId, userChangePasswordRequest)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("존재하지 않는 ID 입니다.");
     }
 }
