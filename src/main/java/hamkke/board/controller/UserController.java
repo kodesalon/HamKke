@@ -31,7 +31,7 @@ public class UserController {
 
     @PutMapping("/alias")
     public ResponseEntity<Void> changeAlias(@Login final String loginId, @Validated @RequestBody final UserChangeAliasRequest userChangeAliasRequest) {
-        log.info("alias 변경 요청 newAlias = {}", userChangeAliasRequest.getNewAlias());
+        log.info("loginId = {} 의 alias 변경 요청 newAlias = {}", loginId, userChangeAliasRequest.getNewAlias());
         userService.changeAlias(loginId, userChangeAliasRequest);
         return ResponseEntity.ok()
                 .build();

@@ -94,10 +94,12 @@ class UserControllerTest {
     @DisplayName("별명 변경 시, 새로운 별명을 입력받고 변경 후, HTTP 200 상태코드를 반환한다.")
     void changeAlias() throws Exception {
         //given
+        when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "accessToken")
                 .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
 
         //then
@@ -112,12 +114,11 @@ class UserControllerTest {
         doThrow(new IllegalArgumentException("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상, 8자 이하여야 합니다.")).when(userService)
                 .changeAlias(anyString(), any(UserChangeAliasRequest.class));
 
-        String inputLoginId = "apple123";
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("사용못하는별명");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", inputLoginId)
+                .header("Authorization", "accessToken")
                 .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
 
         //then
@@ -133,12 +134,11 @@ class UserControllerTest {
         doThrow(new IllegalArgumentException("이미 존재하는 별명입니다.")).when(userService)
                 .changeAlias(anyString(), any(UserChangeAliasRequest.class));
 
-        String inputLoginId = "apple123";
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("이미존재하는별명");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", inputLoginId)
+                .header("Authorization", "accessToken")
                 .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
 
         //then
@@ -154,12 +154,11 @@ class UserControllerTest {
         doThrow(new IllegalArgumentException("존재하지 않는 ID 입니다.")).when(userService)
                 .changeAlias(anyString(), any(UserChangeAliasRequest.class));
 
-        String inputLoginId = "apple123";
         UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", inputLoginId)
+                .header("Authorization", "accessToken")
                 .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
 
         //then

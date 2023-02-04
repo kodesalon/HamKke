@@ -59,12 +59,13 @@ class UserTest {
         //given
         User user = createUser();
         String newAlias = "백산수";
+        Alias expect = new Alias(newAlias);
 
         //when
         user.changeAlias(newAlias);
 
         //then
-        assertThat(user.getAlias().getValue()).isEqualTo("백산수");
+        assertThat(user.getAlias()).isEqualTo(expect);
     }
 
     @Test
