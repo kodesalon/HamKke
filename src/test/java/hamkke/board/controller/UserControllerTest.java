@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.dto.user.UserService;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
 import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.request.UserChangePasswordRequest;
 import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -164,5 +165,61 @@ class UserControllerTest {
         //then
         actual.andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("존재하지 않는 ID 입니다."));
+    }
+
+    @Test
+    @DisplayName("비밀번호 변경 시, 새로운 비밀번호를 입력받고 변경 후, HTTP 200 상태코드를 반환한다.")
+    void changePassword() throws Exception {
+        //given
+        when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
+        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
+
+        //when
+        ResultActions actual = mockMvc.perform(put("/api/user/password").contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "accessToken")
+                .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
+
+        //then
+        actual.andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("비밀번호 변경 시, 새로운 비밀번호를 입력받고 변경 중 유저가 존재하지 않는다면, HTTP 400 상태코드를 반환한다.")
+    void changePasswordFailedByIncorrectLoginId() throws Exception {
+        //given
+        when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
+        doThrow(new IllegalArgumentException("존재하지 않는 ID 입니다.")).when(userService)
+                .changePassword(anyString(), any(UserChangePasswordRequest.class));
+
+        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
+
+        //when
+        ResultActions actual = mockMvc.perform(put("/api/user/password").contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "accessToken")
+                .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
+
+        //then
+        actual.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("존재하지 않는 ID 입니다."));
+    }
+
+    @Test
+    @DisplayName("비밀번호 변경 시, 새로운 비밀번호가 제약조건이 일치하지 않는다면, HTTP 400 상태코드를 반환한다.")
+    void changePasswordFailedByIncorrectPassword() throws Exception {
+        //given
+        when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
+        doThrow(new IllegalArgumentException("비밀번호는 영문(대문자,소문자), 특수문자(!,@,#,$,%,^,&,*,_,-), 숫자를 최소 1개 이상 조합한 8자 이상 18자 이하여야합니다.")).when(userService)
+                .changePassword(anyString(), any(UserChangePasswordRequest.class));
+
+        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
+
+        //when
+        ResultActions actual = mockMvc.perform(put("/api/user/password").contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "accessToken")
+                .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
+
+        //then
+        actual.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("비밀번호는 영문(대문자,소문자), 특수문자(!,@,#,$,%,^,&,*,_,-), 숫자를 최소 1개 이상 조합한 8자 이상 18자 이하여야합니다."));
     }
 }
