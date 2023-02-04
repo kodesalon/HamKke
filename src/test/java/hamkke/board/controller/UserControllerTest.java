@@ -126,11 +126,32 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("별명 변경 시, 새로운 별명이 이미 존재한다면, HTTP 400 상태코드를 반환한다.")
+    void changeAliasFailedByDuplicationAlias() throws Exception {
+        //given
+        when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
+        doThrow(new IllegalArgumentException("이미 존재하는 별명입니다.")).when(userService)
+                .changeAlias(anyString(), any(UserChangeAliasRequest.class));
+
+        String inputLoginId = "apple123";
+        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("이미존재하는별명");
+
+        //when
+        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", inputLoginId)
+                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+
+        //then
+        actual.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("이미 존재하는 별명입니다."));
+    }
+
+    @Test
     @DisplayName("별명 변경 시, 새로운 별명을 입력받고 변경 중 로그인 아이디가 존재하지 않는다면, HTTP 400 상태코드를 반환한다.")
     void changeAliasFailedByIncorrectLoginId() throws Exception {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
-        doThrow(new IllegalArgumentException("존재하지 않는 유저입니다.")).when(userService)
+        doThrow(new IllegalArgumentException("존재하지 않는 ID 입니다.")).when(userService)
                 .changeAlias(anyString(), any(UserChangeAliasRequest.class));
 
         String inputLoginId = "apple123";
@@ -143,6 +164,6 @@ class UserControllerTest {
 
         //then
         actual.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("존재하지 않는 유저입니다."));
+                .andExpect(jsonPath("$.error").value("존재하지 않는 ID 입니다."));
     }
 }
