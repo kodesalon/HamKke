@@ -39,7 +39,9 @@ public class UserController {
 
     @PutMapping("/password")
     public ResponseEntity<Void> changePassword(@Login final String loginId, @Validated @RequestBody final UserChangePasswordRequest userChangePasswordRequest) {
-        log.info("password 변경 요청 newPassword = {}", userChangePasswordRequest.getNewPassword());
-        return null;
+        log.info("loginId = {} 의 password 변경 요청 newPassword = {}", loginId, userChangePasswordRequest.getNewPassword());
+        userService.changePassword(loginId, userChangePasswordRequest);
+        return ResponseEntity.ok()
+                .build();
     }
 }
