@@ -155,7 +155,7 @@ class UserControllerTest {
                 .changeAlias(anyString(), any(UserChangeAliasRequest.class));
 
         String inputLoginId = "apple123";
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("사용못하는별명");
+        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
