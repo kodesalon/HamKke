@@ -4,12 +4,16 @@ import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
+import hamkke.board.service.dto.UserAliasChangeRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -78,6 +82,52 @@ class UserServiceTest {
 
         //when, then
         assertThatThrownBy(() -> userService.join(duplicated)).isInstanceOf(IllegalStateException.class)
+                .hasMessage("이미 존재하는 별명 입니다.");
+    }
+
+    @Test
+    @DisplayName("User 의 Alias 를 변경한다.")
+    void changeAlias() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
+        String loginId = "apple123";
+        UserAliasChangeRequest userAliasChangeRequest = new UserAliasChangeRequest("백산수");
+
+        //when
+        userService.changeAlias(loginId, userAliasChangeRequest);
+
+        //then
+        verify(userRepository, times(1)).findByLoginIdValue(anyString());
+        verify(user, times(1)).changeAlias(anyString());
+    }
+
+    @Test
+    @DisplayName("User 의 alias 변경 시, 요청한 유저가 존재하지 않는다면 예외를 반환한다.")
+    void changeAliasFailedByNonexistentUser() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.empty());
+
+        String loginId = "apple123";
+        UserAliasChangeRequest userAliasChangeRequest = new UserAliasChangeRequest("새로운별명");
+
+        //when, then
+        assertThatThrownBy(() -> userService.changeAlias(loginId, userAliasChangeRequest)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("존재하지 않는 ID 입니다.");
+    }
+
+    @Test
+    @DisplayName("User 의 Alias 를 변경 시 이미 존재하는 alias 라면 예외를 반환한다.")
+    void changeAliasFailedByDuplicatedAlias() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
+        doThrow(new DataIntegrityViolationException("alias_unique ~~~")).when(user)
+                .changeAlias(anyString());
+
+        String loginId = "apple123";
+        UserAliasChangeRequest existingAliasRequest = new UserAliasChangeRequest("백산수");
+
+        //when, then
+        assertThatThrownBy(() -> userService.changeAlias(loginId, existingAliasRequest)).isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 존재하는 별명 입니다.");
     }
 }

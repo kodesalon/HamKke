@@ -36,7 +36,7 @@ public class TokenResolver {
                 .compact();
     }
 
-    public String getUserId(final String token) {
+    public String getLoginId(final String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(generateKey())
                 .build()
