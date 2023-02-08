@@ -48,7 +48,8 @@ class AuthenticationControllerTest {
         when(authenticationService.login(any(LoginRequest.class))).thenReturn(loginResponse);
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/login").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/login")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)));
 
         //then
@@ -65,7 +66,8 @@ class AuthenticationControllerTest {
         when(authenticationService.login(any(LoginRequest.class))).thenThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다."));
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/login").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/login")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)));
 
         //then
@@ -86,7 +88,8 @@ class AuthenticationControllerTest {
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("Refresh Token");
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshTokenRequest)));
 
         //then
@@ -103,7 +106,8 @@ class AuthenticationControllerTest {
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("Refresh Token");
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshTokenRequest)));
 
         //then
