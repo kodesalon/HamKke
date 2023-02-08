@@ -4,7 +4,7 @@ import hamkke.board.domain.user.User;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
 import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
-import hamkke.board.service.dto.user.request.UserChangePasswordRequest;
+import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -53,8 +53,8 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(final String loginId, final UserChangePasswordRequest userChangePasswordRequest) {
+    public void changePassword(final String loginId, final UserPasswordChangeRequest userPasswordChangeRequest) {
         User user = findByLoginId(loginId);
-        user.changePassword(userChangePasswordRequest.getNewPassword());
+        user.changePassword(userPasswordChangeRequest.getNewPassword());
     }
 }

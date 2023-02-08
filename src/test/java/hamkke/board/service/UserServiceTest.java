@@ -6,7 +6,7 @@ import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.user.UserService;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
 import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
-import hamkke.board.service.dto.user.request.UserChangePasswordRequest;
+import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -140,10 +140,10 @@ class UserServiceTest {
         when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
 
         String loginId = "apple123";
-        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("banana123");
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest("banana123");
 
         //when
-        userService.changePassword(loginId, userChangePasswordRequest);
+        userService.changePassword(loginId, userPasswordChangeRequest);
 
         //then
         verify(userRepository,times(1)).findByLoginIdValue(anyString());
@@ -157,10 +157,10 @@ class UserServiceTest {
         when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.empty());
 
         String loginId = "apple123";
-        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("banana123");
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest("banana123");
 
         //when, then
-        assertThatThrownBy(() -> userService.changePassword(loginId, userChangePasswordRequest)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> userService.changePassword(loginId, userPasswordChangeRequest)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("존재하지 않는 ID 입니다.");
     }
 }

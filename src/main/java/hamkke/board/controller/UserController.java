@@ -3,7 +3,7 @@ package hamkke.board.controller;
 import hamkke.board.service.dto.user.UserService;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
 import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
-import hamkke.board.service.dto.user.request.UserChangePasswordRequest;
+import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import hamkke.board.service.dto.user.response.UserResponse;
 import hamkke.board.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +38,9 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public ResponseEntity<Void> changePassword(@Login final String loginId, @Validated @RequestBody final UserChangePasswordRequest userChangePasswordRequest) {
+    public ResponseEntity<Void> changePassword(@Login final String loginId, @Validated @RequestBody final UserPasswordChangeRequest userPasswordChangeRequest) {
         log.info("loginId = {} 의 password 변경 요청", loginId);
-        userService.changePassword(loginId, userChangePasswordRequest);
+        userService.changePassword(loginId, userPasswordChangeRequest);
         return ResponseEntity.ok()
                 .build();
     }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hamkke.board.service.dto.user.UserService;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
 import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
-import hamkke.board.service.dto.user.request.UserChangePasswordRequest;
+import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -172,13 +172,13 @@ class UserControllerTest {
     void changePassword() throws Exception {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
-        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest("new0password1!");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
-                .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
+                .content(objectMapper.writeValueAsString(userPasswordChangeRequest)));
 
         //then
         actual.andExpect(status().isOk());
@@ -190,15 +190,15 @@ class UserControllerTest {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
         doThrow(new IllegalArgumentException("존재하지 않는 ID 입니다.")).when(userService)
-                .changePassword(anyString(), any(UserChangePasswordRequest.class));
+                .changePassword(anyString(), any(UserPasswordChangeRequest.class));
 
-        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest("new0password1!");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
-                .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
+                .content(objectMapper.writeValueAsString(userPasswordChangeRequest)));
 
         //then
         actual.andExpect(status().isBadRequest())
@@ -211,15 +211,15 @@ class UserControllerTest {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
         doThrow(new IllegalArgumentException("비밀번호는 영문(대문자,소문자), 특수문자(!,@,#,$,%,^,&,*,_,-), 숫자를 최소 1개 이상 조합한 8자 이상 18자 이하여야합니다.")).when(userService)
-                .changePassword(anyString(), any(UserChangePasswordRequest.class));
+                .changePassword(anyString(), any(UserPasswordChangeRequest.class));
 
-        UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest("new0password1!");
 
         //when
         ResultActions actual = mockMvc.perform(put("/api/user/password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
-                .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
+                .content(objectMapper.writeValueAsString(userPasswordChangeRequest)));
 
         //then
         actual.andExpect(status().isBadRequest())
