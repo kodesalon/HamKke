@@ -175,7 +175,8 @@ class UserControllerTest {
         UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/password").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/password")
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
                 .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
 
@@ -194,7 +195,8 @@ class UserControllerTest {
         UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/password").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/password")
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
                 .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
 
@@ -214,7 +216,8 @@ class UserControllerTest {
         UserChangePasswordRequest userChangePasswordRequest = new UserChangePasswordRequest("new0password1!");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/password").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/password")
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
                 .content(objectMapper.writeValueAsString(userChangePasswordRequest)));
 
