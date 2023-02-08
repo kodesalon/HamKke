@@ -124,10 +124,10 @@ class UserServiceTest {
                 .changeAlias(anyString());
 
         String loginId = "apple123";
-        UserAliasChangeRequest alreadyExistedAlias = new UserAliasChangeRequest("백산수");
+        UserAliasChangeRequest existingAliasRequest = new UserAliasChangeRequest("백산수");
 
         //when, then
-        assertThatThrownBy(() -> userService.changeAlias(loginId, alreadyExistedAlias)).isInstanceOf(IllegalStateException.class)
+        assertThatThrownBy(() -> userService.changeAlias(loginId, existingAliasRequest)).isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 존재하는 별명 입니다.");
     }
 }
