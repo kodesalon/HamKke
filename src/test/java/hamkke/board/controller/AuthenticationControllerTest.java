@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -30,9 +31,6 @@ class AuthenticationControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private JwtTokenResponse jwtTokenResponse;
 
     @MockBean
     private TokenResolver tokenResolver;
@@ -50,7 +48,8 @@ class AuthenticationControllerTest {
         when(authenticationService.login(any(LoginRequest.class))).thenReturn(loginResponse);
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/login").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/login")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)));
 
         //then
@@ -67,7 +66,8 @@ class AuthenticationControllerTest {
         when(authenticationService.login(any(LoginRequest.class))).thenThrow(new IllegalArgumentException("비밀번호가 일치하지 않습니다."));
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/login").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/login")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)));
 
         //then
@@ -80,14 +80,16 @@ class AuthenticationControllerTest {
             "HTTP 200 상태코드를 반환한다.")
     void reissueToken() throws Exception {
         //given
-        when(authenticationService.reissue(any(RefreshTokenRequest.class))).thenReturn(jwtTokenResponse);
+        JwtTokenResponse jwtTokenResponse = mock(JwtTokenResponse.class);
         when(jwtTokenResponse.getAccessToken()).thenReturn("new Access Token");
         when(jwtTokenResponse.getRefreshToken()).thenReturn("new Refresh Token");
+        when(authenticationService.reissue(any(RefreshTokenRequest.class))).thenReturn(jwtTokenResponse);
 
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("Refresh Token");
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshTokenRequest)));
 
         //then
@@ -104,7 +106,8 @@ class AuthenticationControllerTest {
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("Refresh Token");
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/authentication/reissueToken")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshTokenRequest)));
 
         //then

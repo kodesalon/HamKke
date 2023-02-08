@@ -43,9 +43,9 @@ class UserControllerTest {
         CreateUserRequest createUserRequest = new CreateUserRequest("apple123", "apple123!!", "아이폰");
 
         //when
-        ResultActions actual = mockMvc.perform(
-                post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createUserRequest)));
+        ResultActions actual = mockMvc.perform(post("/api/user/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createUserRequest)));
 
         //then
         actual.andExpect(status().isCreated())
@@ -61,7 +61,8 @@ class UserControllerTest {
         CreateUserRequest duplicated = new CreateUserRequest("apple123", "apple123!!", "아이시스");
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/user/join")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(duplicated)));
 
         //then
@@ -78,7 +79,8 @@ class UserControllerTest {
         CreateUserRequest duplicated = new CreateUserRequest("banana123", "apple123!!", "아이시스");
 
         //when
-        ResultActions actual = mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(post("/api/user/join")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(duplicated)));
 
         //then
