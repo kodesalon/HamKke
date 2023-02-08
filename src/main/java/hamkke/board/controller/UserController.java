@@ -2,7 +2,7 @@ package hamkke.board.controller;
 
 import hamkke.board.service.UserService;
 import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.UserChangeAliasRequest;
+import hamkke.board.service.dto.UserAliasChangeRequest;
 import hamkke.board.service.dto.UserResponse;
 import hamkke.board.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +29,9 @@ public class UserController {
     }
 
     @PutMapping("/alias")
-    public ResponseEntity<Void> changeAlias(@Login final String loginId, @Validated @RequestBody final UserChangeAliasRequest userChangeAliasRequest) {
-        log.info("loginId = {} 의 alias 변경 요청 newAlias = {}", loginId, userChangeAliasRequest.getNewAlias());
-        userService.changeAlias(loginId, userChangeAliasRequest);
+    public ResponseEntity<Void> changeAlias(@Login final String loginId, @Validated @RequestBody final UserAliasChangeRequest userAliasChangeRequest) {
+        log.info("loginId = {} 의 alias 변경 요청 newAlias = {}", loginId, userAliasChangeRequest.getNewAlias());
+        userService.changeAlias(loginId, userAliasChangeRequest);
         return ResponseEntity.ok()
                 .build();
     }

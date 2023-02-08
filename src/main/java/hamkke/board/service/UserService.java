@@ -3,7 +3,7 @@ package hamkke.board.service;
 import hamkke.board.domain.user.User;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.UserChangeAliasRequest;
+import hamkke.board.service.dto.UserAliasChangeRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -40,11 +40,11 @@ public class UserService {
     }
 
     @Transactional
-    public void changeAlias(final String loginId, final UserChangeAliasRequest userChangeAliasRequest) {
+    public void changeAlias(final String loginId, final UserAliasChangeRequest userAliasChangeRequest) {
         User user = findByLoginId(loginId);
 
         try {
-            user.changeAlias(userChangeAliasRequest.getNewAlias());
+            user.changeAlias(userAliasChangeRequest.getNewAlias());
         } catch (final DataIntegrityViolationException exception){
             UniqueConstraintCondition uniqueConstraintCondition = UniqueConstraintCondition.matchCondition(exception);
             throw uniqueConstraintCondition.generateException();
