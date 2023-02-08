@@ -1,7 +1,7 @@
 package hamkke.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hamkke.board.service.dto.authentication.AuthenticationService;
+import hamkke.board.service.AuthenticationService;
 import hamkke.board.service.dto.authentication.request.LoginRequest;
 import hamkke.board.service.dto.authentication.request.RefreshTokenRequest;
 import hamkke.board.service.dto.authentication.response.JwtTokenResponse;

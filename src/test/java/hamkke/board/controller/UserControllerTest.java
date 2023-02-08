@@ -1,9 +1,9 @@
 package hamkke.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hamkke.board.service.dto.user.UserService;
+import hamkke.board.service.UserService;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
-import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.request.UserAliasChangeRequest;
 import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import hamkke.board.web.jwt.TokenResolver;
 import org.junit.jupiter.api.DisplayName;
@@ -96,12 +96,13 @@ class UserControllerTest {
     void changeAlias() throws Exception {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
+        UserAliasChangeRequest userAliasChangeRequest = new UserAliasChangeRequest("새로운별명");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/alias")
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
-                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+                .content(objectMapper.writeValueAsString(userAliasChangeRequest)));
 
         //then
         actual.andExpect(status().isOk());
@@ -113,14 +114,15 @@ class UserControllerTest {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
         doThrow(new IllegalArgumentException("별칭은 특수문자와 영어(대문자)를 제외하여 1자 이상, 8자 이하여야 합니다.")).when(userService)
-                .changeAlias(anyString(), any(UserChangeAliasRequest.class));
+                .changeAlias(anyString(), any(UserAliasChangeRequest.class));
 
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("사용못하는별명");
+        UserAliasChangeRequest incorrectAliasChangeRequest = new UserAliasChangeRequest("사용못하는별명");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/alias")
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
-                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+                .content(objectMapper.writeValueAsString(incorrectAliasChangeRequest)));
 
         //then
         actual.andExpect(status().isBadRequest())
@@ -133,14 +135,15 @@ class UserControllerTest {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
         doThrow(new IllegalArgumentException("이미 존재하는 별명입니다.")).when(userService)
-                .changeAlias(anyString(), any(UserChangeAliasRequest.class));
+                .changeAlias(anyString(), any(UserAliasChangeRequest.class));
 
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("이미존재하는별명");
+        UserAliasChangeRequest existingAliasChangeRequest = new UserAliasChangeRequest("이미존재하는별명");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/alias")
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
-                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+                .content(objectMapper.writeValueAsString(existingAliasChangeRequest)));
 
         //then
         actual.andExpect(status().isBadRequest())
@@ -153,14 +156,15 @@ class UserControllerTest {
         //given
         when(tokenResolver.getLoginId(anyString())).thenReturn("apple123");
         doThrow(new IllegalArgumentException("존재하지 않는 ID 입니다.")).when(userService)
-                .changeAlias(anyString(), any(UserChangeAliasRequest.class));
+                .changeAlias(anyString(), any(UserAliasChangeRequest.class));
 
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
+        UserAliasChangeRequest userAliasChangeRequest = new UserAliasChangeRequest("새로운별명");
 
         //when
-        ResultActions actual = mockMvc.perform(put("/api/user/alias").contentType(MediaType.APPLICATION_JSON)
+        ResultActions actual = mockMvc.perform(put("/api/user/alias")
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "accessToken")
-                .content(objectMapper.writeValueAsString(userChangeAliasRequest)));
+                .content(objectMapper.writeValueAsString(userAliasChangeRequest)));
 
         //then
         actual.andExpect(status().isBadRequest())

@@ -1,4 +1,4 @@
-package hamkke.board.service.dto.user;
+package hamkke.board.service;
 
 import org.springframework.dao.DataIntegrityViolationException;
 

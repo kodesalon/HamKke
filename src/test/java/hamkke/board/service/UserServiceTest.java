@@ -3,9 +3,8 @@ package hamkke.board.service;
 import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
-import hamkke.board.service.dto.user.UserService;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
-import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.request.UserAliasChangeRequest;
 import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -93,10 +92,10 @@ class UserServiceTest {
         //given
         when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
         String loginId = "apple123";
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("백산수");
+        UserAliasChangeRequest userAliasChangeRequest = new UserAliasChangeRequest("백산수");
 
         //when
-        userService.changeAlias(loginId, userChangeAliasRequest);
+        userService.changeAlias(loginId, userAliasChangeRequest);
 
         //then
         verify(userRepository, times(1)).findByLoginIdValue(anyString());
@@ -110,10 +109,10 @@ class UserServiceTest {
         when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.empty());
 
         String loginId = "apple123";
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("새로운별명");
+        UserAliasChangeRequest userAliasChangeRequest = new UserAliasChangeRequest("새로운별명");
 
         //when, then
-        assertThatThrownBy(() -> userService.changeAlias(loginId, userChangeAliasRequest)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> userService.changeAlias(loginId, userAliasChangeRequest)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("존재하지 않는 ID 입니다.");
     }
 
@@ -126,10 +125,10 @@ class UserServiceTest {
                 .changeAlias(anyString());
 
         String loginId = "apple123";
-        UserChangeAliasRequest userChangeAliasRequest = new UserChangeAliasRequest("백산수");
+        UserAliasChangeRequest existingAliasRequest = new UserAliasChangeRequest("백산수");
 
         //when, then
-        assertThatThrownBy(() -> userService.changeAlias(loginId, userChangeAliasRequest)).isInstanceOf(IllegalStateException.class)
+        assertThatThrownBy(() -> userService.changeAlias(loginId, existingAliasRequest)).isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 존재하는 별명 입니다.");
     }
 

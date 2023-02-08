@@ -1,6 +1,6 @@
 package hamkke.board.controller;
 
-import hamkke.board.service.dto.authentication.AuthenticationService;
+import hamkke.board.service.AuthenticationService;
 import hamkke.board.service.dto.authentication.request.LoginRequest;
 import hamkke.board.service.dto.authentication.request.RefreshTokenRequest;
 import hamkke.board.service.dto.authentication.response.JwtTokenResponse;

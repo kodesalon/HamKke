@@ -1,9 +1,9 @@
-package hamkke.board.service.dto.user;
+package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
 import hamkke.board.repository.UserRepository;
 import hamkke.board.service.dto.user.request.CreateUserRequest;
-import hamkke.board.service.dto.user.request.UserChangeAliasRequest;
+import hamkke.board.service.dto.user.request.UserAliasChangeRequest;
 import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +41,12 @@ public class UserService {
     }
 
     @Transactional
-    public void changeAlias(final String loginId, final UserChangeAliasRequest userChangeAliasRequest) {
+    public void changeAlias(final String loginId, final UserAliasChangeRequest userAliasChangeRequest) {
         User user = findByLoginId(loginId);
 
         try {
-            user.changeAlias(userChangeAliasRequest.getNewAlias());
-        } catch (final DataIntegrityViolationException exception){
+            user.changeAlias(userAliasChangeRequest.getNewAlias());
+        } catch (final DataIntegrityViolationException exception) {
             UniqueConstraintCondition uniqueConstraintCondition = UniqueConstraintCondition.matchCondition(exception);
             throw uniqueConstraintCondition.generateException();
         }

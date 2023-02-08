@@ -1,4 +1,4 @@
-package hamkke.board.service.dto.authentication;
+package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
 import hamkke.board.repository.RefreshTokenRepository;
@@ -6,7 +6,6 @@ import hamkke.board.service.dto.authentication.request.LoginRequest;
 import hamkke.board.service.dto.authentication.request.RefreshTokenRequest;
 import hamkke.board.service.dto.authentication.response.JwtTokenResponse;
 import hamkke.board.service.dto.authentication.response.LoginResponse;
-import hamkke.board.service.dto.user.UserService;
 import hamkke.board.web.jwt.RefreshToken;
 import hamkke.board.web.jwt.TokenResolver;
 import io.jsonwebtoken.JwtException;
