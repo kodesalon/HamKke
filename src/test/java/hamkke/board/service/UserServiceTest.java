@@ -146,7 +146,7 @@ class UserServiceTest {
         userService.changePassword(loginId, userPasswordChangeRequest);
 
         //then
-        verify(userRepository,times(1)).findByLoginIdValue(anyString());
+        verify(userRepository, times(1)).findByLoginIdValue(anyString());
         verify(user, times(1)).changePassword(anyString());
     }
 
