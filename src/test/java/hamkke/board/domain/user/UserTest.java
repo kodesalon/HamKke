@@ -70,7 +70,6 @@ class UserTest {
     @DisplayName("password 를 변경한다.")
     void changePassword() {
         //given
-        User user = createUser();
         String newPassword = "banana123!!";
         Password expect = new Password(newPassword);
 
