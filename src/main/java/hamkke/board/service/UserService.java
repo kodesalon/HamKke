@@ -57,4 +57,10 @@ public class UserService {
         User user = findByLoginId(loginId);
         user.changePassword(userPasswordChangeRequest.getNewPassword());
     }
+
+    @Transactional
+    public void withdraw(final String loginId) {
+        User user = findByLoginId(loginId);
+        userRepository.delete(user);
+    }
 }

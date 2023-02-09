@@ -44,4 +44,12 @@ public class UserController {
         return ResponseEntity.ok()
                 .build();
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> withdraw(@Login final String loginId) {
+        log.info("loginId = {} 의 탈퇴 요청", loginId);
+        userService.withdraw(loginId);
+        return ResponseEntity.ok()
+                .build();
+    }
 }

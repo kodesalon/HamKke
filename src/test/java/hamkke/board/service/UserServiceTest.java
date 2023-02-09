@@ -162,4 +162,19 @@ class UserServiceTest {
         assertThatThrownBy(() -> userService.changePassword(loginId, userPasswordChangeRequest)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("존재하지 않는 ID 입니다.");
     }
+
+    @Test
+    @DisplayName("회원 탈퇴 시, User 를 삭제한다.")
+    void withdraw() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
+
+        String loginId = "apple123";
+
+        //when
+        userService.withdraw(loginId);
+
+        //then
+        verify(userRepository, times(1)).delete(user);
+    }
 }
