@@ -65,4 +65,18 @@ class UserTest {
         //then
         assertThat(user.getAlias()).isEqualTo(expect);
     }
+
+    @Test
+    @DisplayName("password 를 변경한다.")
+    void changePassword() {
+        //given
+        String newPassword = "banana123!!";
+        Password expect = new Password(newPassword);
+
+        //when
+        user.changePassword(newPassword);
+
+        //then
+        assertThat(user.getPassword()).isEqualTo(expect);
+    }
 }

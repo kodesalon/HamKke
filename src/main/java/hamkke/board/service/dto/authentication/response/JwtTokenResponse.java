@@ -1,4 +1,4 @@
-package hamkke.board.service.dto;
+package hamkke.board.service.dto.authentication.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

@@ -2,8 +2,9 @@ package hamkke.board.service;
 
 import hamkke.board.domain.user.User;
 import hamkke.board.repository.UserRepository;
-import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.UserAliasChangeRequest;
+import hamkke.board.service.dto.user.request.CreateUserRequest;
+import hamkke.board.service.dto.user.request.UserAliasChangeRequest;
+import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -45,9 +46,15 @@ public class UserService {
 
         try {
             user.changeAlias(userAliasChangeRequest.getNewAlias());
-        } catch (final DataIntegrityViolationException exception){
+        } catch (final DataIntegrityViolationException exception) {
             UniqueConstraintCondition uniqueConstraintCondition = UniqueConstraintCondition.matchCondition(exception);
             throw uniqueConstraintCondition.generateException();
         }
+    }
+
+    @Transactional
+    public void changePassword(final String loginId, final UserPasswordChangeRequest userPasswordChangeRequest) {
+        User user = findByLoginId(loginId);
+        user.changePassword(userPasswordChangeRequest.getNewPassword());
     }
 }

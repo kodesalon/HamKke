@@ -3,8 +3,9 @@ package hamkke.board.service;
 import hamkke.board.domain.user.User;
 import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.repository.UserRepository;
-import hamkke.board.service.dto.CreateUserRequest;
-import hamkke.board.service.dto.UserAliasChangeRequest;
+import hamkke.board.service.dto.user.request.CreateUserRequest;
+import hamkke.board.service.dto.user.request.UserAliasChangeRequest;
+import hamkke.board.service.dto.user.request.UserPasswordChangeRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -129,5 +130,36 @@ class UserServiceTest {
         //when, then
         assertThatThrownBy(() -> userService.changeAlias(loginId, existingAliasRequest)).isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 존재하는 별명 입니다.");
+    }
+
+    @Test
+    @DisplayName("User 의 Password 를 변경한다.")
+    void changePassword() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.of(user));
+
+        String loginId = "apple123";
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest("banana123");
+
+        //when
+        userService.changePassword(loginId, userPasswordChangeRequest);
+
+        //then
+        verify(userRepository, times(1)).findByLoginIdValue(anyString());
+        verify(user, times(1)).changePassword(anyString());
+    }
+
+    @Test
+    @DisplayName("User 의 Password 변경 시, 요청한 유저가 존재하지 않는다면 예외를 반환한다.")
+    void changePasswordFailedByNonexistentUser() {
+        //given
+        when(userRepository.findByLoginIdValue(anyString())).thenReturn(Optional.empty());
+
+        String loginId = "apple123";
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest("banana123");
+
+        //when, then
+        assertThatThrownBy(() -> userService.changePassword(loginId, userPasswordChangeRequest)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("존재하지 않는 ID 입니다.");
     }
 }

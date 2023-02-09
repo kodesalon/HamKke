@@ -51,4 +51,31 @@ class PasswordTest {
         assertThatThrownBy(() -> password.checkPassword(otherPassword)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("비밀번호가 일치하지 않습니다.");
     }
+
+    @Test
+    @DisplayName("새로운 비밀번호를 입력 받아 비밀번호를 변경한다.")
+    void changePassword() {
+        //given
+        Password password = new Password("apple123!!");
+        String newPassword = "banana123@@";
+
+        //when
+        password.changePassword(newPassword);
+
+        //then
+        assertThat(password.getValue()).isEqualTo(newPassword);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"apple123", "apple1!", "0123456789012345a1!", "appleBanana1", "appleBanana!", "apple012345?", "     apple"})
+    @DisplayName("비밀번호 변경 시, 비밀번호 제약 조건 [비밀번호는 영문(대문자,소문자), 특수문자(!,@,#,$,%,^,&,*,_,-), 숫자를 최소 1개 이상 조합한 8자 이상 18자 이하여야한다.]" +
+            "에 일치하지 않는 경우 예외를 반환한다.")
+    void changePasswordFailedByIncorrectPassword(final String incorrectPassword) {
+        //given
+        Password password = new Password("apple123!!");
+
+        //when, then
+        assertThatThrownBy(() -> password.changePassword(incorrectPassword)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("비밀번호는 영문(대문자,소문자), 특수문자(!,@,#,$,%,^,&,*,_,-), 숫자를 최소 1개 이상 조합한 8자 이상 18자 이하여야합니다.");
+    }
 }

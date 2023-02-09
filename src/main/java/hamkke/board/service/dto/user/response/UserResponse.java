@@ -1,4 +1,4 @@
-package hamkke.board.service.dto;
+package hamkke.board.service.dto.user.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;

@@ -63,9 +63,13 @@ public class User extends BaseEntity {
         password.checkPassword(otherPassword);
     }
 
+    public void changePassword(final String newPassword) {
+        password.changePassword(newPassword);
+    }
     public void changeAlias(final String newAlias) {
         alias.changeValue(newAlias);
     }
+
 
     @Override
     public boolean equals(final Object o) {
