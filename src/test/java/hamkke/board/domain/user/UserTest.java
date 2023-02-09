@@ -5,6 +5,7 @@ import hamkke.board.domain.user.vo.Alias;
 import hamkke.board.domain.user.vo.LoginId;
 import hamkke.board.domain.user.vo.Password;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,17 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {
 
-    private User createUser() {
-        final String loginId = "apple123";
-        final String password = "apple123!!";
-        final String alias = "삼다수";
-        return new User(loginId, password, alias);
-    }
+    private User user;
 
-    private Bulletin createBulletin(final User author) {
-        final String title = "sample title";
-        final String content = "sample content";
-        return new Bulletin(title, content, author);
+    @BeforeEach
+    void setUp() {
+        user = new User("apple123", "apple123!!", "삼다수");
     }
 
     @Test
@@ -30,7 +25,6 @@ class UserTest {
     void getValues() {
         //given
         SoftAssertions softly = new SoftAssertions();
-        User user = createUser();
 
         //when, then
         softly.assertThat(user.getLoginId()).isEqualTo(new LoginId("apple123"));
@@ -43,7 +37,6 @@ class UserTest {
     @DisplayName("연관 관계 편의 메서드")
     void addBulletin() {
         //given
-        User user = createUser();
         Bulletin bulletin = createBulletin(user);
 
         //when
@@ -53,11 +46,16 @@ class UserTest {
         assertThat(user.getBulletins()).contains(bulletin);
     }
 
+    private Bulletin createBulletin(final User author) {
+        final String title = "sample title";
+        final String content = "sample content";
+        return new Bulletin(title, content, author);
+    }
+
     @Test
     @DisplayName("Alias 를 변경한다.")
     void changeAlias() {
         //given
-        User user = createUser();
         String newAlias = "백산수";
         Alias expect = new Alias(newAlias);
 
